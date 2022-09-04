@@ -12,7 +12,6 @@ import javax.swing.JOptionPane;
 import java.sql.*;
 
 import business.Book;
-import business.Cashier;
 
 public class BookDB implements IBook {
 	private Connection con;

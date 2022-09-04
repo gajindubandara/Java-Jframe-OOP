@@ -10,7 +10,6 @@ import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
-import business.Cashier;
 import business.User;
 
 public class UserDB implements IUser {

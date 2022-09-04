@@ -119,7 +119,7 @@ public class MainUI extends JFrame {
 		mntmNewAccount.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, InputEvent.CTRL_DOWN_MASK));
 		mntmNewAccount.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				NewCashierAccountUI ca=new NewCashierAccountUI();
+				ManageAccountUI ca=new ManageAccountUI();
 				ca.setVisible(true);
 			}
 		});

@@ -184,7 +184,6 @@ public class ViewBooksUI extends JFrame {
 				}
 			}
 		});
-		btnVAll.setEnabled(false);
 		btnVAll.setBounds(425, 115, 132, 34);
 		contentPane.add(btnVAll);
 
