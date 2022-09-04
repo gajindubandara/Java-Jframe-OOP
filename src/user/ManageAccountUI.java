@@ -191,7 +191,7 @@ public class ManageAccountUI extends JFrame {
 						int result = uDB.add(user);
 
 						if (result == 1) {
-							JOptionPane.showMessageDialog(null, "New user account created");
+							JOptionPane.showMessageDialog(null, "New user account created","Alert",JOptionPane.WARNING_MESSAGE);
 							txtID.setText("");
 							txtName.setText("");
 							txtAddress.setText("");
@@ -200,10 +200,10 @@ public class ManageAccountUI extends JFrame {
 							txtPW.setText("");
 							txtCPW.setText("");
 						} else {
-							JOptionPane.showMessageDialog(null, "The account has not been created");
+							JOptionPane.showMessageDialog(null, "The account has not been created","Alert",JOptionPane.WARNING_MESSAGE);
 						}
 					}else {
-						JOptionPane.showMessageDialog(null, "The passwords dose not match");
+						JOptionPane.showMessageDialog(null, "The passwords dose not match","Alert",JOptionPane.WARNING_MESSAGE);
 					}
 
 				}
@@ -220,9 +220,9 @@ public class ManageAccountUI extends JFrame {
 				int id = Integer.valueOf( JOptionPane.showInputDialog("Enter the User ID"));
 				int result = uDB.delete(id);
 				if (result == 1) {
-					JOptionPane.showMessageDialog(null, "The User is deleted");
+					JOptionPane.showMessageDialog(null, "The User is deleted","Alert",JOptionPane.WARNING_MESSAGE);
 				} else {
-					JOptionPane.showMessageDialog(null, "The User is not deleted");
+					JOptionPane.showMessageDialog(null, "The User is not deleted","Alert",JOptionPane.WARNING_MESSAGE);
 				}
 
 			}
@@ -253,7 +253,7 @@ public class ManageAccountUI extends JFrame {
 					User c = new User(id,name,address,num,em,pw,type);
 					int result = uDB.update(c);
 					if (result == 1) {
-						JOptionPane.showMessageDialog(null, "The User is updated");
+						JOptionPane.showMessageDialog(null, "The User is updated","Alert",JOptionPane.WARNING_MESSAGE);
 						txtID.setText("");
 						txtName.setText("");
 						txtAddress.setText("");
@@ -268,7 +268,7 @@ public class ManageAccountUI extends JFrame {
 						rManager.setEnabled(true);
 						rCashier.setEnabled(true);
 					} else {
-						JOptionPane.showMessageDialog(null, "The User is not updated");
+						JOptionPane.showMessageDialog(null, "The User is not updated","Alert",JOptionPane.WARNING_MESSAGE);
 					}
 				}
 
@@ -304,7 +304,7 @@ public class ManageAccountUI extends JFrame {
 					txtCPW.setEnabled(false);
 					
 				}else {
-					JOptionPane.showMessageDialog(null, "No User account for this ID number");
+					JOptionPane.showMessageDialog(null, "No User account for this ID number","Alert",JOptionPane.WARNING_MESSAGE);
 				}
 			}
 		});
@@ -336,7 +336,7 @@ public class ManageAccountUI extends JFrame {
 		try {
 			int id = Integer.valueOf(txtID.getText());
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(this, "User ID must be numeric");
+			JOptionPane.showMessageDialog(this, "User ID must be numeric","Alert",JOptionPane.WARNING_MESSAGE);
 			return false;
 		}
 		if (txtAddress.getText().equals("")) {
@@ -351,7 +351,7 @@ public class ManageAccountUI extends JFrame {
 		try {
 			int id = Integer.valueOf(txtNum.getText());
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(this, "Contact Number must be numeric");
+			JOptionPane.showMessageDialog(this, "Contact Number must be numeric","Alert",JOptionPane.WARNING_MESSAGE);
 			return false;
 		}
 		if (txtEm.getText().equals("")) {

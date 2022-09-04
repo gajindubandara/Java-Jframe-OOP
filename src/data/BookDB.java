@@ -53,7 +53,7 @@ public class BookDB implements IBook {
 		} 
 		catch (SQLException e) {
 			if (e instanceof SQLIntegrityConstraintViolationException) {
-				JOptionPane.showMessageDialog(null, "There is an existing Book for the above ID. Please check again!");
+				JOptionPane.showMessageDialog(null, "There is an existing Book for the above ID. Please check again!","Alert",JOptionPane.WARNING_MESSAGE);
 				return 0;
 		    } 
 			return 0;

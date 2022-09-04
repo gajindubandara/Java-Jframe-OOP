@@ -123,21 +123,21 @@ public class ChangePasswordUI extends JFrame {
 							User userPW =new User(uid,name,address,num,un,newHashPW,type);
 							int result=uDB.updatepw(userPW);
 							if(result>0) {
-								JOptionPane.showMessageDialog(null, "Password is updated");
+								 JOptionPane.showMessageDialog(null,"Password is updated","Alert",JOptionPane.WARNING_MESSAGE);   
 								txtOPW.setText("");
 								txtUID.setText("");
 								txtPW.setText("");
 								txtCPW.setText("");
 							}else {
-								JOptionPane.showMessageDialog(null, "Password is not updated");
+								 JOptionPane.showMessageDialog(null,"Password is not updated","Alert",JOptionPane.WARNING_MESSAGE); 
 							}	
 							
 						}else {
-							JOptionPane.showMessageDialog(null, "Username and Old password dose not match");
+							 JOptionPane.showMessageDialog(null,"Username and Old password dose not match","Alert",JOptionPane.WARNING_MESSAGE);
 						}	
 
 				}else {
-					JOptionPane.showMessageDialog(null, "The passwords dose not match");
+					JOptionPane.showMessageDialog(null, "The passwords dose not match","Alert",JOptionPane.WARNING_MESSAGE);
 				}
 			}
 			}

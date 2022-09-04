@@ -92,7 +92,7 @@ public class LoginUI extends JFrame {
 					mUI.setVisible(true); 
 					setVisible(false);
 				}else {
-					JOptionPane.showMessageDialog(null, "Incorrect User ID or Password");
+					JOptionPane.showMessageDialog(null, "Incorrect User ID or Password","Alert",JOptionPane.WARNING_MESSAGE);
 				}
 			}
 		});

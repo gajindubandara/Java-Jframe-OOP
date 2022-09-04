@@ -138,7 +138,7 @@ public class ManageBooksUI extends JFrame {
 					int result = bDB.add(b);
 
 					if (result == 1) {
-						JOptionPane.showMessageDialog(null, "New Record is added");
+						JOptionPane.showMessageDialog(null, "New Record is added","Alert",JOptionPane.WARNING_MESSAGE);
 						txtID.setText("");
 						txtName.setText("");
 						txtIsbn.setText("");
@@ -146,7 +146,7 @@ public class ManageBooksUI extends JFrame {
 						txtDate.setText("");
 						txtPrice.setText("");
 					} else {
-						JOptionPane.showMessageDialog(null, "New Record is not added");
+						JOptionPane.showMessageDialog(null, "New Record is not added","Alert",JOptionPane.WARNING_MESSAGE);
 					}
 				}
 
@@ -162,9 +162,9 @@ public class ManageBooksUI extends JFrame {
 				int id = Integer.valueOf( JOptionPane.showInputDialog("Enter the Book ID"));
 				int result = bDB.delete(id);
 				if (result == 1) {
-					JOptionPane.showMessageDialog(null, "The Book is deleted");
+					JOptionPane.showMessageDialog(null, "The Book is deleted","Alert",JOptionPane.WARNING_MESSAGE);
 				} else {
-					JOptionPane.showMessageDialog(null, "The Book is not deleted");
+					JOptionPane.showMessageDialog(null, "The Book is not deleted","Alert",JOptionPane.WARNING_MESSAGE);
 				}
 
 			}
@@ -188,7 +188,7 @@ public class ManageBooksUI extends JFrame {
 					Book b = new Book(id,name,isbn,author,bdate,price);
 					int result = bDB.update(b);
 					if (result == 1) {
-						JOptionPane.showMessageDialog(null, "The Book is updated");
+						JOptionPane.showMessageDialog(null, "The Book is updated","Alert",JOptionPane.WARNING_MESSAGE);
 						txtID.setText("");
 						txtID.setEnabled(true);
 						txtName.setText("");
@@ -197,7 +197,7 @@ public class ManageBooksUI extends JFrame {
 						txtDate.setText("");
 						txtPrice.setText("");
 					} else {
-						JOptionPane.showMessageDialog(null, "The Book is not updated");
+						JOptionPane.showMessageDialog(null, "The Book is not updated","Alert",JOptionPane.WARNING_MESSAGE);
 					}
 				}
 
@@ -233,7 +233,7 @@ public class ManageBooksUI extends JFrame {
 					
 //					cMajor.setSelectedItem(b.getMajor());
 				}else {
-					JOptionPane.showMessageDialog(null, "No book for this ID number");
+					JOptionPane.showMessageDialog(null, "No book for this ID number","Alert",JOptionPane.WARNING_MESSAGE);
 				}
 			}
 		});
@@ -275,7 +275,7 @@ public class ManageBooksUI extends JFrame {
 		try {
 			int id = Integer.valueOf(txtID.getText());
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(this, "Book ID must be numeric");
+			JOptionPane.showMessageDialog(this, "Book ID must be numeric","Alert",JOptionPane.WARNING_MESSAGE);
 			return false;
 		}
 		if (txtIsbn.getText().equals("")) {
@@ -290,7 +290,7 @@ public class ManageBooksUI extends JFrame {
 		try {
 			Date date = Date.valueOf(txtDate.getText());
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(this, "Date of birth must be in YYYY-MM-DD format");
+			JOptionPane.showMessageDialog(this, "Date of birth must be in YYYY-MM-DD format","Alert",JOptionPane.WARNING_MESSAGE);
 			return false;
 		}
 
@@ -302,7 +302,7 @@ public class ManageBooksUI extends JFrame {
 		try {
 			int price = Integer.valueOf(txtPrice.getText());
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(this, "Price must be numeric: Ex- 100");
+			JOptionPane.showMessageDialog(this, "Price must be numeric: Ex- 100","Alert",JOptionPane.WARNING_MESSAGE);
 			return false;
 		}
 
