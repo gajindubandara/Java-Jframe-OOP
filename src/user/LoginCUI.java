@@ -15,12 +15,13 @@ import java.awt.event.ActionEvent;
 import javax.swing.JOptionPane;
 import java.awt.Color;
 import data.CashierDB;
+import data.pwdHash;
 import business.Cashier;
 
 public class LoginCUI extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField txtUN;
+	private JTextField txtUID;
 	private JPasswordField txtPWRD;
 	private JButton btnOK; 
 	private CashierDB cDB;
@@ -32,7 +33,7 @@ public class LoginCUI extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					LoginUI frame = new LoginUI();
+					LoginUItemp frame = new LoginUItemp();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -58,7 +59,7 @@ public class LoginCUI extends JFrame {
 		
 		cDB = new CashierDB();
 		
-		JLabel lblNewLabel = new JLabel("User Name");
+		JLabel lblNewLabel = new JLabel("User ID");
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblNewLabel.setBounds(50, 34, 101, 23);
 		contentPane.add(lblNewLabel);
@@ -68,10 +69,10 @@ public class LoginCUI extends JFrame {
 		lblPassword.setBounds(50, 68, 101, 23);
 		contentPane.add(lblPassword);
 		
-		txtUN = new JTextField();
-		txtUN.setBounds(163, 37, 129, 20);
-		contentPane.add(txtUN);
-		txtUN.setColumns(10);
+		txtUID = new JTextField();
+		txtUID.setBounds(163, 37, 129, 20);
+		contentPane.add(txtUID);
+		txtUID.setColumns(10);
 		
 		txtPWRD = new JPasswordField();
 		txtPWRD.setBounds(163, 71, 129, 20);
@@ -80,12 +81,16 @@ public class LoginCUI extends JFrame {
 		btnOK = new JButton("Login");
 		btnOK.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) { 
-				String username=txtUN.getText();
+				int userid=Integer.valueOf(txtUID.getText());
 				String password=txtPWRD.getText();
-				Cashier c =cDB.get(username); 
+				Cashier c =cDB.get(userid); 
 				
-				if(c!=null&& password.equals(c.getPassword())) {
-//					LoginStatus.userID =log.getUserID();
+				String hashPW =pwdHash.getMd5(password);
+				System.out.println(hashPW);
+				System.out.println(c.getPassword());
+				
+				if(c!=null&& hashPW.equals(c.getPassword())) {
+					LoginStatus.userID = String.valueOf(cDB.get(userid));
 					MainUI mUI=new MainUI();
 					mUI.setVisible(true); 
 					setVisible(false);

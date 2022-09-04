@@ -6,6 +6,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+
+import javax.swing.JOptionPane;
+
 import java.sql.*;
 
 import business.Book;
@@ -48,10 +51,18 @@ public class BookDB implements IBook {
 			int result = ps.executeUpdate();
 			ps.close();
 			return result;
-		} catch (SQLException e) {
-			System.err.println(e.getMessage());
+		} 
+		catch (SQLException e) {
+			if (e instanceof SQLIntegrityConstraintViolationException) {
+				JOptionPane.showMessageDialog(null, "There is an existing Book for the above ID. Please check again!");
+				return 0;
+		    } 
 			return 0;
 		}
+//		catch (SQLException e) {
+//			System.err.println(e.getMessage());
+//			return 0;
+//		}
 	}
 
 	@Override

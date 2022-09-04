@@ -9,6 +9,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.KeyStroke;
@@ -39,9 +41,9 @@ public class MainUI extends JFrame {
 	 * Create the frame.
 	 */
 	public MainUI() {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setResizable(false);
 		setTitle("City Bookshop");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 778, 448);
 		
 		JMenuBar menuBar = new JMenuBar();
@@ -54,7 +56,7 @@ public class MainUI extends JFrame {
 		mntmMBooks.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_DOWN_MASK));
 		mntmMBooks.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ManageBooks mb =new ManageBooks();
+				ManageBooksUI mb =new ManageBooksUI();
 				mb.setVisible(true);
 			}
 		});
@@ -85,17 +87,20 @@ public class MainUI extends JFrame {
 		mntmLogout.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_L, InputEvent.CTRL_DOWN_MASK));
 		mntmLogout.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				LoginCUI logUI=new LoginCUI();
+				LoginUI logUI=new LoginUI();
 				logUI.setVisible(true);
 				setVisible(false);
 			}
 		});
 		
-		JMenuItem mntmNewMenuItem_2 = new JMenuItem("Create New account");
-		mntmNewMenuItem_2.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, InputEvent.CTRL_DOWN_MASK));
-		mnaccount.add(mntmNewMenuItem_2);
-		
 		JMenuItem mntmNewMenuItem_1 = new JMenuItem("Change Password");
+		mntmNewMenuItem_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ChangePasswordUI cpw=new ChangePasswordUI();
+				cpw.setVisible(true);
+				
+			}
+		});
 		mntmNewMenuItem_1.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P, InputEvent.CTRL_DOWN_MASK));
 		mnaccount.add(mntmNewMenuItem_1);
 		mnaccount.add(mntmLogout);
@@ -106,19 +111,31 @@ public class MainUI extends JFrame {
 		JMenuItem mniUsermaual = new JMenuItem("User Manual");
 		mniUsermaual.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_U, InputEvent.CTRL_DOWN_MASK));
 		mnhelp.add(mniUsermaual);
+		
+		JMenu mnManageAccounts = new JMenu("Manage Accounts");
+		menuBar.add(mnManageAccounts);
+		
+		JMenuItem mntmNewAccount = new JMenuItem("Create New Account");
+		mntmNewAccount.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, InputEvent.CTRL_DOWN_MASK));
+		mntmNewAccount.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				NewCashierAccountUI ca=new NewCashierAccountUI();
+				ca.setVisible(true);
+			}
+		});
+		mnManageAccounts.add(mntmNewAccount);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setLocationRelativeTo(this);
 		setContentPane(contentPane);
 		
-//		if(LoginStatus.username.equals("hello")) {
-////			mntmNewUser.setEnabled(true);
-////			mntmDeleteUser.setEnabled(true);
-////			mntmChangePassword.setEnabled(true);
-//			mnaccount.setVisible(false);
-//
-//		}
+		
+		
+		if(LoginStatus.type.equals("Cashier")) {
+			mnManageAccounts.setVisible(false);
+
+		}
 	}
 
 }

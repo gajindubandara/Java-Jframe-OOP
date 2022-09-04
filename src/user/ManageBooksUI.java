@@ -23,7 +23,7 @@ import business.Book;
 import data.BookDB;
 
 
-public class ManageBooks extends JFrame {
+public class ManageBooksUI extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField txtID;
@@ -45,7 +45,7 @@ public class ManageBooks extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					ManageBooks frame = new ManageBooks();
+					ManageBooksUI frame = new ManageBooksUI();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -57,7 +57,7 @@ public class ManageBooks extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public ManageBooks() {
+	public ManageBooksUI() {
 		setTitle("Manage Books");
 		setResizable(false);
 		setBounds(100, 100, 450, 361);
@@ -121,14 +121,6 @@ public class ManageBooks extends JFrame {
 		cCategory.setBounds(153, 222, 136, 22);
 		contentPane.add(cCategory);
 
-		tblModel = new DefaultTableModel();
-
-		tblModel.addColumn("ID");
-		tblModel.addColumn("First Name");
-		tblModel.addColumn("Last Name");
-		tblModel.addColumn("Gender");
-		tblModel.addColumn("DoB");
-		tblModel.addColumn("Major");
 
 		JButton btnAdd = new JButton("Add");
 		btnAdd.addActionListener(new ActionListener() {
@@ -147,6 +139,12 @@ public class ManageBooks extends JFrame {
 
 					if (result == 1) {
 						JOptionPane.showMessageDialog(null, "New Record is added");
+						txtID.setText("");
+						txtName.setText("");
+						txtIsbn.setText("");
+						txtAuthor.setText("");
+						txtDate.setText("");
+						txtPrice.setText("");
 					} else {
 						JOptionPane.showMessageDialog(null, "New Record is not added");
 					}
@@ -191,6 +189,13 @@ public class ManageBooks extends JFrame {
 					int result = bDB.update(b);
 					if (result == 1) {
 						JOptionPane.showMessageDialog(null, "The Book is updated");
+						txtID.setText("");
+						txtID.setEnabled(true);
+						txtName.setText("");
+						txtIsbn.setText("");
+						txtAuthor.setText("");
+						txtDate.setText("");
+						txtPrice.setText("");
 					} else {
 						JOptionPane.showMessageDialog(null, "The Book is not updated");
 					}
@@ -219,12 +224,16 @@ public class ManageBooks extends JFrame {
 				Book b = bDB.get(id);
 				if (b != null) {
 					txtName.setText(b.getName());
+					txtID.setText(String.valueOf(b.getBookID()));
+					txtID.setEnabled(false);
 					txtIsbn.setText(b.getIsbn());
 					txtAuthor.setText(b.getAuthor());
 					txtDate.setText(String.valueOf(b.getDate()));
 					txtPrice.setText(b.getPrice());
 					
 //					cMajor.setSelectedItem(b.getMajor());
+				}else {
+					JOptionPane.showMessageDialog(null, "No book for this ID number");
 				}
 			}
 		});
@@ -269,17 +278,6 @@ public class ManageBooks extends JFrame {
 			JOptionPane.showMessageDialog(this, "Book ID must be numeric");
 			return false;
 		}
-//		try {
-//			int ID=Integer.valueOf(txtID.getText()); 
-//			Book b =bDB.get(ID);
-//			if(b!=null) {
-//				JOptionPane.showMessageDialog(this, "There is a book for this ID");
-//			}
-//		}catch(Exception ex) {
-//			JOptionPane.showMessageDialog(this, "hello");
-//			System.out.println(ex);
-//			return false;
-//		}
 		if (txtIsbn.getText().equals("")) {
 			JOptionPane.showMessageDialog(this, "ISBN number cannot be blank");
 			return false;

@@ -1,6 +1,6 @@
 package user;
 
 public class LoginStatus {
-	public static String username;
+	public static String type;
 
 }
