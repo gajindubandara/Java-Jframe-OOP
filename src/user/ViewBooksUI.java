@@ -26,8 +26,11 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.awt.event.InputEvent;
 import javax.swing.JTable;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.Font;
+import java.awt.Image;
+
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
@@ -43,7 +46,7 @@ public class ViewBooksUI extends JFrame {
 	private JButton btnPrice;
 	private JTextField txtCategory;
 	private JButton btncategory;
-	private JButton btnVAll;
+	private JButton btnViewAll;
 	private JLabel lblNewLabel;
 
 	/**
@@ -68,7 +71,7 @@ public class ViewBooksUI extends JFrame {
 	public ViewBooksUI() {
 		setResizable(false);
 		setTitle("City Bookshop - Book List");
-		setBounds(100, 100, 1024, 600);
+		setBounds(100, 100, 1024, 638);
 		
 		BookDB bDB = new BookDB();
 		
@@ -79,7 +82,7 @@ public class ViewBooksUI extends JFrame {
 		contentPane.setLayout(null);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(23, 187, 960, 308);
+		scrollPane.setBounds(23, 209, 960, 334);
 		contentPane.add(scrollPane);
 		
 		booktbl = new JTable();
@@ -91,12 +94,13 @@ public class ViewBooksUI extends JFrame {
 		booktbl.setModel(tblModel);
 		
 		txtName = new JTextField();
-		txtName.setBounds(23, 70, 132, 20);
+		txtName.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		txtName.setBounds(266, 65, 254, 34);
 		contentPane.add(txtName);
 		txtName.setColumns(10);
 		
-		btnVAll = new JButton("View All Books");
-		btnVAll.addActionListener(new ActionListener() {
+		btnViewAll = new JButton("View All Books");
+		btnViewAll.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					ArrayList<Book> bList = bDB.getAll();
@@ -111,7 +115,7 @@ public class ViewBooksUI extends JFrame {
 								
 
 						tblModel.addRow(new Object[] { ID,name,isbn,author,date,price});
-						btnVAll.setEnabled(false);
+						btnViewAll.setEnabled(false);
 					}
 				}
 				catch(Exception ex) {
@@ -120,9 +124,11 @@ public class ViewBooksUI extends JFrame {
 				}
 			}
 		});
-		btnVAll.setBounds(425, 119, 132, 34);
-		contentPane.add(btnVAll);
-//		btnVAll.setEnabled(false);
+		btnViewAll.setBounds(23, 554, 159, 34);
+		contentPane.add(btnViewAll);
+		Image all = new ImageIcon(this.getClass().getResource("/viewB.png")).getImage();
+		btnViewAll.setIcon(new ImageIcon(all));
+
 		
 		JButton btnName = new JButton("Search By Name");
 		btnName.addActionListener(new ActionListener() {
@@ -145,15 +151,17 @@ public class ViewBooksUI extends JFrame {
 					   
 				   }
 				 txtName.setText("");
-				 btnVAll.setEnabled(true);
+				 btnViewAll.setEnabled(true);
 			}
 		});
-		btnName.setBounds(165, 69, 132, 23);
+		btnName.setBounds(550, 65, 173, 34);
 		contentPane.add(btnName);
+		Image imgName = new ImageIcon(this.getClass().getResource("/name.png")).getImage();
+		btnName.setIcon(new ImageIcon(imgName));
 		
 		txtPrice = new JTextField();
 		txtPrice.setColumns(10);
-		txtPrice.setBounds(350, 68, 132, 20);
+		txtPrice.setBounds(266, 111, 254, 34);
 		contentPane.add(txtPrice);
 		
 		btnPrice = new JButton("Search By Price");
@@ -177,22 +185,25 @@ public class ViewBooksUI extends JFrame {
 				   }
 				}
 				 txtPrice.setText("");
-				 btnVAll.setEnabled(true);
+				 btnViewAll.setEnabled(true);
 				
 			}
 		});
-		btnPrice.setBounds(492, 67, 132, 23);
+		btnPrice.setBounds(550, 111, 173, 34);
 		contentPane.add(btnPrice);
+		Image imgPrice = new ImageIcon(this.getClass().getResource("/price.png")).getImage();
+		btnPrice.setIcon(new ImageIcon(imgPrice));
 		
 		txtCategory = new JTextField();
 		txtCategory.setColumns(10);
-		txtCategory.setBounds(695, 66, 132, 20);
+		txtCategory.setBounds(266, 157, 254, 34);
 		contentPane.add(txtCategory);
 		
 		btncategory = new JButton("Search By Category");
-		btncategory.setBounds(837, 65, 146, 23);
+		btncategory.setBounds(550, 157, 173, 34);
 		contentPane.add(btncategory);
-		
+		Image cat = new ImageIcon(this.getClass().getResource("/category.png")).getImage();
+		btncategory.setIcon(new ImageIcon(cat));
 		
 		
 		lblNewLabel = new JLabel("Book List");
@@ -208,8 +219,10 @@ public class ViewBooksUI extends JFrame {
 			}
 		});
 		btnCancel.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnCancel.setBounds(898, 518, 85, 21);
+		btnCancel.setBounds(824, 549, 159, 40);
 		contentPane.add(btnCancel);
+		Image cancel = new ImageIcon(this.getClass().getResource("/cancel.png")).getImage();
+		btnCancel.setIcon(new ImageIcon(cancel));
 
 		tblModel.addColumn("ID");
 		tblModel.addColumn("Name");

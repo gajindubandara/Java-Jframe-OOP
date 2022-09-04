@@ -8,6 +8,8 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.Image;
+
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -16,12 +18,13 @@ import javax.swing.JOptionPane;
 import javax.swing.JComboBox;
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
+
 import java.sql.Date;
 import javax.swing.table.DefaultTableModel;
 
 import business.Book;
 import data.BookDB;
-
 
 public class ManageBooksUI extends JFrame {
 
@@ -60,7 +63,7 @@ public class ManageBooksUI extends JFrame {
 	public ManageBooksUI() {
 		setTitle("City Bookshop - Manage Books");
 		setResizable(false);
-		setBounds(100, 100, 454, 376);
+		setBounds(100, 100, 454, 421);
 		setLocationRelativeTo(this);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -135,10 +138,10 @@ public class ManageBooksUI extends JFrame {
 					String price = txtPrice.getText();
 
 					Book b = new Book(id,name,isbn,author,bdate,price);
-					int result = bDB.add(b);
+					int result = bDB.addBook(b);
 
 					if (result == 1) {
-						JOptionPane.showMessageDialog(null, "New Record is added","Alert",JOptionPane.WARNING_MESSAGE);
+						JOptionPane.showMessageDialog(null, "New Record is added","Alert",JOptionPane.INFORMATION_MESSAGE);
 						txtID.setText("");
 						txtName.setText("");
 						txtIsbn.setText("");
@@ -146,66 +149,48 @@ public class ManageBooksUI extends JFrame {
 						txtDate.setText("");
 						txtPrice.setText("");
 					} else {
-						JOptionPane.showMessageDialog(null, "New Record is not added","Alert",JOptionPane.WARNING_MESSAGE);
+						JOptionPane.showMessageDialog(null, "New Record is not added","Alert",JOptionPane.ERROR_MESSAGE);
 					}
 				}
 
 			}
 		});
 		btnAdd.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnAdd.setBounds(35, 269, 85, 21);
+		btnAdd.setBounds(49, 269, 159, 40);
 		contentPane.add(btnAdd);
+		Image add = new ImageIcon(this.getClass().getResource("/add.png")).getImage();
+		btnAdd.setIcon(new ImageIcon(add));
 
 		JButton btnDelete = new JButton("Delete");
 		btnDelete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int id = Integer.valueOf( JOptionPane.showInputDialog("Enter the Book ID"));
-				int result = bDB.delete(id);
-				if (result == 1) {
-					JOptionPane.showMessageDialog(null, "The Book is deleted","Alert",JOptionPane.WARNING_MESSAGE);
-				} else {
-					JOptionPane.showMessageDialog(null, "The Book is not deleted","Alert",JOptionPane.WARNING_MESSAGE);
+				
+				 JFrame f=new JFrame(); 
+				int a=JOptionPane.showConfirmDialog(f,"Are you sure?");  
+				 
+				if(a==JOptionPane.YES_OPTION){  
+				    f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
+				    int result = bDB.deleteBook(id);
+					if (result == 1) {
+						JOptionPane.showMessageDialog(null, "The Book is deleted","Alert",JOptionPane.INFORMATION_MESSAGE);
+					} else {
+						JOptionPane.showMessageDialog(null, "The Book is not deleted","Alert",JOptionPane.ERROR_MESSAGE);
+					}
 				}
+				
+				  
+				
 
 			}
 		});
 		btnDelete.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnDelete.setBounds(130, 269, 85, 21);
+		btnDelete.setBounds(49, 331, 159, 40);
 		contentPane.add(btnDelete);
+		Image del = new ImageIcon(this.getClass().getResource("/del.png")).getImage();
+		btnDelete.setIcon(new ImageIcon(del));
 
-		JButton btnUpdate = new JButton("Update");
-		btnUpdate.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
 
-				if (checkValid()) {
-					int id=Integer.valueOf(txtID.getText());
-					String name = txtName.getText();
-					String isbn = txtIsbn.getText();
-					String author = txtAuthor.getText();
-					Date bdate =Date.valueOf(txtDate.getText());
-					String price = txtPrice.getText();
-
-					Book b = new Book(id,name,isbn,author,bdate,price);
-					int result = bDB.update(b);
-					if (result == 1) {
-						JOptionPane.showMessageDialog(null, "The Book is updated","Alert",JOptionPane.WARNING_MESSAGE);
-						txtID.setText("");
-						txtID.setEnabled(true);
-						txtName.setText("");
-						txtIsbn.setText("");
-						txtAuthor.setText("");
-						txtDate.setText("");
-						txtPrice.setText("");
-					} else {
-						JOptionPane.showMessageDialog(null, "The Book is not updated","Alert",JOptionPane.WARNING_MESSAGE);
-					}
-				}
-
-			}
-		});
-		btnUpdate.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnUpdate.setBounds(225, 269, 85, 21);
-		contentPane.add(btnUpdate);
 
 		JButton btnCancel = new JButton("Cancel");
 		btnCancel.addActionListener(new ActionListener() {
@@ -214,32 +199,11 @@ public class ManageBooksUI extends JFrame {
 			}
 		});
 		btnCancel.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnCancel.setBounds(181, 305, 85, 21);
+		btnCancel.setBounds(218, 331, 159, 40);
 		contentPane.add(btnCancel);
-		
-		JButton btnFind = new JButton("Find");
-		btnFind.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				int id = Integer.valueOf(JOptionPane.showInputDialog("Enter the Book ID"));
-				Book b = bDB.get(id);
-				if (b != null) {
-					txtName.setText(b.getName());
-					txtID.setText(String.valueOf(b.getBookID()));
-					txtID.setEnabled(false);
-					txtIsbn.setText(b.getIsbn());
-					txtAuthor.setText(b.getAuthor());
-					txtDate.setText(String.valueOf(b.getDate()));
-					txtPrice.setText(b.getPrice());
-					
-//					cMajor.setSelectedItem(b.getMajor());
-				}else {
-					JOptionPane.showMessageDialog(null, "No book for this ID number","Alert",JOptionPane.WARNING_MESSAGE);
-				}
-			}
-		});
-		btnFind.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnFind.setBounds(320, 269, 85, 21);
-		contentPane.add(btnFind);
+		Image cancel = new ImageIcon(this.getClass().getResource("/cancel.png")).getImage();
+		btnCancel.setIcon(new ImageIcon(cancel));
+
 		
 		JLabel lblNewLabel_1_1_1_1 = new JLabel("Published Date");
 		lblNewLabel_1_1_1_1.setFont(new Font("Tahoma", Font.PLAIN, 12));
@@ -260,6 +224,71 @@ public class ManageBooksUI extends JFrame {
 		lblNewLabel_1_2.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblNewLabel_1_2.setBounds(49, 46, 71, 14);
 		contentPane.add(lblNewLabel_1_2);
+		
+		JButton btnUF = new JButton("Find & Update");
+		btnUF.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btnUF.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+
+				int id = Integer.valueOf(JOptionPane.showInputDialog("Enter the Book ID"));
+				Book b = bDB.get(id);
+				if (b != null) {
+					txtName.setText(b.getName());
+					txtID.setText(String.valueOf(b.getBookID()));
+					txtID.setEnabled(false);
+					txtIsbn.setText(b.getIsbn());
+					txtAuthor.setText(b.getAuthor());
+					txtDate.setText(String.valueOf(b.getDate()));
+					txtPrice.setText(b.getPrice());
+					btnUF.setVisible(false);
+
+				}else {
+					JOptionPane.showMessageDialog(null, "No book for this ID number","Alert",JOptionPane.ERROR_MESSAGE);
+				}
+				
+			}
+		});
+		btnUF.setBounds(218, 269, 159, 40);
+		contentPane.add(btnUF);
+		Image find = new ImageIcon(this.getClass().getResource("/find.png")).getImage();
+		btnUF.setIcon(new ImageIcon(find));
+		
+		JButton btnU = new JButton("Update");
+		btnU.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (checkValid()) {
+					int id=Integer.valueOf(txtID.getText());
+					String name = txtName.getText();
+					String isbn = txtIsbn.getText();
+					String author = txtAuthor.getText();
+					Date bdate =Date.valueOf(txtDate.getText());
+					String price = txtPrice.getText();
+
+					Book b = new Book(id,name,isbn,author,bdate,price);
+					int result = bDB.updateBook(b);
+					if (result == 1) {
+						JOptionPane.showMessageDialog(null, "The Book is updated","Alert",JOptionPane.INFORMATION_MESSAGE);
+						txtID.setText("");
+						txtID.setEnabled(true);
+						txtName.setText("");
+						txtIsbn.setText("");
+						txtAuthor.setText("");
+						txtDate.setText("");
+						txtPrice.setText("");
+						btnU.setVisible(false);
+						btnUF.setVisible(true);
+					} else {
+						JOptionPane.showMessageDialog(null, "The Book is not updated","Alert",JOptionPane.ERROR_MESSAGE);
+					}
+				}
+			}
+		});
+		btnU.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btnU.setBounds(218, 269, 159, 40);
+		contentPane.add(btnU);
+		Image up = new ImageIcon(this.getClass().getResource("/update.png")).getImage();
+		btnU.setIcon(new ImageIcon(up));
 
 	}
 

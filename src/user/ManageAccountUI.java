@@ -8,6 +8,8 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.Image;
+
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -19,6 +21,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JComboBox;
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
+
 import java.sql.Date;
 import javax.swing.table.DefaultTableModel;
 
@@ -67,7 +71,7 @@ public class ManageAccountUI extends JFrame {
 	public ManageAccountUI() {
 		setTitle("City Bookshop - Manage Accounts");
 		setResizable(false);
-		setBounds(100, 100, 450, 416);
+		setBounds(100, 100, 450, 456);
 		setLocationRelativeTo(this);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -188,10 +192,10 @@ public class ManageAccountUI extends JFrame {
 
 					if(pw.equals(cpw)){
 						User user = new User(id,name,address,num,em,hashPW,type);
-						int result = uDB.add(user);
+						int result = uDB.addUser(user);
 
 						if (result == 1) {
-							JOptionPane.showMessageDialog(null, "New user account created","Alert",JOptionPane.WARNING_MESSAGE);
+							JOptionPane.showMessageDialog(null, "New user account created","Alert",JOptionPane.INFORMATION_MESSAGE);
 							txtID.setText("");
 							txtName.setText("");
 							txtAddress.setText("");
@@ -200,10 +204,10 @@ public class ManageAccountUI extends JFrame {
 							txtPW.setText("");
 							txtCPW.setText("");
 						} else {
-							JOptionPane.showMessageDialog(null, "The account has not been created","Alert",JOptionPane.WARNING_MESSAGE);
+							JOptionPane.showMessageDialog(null, "The account has not been created","Alert",JOptionPane.ERROR_MESSAGE);
 						}
 					}else {
-						JOptionPane.showMessageDialog(null, "The passwords dose not match","Alert",JOptionPane.WARNING_MESSAGE);
+						JOptionPane.showMessageDialog(null, "The passwords dose not match","Alert",JOptionPane.ERROR_MESSAGE);
 					}
 
 				}
@@ -211,76 +215,39 @@ public class ManageAccountUI extends JFrame {
 			}
 		});
 		btnAdd.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnAdd.setBounds(27, 310, 85, 21);
+		btnAdd.setBounds(49, 310, 159, 40);
 		contentPane.add(btnAdd);
+		Image add = new ImageIcon(this.getClass().getResource("/add.png")).getImage();
+		btnAdd.setIcon(new ImageIcon(add));
 
 		JButton btnDelete = new JButton("Delete");
 		btnDelete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int id = Integer.valueOf( JOptionPane.showInputDialog("Enter the User ID"));
-				int result = uDB.delete(id);
+				 JFrame f=new JFrame(); 
+					int a=JOptionPane.showConfirmDialog(f,"Are you sure?");  
+					 
+					if(a==JOptionPane.YES_OPTION) {
+				int result = uDB.deleteUser(id);
 				if (result == 1) {
-					JOptionPane.showMessageDialog(null, "The User is deleted","Alert",JOptionPane.WARNING_MESSAGE);
+					JOptionPane.showMessageDialog(null, "The User is deleted","Alert",JOptionPane.INFORMATION_MESSAGE);
 				} else {
-					JOptionPane.showMessageDialog(null, "The User is not deleted","Alert",JOptionPane.WARNING_MESSAGE);
+					JOptionPane.showMessageDialog(null, "The User is not deleted","Alert",JOptionPane.ERROR_MESSAGE);
 				}
+			}
 
 			}
 		});
 		btnDelete.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnDelete.setBounds(122, 310, 85, 21);
+		btnDelete.setBounds(49, 366, 159, 40);
 		contentPane.add(btnDelete);
+		Image del = new ImageIcon(this.getClass().getResource("/del.png")).getImage();
+		btnDelete.setIcon(new ImageIcon(del));
 
-		JButton btnUpdate = new JButton("Update");
-		btnUpdate.addActionListener(new ActionListener() {
+		JButton btnUF = new JButton("Find & Update");
+		btnUF.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				if (checkValid()) {
-					String type ="";
-					if (rCashier.isSelected()) {
-						type = "Cashier";
-					} else {
-						type = "Manager";
-					}
-					int id=Integer.valueOf(txtID.getText());
-					String name = txtName.getText();
-					String address = txtAddress.getText();
-					String num = txtNum.getText();
-					String em =txtEm.getText();
-					String pw =txtPW.getText();
-
-
-					User c = new User(id,name,address,num,em,pw,type);
-					int result = uDB.update(c);
-					if (result == 1) {
-						JOptionPane.showMessageDialog(null, "The User is updated","Alert",JOptionPane.WARNING_MESSAGE);
-						txtID.setText("");
-						txtName.setText("");
-						txtAddress.setText("");
-						txtNum.setText("");
-						txtEm.setText("");
-						txtPW.setText("");
-						txtCPW.setText("");
-						txtPW.setEnabled(true);
-						txtID.setEnabled(true);
-						txtCPW.setEnabled(true);
-						rCashier.setSelected(true);
-						rManager.setEnabled(true);
-						rCashier.setEnabled(true);
-					} else {
-						JOptionPane.showMessageDialog(null, "The User is not updated","Alert",JOptionPane.WARNING_MESSAGE);
-					}
-				}
-
-			}
-		});
-		btnUpdate.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnUpdate.setBounds(217, 310, 85, 21);
-		contentPane.add(btnUpdate);
-
-		JButton btnFind = new JButton("Find");
-		btnFind.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
 				int id = Integer.valueOf(JOptionPane.showInputDialog("Enter the User ID"));
 				User user = uDB.get(id);
 				if (user != null) {
@@ -302,15 +269,69 @@ public class ManageAccountUI extends JFrame {
 					txtPW.setEnabled(false);
 					txtCPW.setText(user.getPassword());
 					txtCPW.setEnabled(false);
+					btnUF.setVisible(false);
 					
 				}else {
-					JOptionPane.showMessageDialog(null, "No User account for this ID number","Alert",JOptionPane.WARNING_MESSAGE);
+					JOptionPane.showMessageDialog(null, "No User account for this ID number","Alert",JOptionPane.ERROR_MESSAGE);
 				}
+
 			}
 		});
-		btnFind.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnFind.setBounds(174, 345, 85, 21);
-		contentPane.add(btnFind);
+		btnUF.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btnUF.setBounds(217, 310, 159, 40);
+		contentPane.add(btnUF);
+		Image find = new ImageIcon(this.getClass().getResource("/find.png")).getImage();
+		btnUF.setIcon(new ImageIcon(find));
+
+		JButton btnU = new JButton("Update");
+		btnU.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (checkValid()) {
+					String type ="";
+					if (rCashier.isSelected()) {
+						type = "Cashier";
+					} else {
+						type = "Manager";
+					}
+					int id=Integer.valueOf(txtID.getText());
+					String name = txtName.getText();
+					String address = txtAddress.getText();
+					String num = txtNum.getText();
+					String em =txtEm.getText();
+					String pw =txtPW.getText();
+
+
+					User c = new User(id,name,address,num,em,pw,type);
+					int result = uDB.updateUser(c);
+					if (result == 1) {
+						JOptionPane.showMessageDialog(null, "The User is updated","Alert",JOptionPane.INFORMATION_MESSAGE);
+						txtID.setText("");
+						txtName.setText("");
+						txtAddress.setText("");
+						txtNum.setText("");
+						txtEm.setText("");
+						txtPW.setText("");
+						txtCPW.setText("");
+						txtPW.setEnabled(true);
+						txtID.setEnabled(true);
+						txtCPW.setEnabled(true);
+						rCashier.setSelected(true);
+						rManager.setEnabled(true);
+						rCashier.setEnabled(true);
+						btnU.setVisible(false);
+						btnUF.setVisible(true);
+					} else {
+						JOptionPane.showMessageDialog(null, "The User is not updated","Alert",JOptionPane.ERROR_MESSAGE);
+					}
+				}
+				
+			}
+		});
+		btnU.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btnU.setBounds(217, 310, 159, 40);
+		contentPane.add(btnU);
+		Image up = new ImageIcon(this.getClass().getResource("/update.png")).getImage();
+		btnU.setIcon(new ImageIcon(up));
 		
 		JButton btnCancel = new JButton("Cancel");
 		btnCancel.addActionListener(new ActionListener() {
@@ -319,8 +340,10 @@ public class ManageAccountUI extends JFrame {
 			}
 		});
 		btnCancel.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnCancel.setBounds(312, 310, 85, 21);
+		btnCancel.setBounds(218, 366, 159, 40);
 		contentPane.add(btnCancel);
+		Image cancel = new ImageIcon(this.getClass().getResource("/cancel.png")).getImage();
+		btnCancel.setIcon(new ImageIcon(cancel));
 
 	}
 

@@ -27,6 +27,7 @@ private Connection con;
 			if (con != null) {
 				System.out.println("Database connected successfully");
 				ConnectionStatus.message="Database connected successfully";
+				ConnectionStatus.status=true;
 
 			} else {
 				System.out.println("Database connection failed");
@@ -36,12 +37,13 @@ private Connection con;
 		} catch (SQLException e) {
 			System.err.println(e.getMessage());
 			ConnectionStatus.message="Database connection failed";
+			ConnectionStatus.status=false;
 		}
 	}
 
 
 	@Override
-	public int add(User ob) {
+	public int addUser(User ob) {
 		String insert = "INSERT INTO user(ID,name, address,num, email, password,type) VALUES (?,?,?,?,?,?,?)";
 		try {
 			PreparedStatement ps = con.prepareStatement(insert);
@@ -60,7 +62,7 @@ private Connection con;
 			return result;
 		} catch (SQLException e) {
 			if (e instanceof SQLIntegrityConstraintViolationException) {
-				JOptionPane.showMessageDialog(null, "There is an existing User for the above ID. Please check again!","Alert",JOptionPane.WARNING_MESSAGE);
+				JOptionPane.showMessageDialog(null, "There is an existing User for the above ID. Please check again!","Alert",JOptionPane.ERROR_MESSAGE);
 				return 0;
 		    } 
 			return 0;
@@ -69,7 +71,7 @@ private Connection con;
 
 
 	@Override
-	public int delete(int id) {
+	public int deleteUser(int id) {
 		String delete = "DELETE FROM user WHERE ID=?";
 		try {
 			PreparedStatement ps = con.prepareStatement(delete);
@@ -85,15 +87,15 @@ private Connection con;
 
 
 	@Override
-	public int update(User ob) {
+	public int updateUser(User ob) {
 		String update = "UPDATE user set name=?, address=?,num=?,email=?, password=?,type=? WHERE ID=? ";		
 		try {
 			PreparedStatement ps = con.prepareStatement(update);
 			ps.setString(1, ob.getName());
 			ps.setString(2, ob.getAddress());
 			ps.setString(3, ob.getNumber());
-			ps.setString(4, ob.getPassword());
-			ps.setString(5, ob.getEmail());
+			ps.setString(4, ob.getEmail());
+			ps.setString(5, ob.getPassword());
 			ps.setString(6, ob.getType());
 			ps.setInt(7, ob.getUserID());
 

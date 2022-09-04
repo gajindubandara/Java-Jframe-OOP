@@ -29,10 +29,13 @@ import java.awt.event.InputEvent;
 import javax.swing.JTable;
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 
 import java.awt.Font;
+import java.awt.Image;
+
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
@@ -48,7 +51,7 @@ public class ViewUserUI extends JFrame {
 	private JButton btnPrice;
 	private JTextField txtCategory;
 	private JButton btncategory;
-	private JButton btnVAll;
+	private JButton btnViewAll;
 	private JLabel lblNewLabel;
 
 	/**
@@ -96,12 +99,12 @@ public class ViewUserUI extends JFrame {
 		booktbl.setModel(tblModel);
 		
 		txtName = new JTextField();
-		txtName.setBounds(23, 70, 132, 20);
+		txtName.setBounds(271, 70, 254, 34);
 		contentPane.add(txtName);
 		txtName.setColumns(10);
 		
-		btnVAll = new JButton("View All Users");
-		btnVAll.addActionListener(new ActionListener() {
+		btnViewAll = new JButton("View All Users");
+		btnViewAll.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					ArrayList<User> bList = uDB.getAll();
@@ -116,7 +119,7 @@ public class ViewUserUI extends JFrame {
 						
 
 						tblModel.addRow(new Object[] { id,name,address,num,email,type});
-						 btnVAll.setEnabled(false);
+						 btnViewAll.setEnabled(false);
 					}
 				}
 				catch(Exception ex) {
@@ -125,9 +128,12 @@ public class ViewUserUI extends JFrame {
 				}
 			}
 		});
-		btnVAll.setBounds(425, 119, 132, 34);
-		contentPane.add(btnVAll);
-//		btnVAll.setEnabled(false);
+		btnViewAll.setBounds(23, 516, 159, 34);
+		contentPane.add(btnViewAll);
+		Image all = new ImageIcon(this.getClass().getResource("/viewA.png")).getImage();
+		btnViewAll.setIcon(new ImageIcon(all));
+		
+
 		
 		JButton btnName = new JButton("Search By Name");
 		btnName.addActionListener(new ActionListener() {
@@ -153,55 +159,13 @@ public class ViewUserUI extends JFrame {
 					   
 				   }
 				 txtName.setText("");
-				 btnVAll.setEnabled(true);
+				 btnViewAll.setEnabled(true);
 			}
 		});
-		btnName.setBounds(165, 69, 132, 23);
+		btnName.setBounds(555, 70, 173, 34);
 		contentPane.add(btnName);
-		
-//		txtPrice = new JTextField();
-//		txtPrice.setColumns(10);
-//		txtPrice.setBounds(350, 68, 132, 20);
-//		contentPane.add(txtPrice);
-		
-//		btnPrice = new JButton("Search By Price");
-//		btnPrice.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent e) {
-//				if (checkValid()) {
-//				String Price=txtPrice.getText();
-//				ArrayList<Book> BookList=bDB.getAll();
-//				tblModel.setRowCount(0);
-//				 for(Book b:BookList) {
-//					 if( b.getPrice().equals(Price)) {
-//						 int Bid=b.getBookID();
-//						 String name = b.getName();
-//						 String isbn = b.getIsbn();
-//						 String author = b.getAuthor();
-//						 Date bdate =b.getDate();
-//						 String price ="Rs."+b.getPrice()+".00/-";
-//					
-//						 tblModel.addRow(new Object[] {Bid,name,isbn,author,bdate,price}); 
-//					 }					
-//				   }
-//				}
-//				 txtPrice.setText("");
-//				 btnVAll.setEnabled(true);
-//				
-//			}
-//		});
-//		btnPrice.setBounds(492, 67, 132, 23);
-//		contentPane.add(btnPrice);
-		
-//		txtCategory = new JTextField();
-//		txtCategory.setColumns(10);
-//		txtCategory.setBounds(695, 66, 132, 20);
-//		contentPane.add(txtCategory);
-//		
-//		btncategory = new JButton("Search By Category");
-//		btncategory.setBounds(837, 65, 146, 23);
-//		contentPane.add(btncategory);
-//		
-		
+		Image imgName = new ImageIcon(this.getClass().getResource("/name.png")).getImage();
+		btnName.setIcon(new ImageIcon(imgName));
 		
 		lblNewLabel = new JLabel("Book List");
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 24));
@@ -216,8 +180,10 @@ public class ViewUserUI extends JFrame {
 			}
 		});
 		btnCancel.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnCancel.setBounds(898, 518, 85, 21);
+		btnCancel.setBounds(824, 516, 159, 34);
 		contentPane.add(btnCancel);
+		Image cancel = new ImageIcon(this.getClass().getResource("/cancel.png")).getImage();
+		btnCancel.setIcon(new ImageIcon(cancel));
 
 		tblModel.addColumn("ID");
 		tblModel.addColumn("Name");

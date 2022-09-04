@@ -5,9 +5,15 @@ import java.util.ArrayList;
 import business.Book;
 
 public interface IBook {
-	int add(Book ob);
-	int delete(int id);
-	int update(Book ob);
+	int addBook(Book book);
+	int deleteBook(int bookId);
+	int updateBook(Book book);
 	Book get(int id);
 	ArrayList<Book> getAll();
 }
+
+
+//addBook(Book book);
+//deleteBook(Book book);
+//updateBook(Book book);
+

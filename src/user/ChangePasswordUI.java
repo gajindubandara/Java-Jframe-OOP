@@ -3,12 +3,14 @@ package user;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -123,27 +125,29 @@ public class ChangePasswordUI extends JFrame {
 							User userPW =new User(uid,name,address,num,un,newHashPW,type);
 							int result=uDB.updatepw(userPW);
 							if(result>0) {
-								 JOptionPane.showMessageDialog(null,"Password is updated","Alert",JOptionPane.WARNING_MESSAGE);   
+								 JOptionPane.showMessageDialog(null,"Password is updated","Alert",JOptionPane.INFORMATION_MESSAGE);   
 								txtOPW.setText("");
 								txtUID.setText("");
 								txtPW.setText("");
 								txtCPW.setText("");
 							}else {
-								 JOptionPane.showMessageDialog(null,"Password is not updated","Alert",JOptionPane.WARNING_MESSAGE); 
+								 JOptionPane.showMessageDialog(null,"Password is not updated","Alert",JOptionPane.ERROR_MESSAGE); 
 							}	
 							
 						}else {
-							 JOptionPane.showMessageDialog(null,"Username and Old password dose not match","Alert",JOptionPane.WARNING_MESSAGE);
+							 JOptionPane.showMessageDialog(null,"Username and Old password dose not match","Alert",JOptionPane.ERROR_MESSAGE);
 						}	
 
 				}else {
-					JOptionPane.showMessageDialog(null, "The passwords dose not match","Alert",JOptionPane.WARNING_MESSAGE);
+					JOptionPane.showMessageDialog(null, "The passwords dose not match","Alert",JOptionPane.ERROR_MESSAGE);
 				}
 			}
 			}
 		});
-		btnUpdate.setBounds(55, 197, 89, 23);
+		btnUpdate.setBounds(55, 197, 110, 40);
 		contentPane.add(btnUpdate);
+		Image up = new ImageIcon(this.getClass().getResource("/update.png")).getImage();
+		btnUpdate.setIcon(new ImageIcon(up));
 		
 		JButton btnCancel = new JButton("Cancel");
 		btnCancel.addActionListener(new ActionListener() {
@@ -151,8 +155,10 @@ public class ChangePasswordUI extends JFrame {
 				setVisible(false);
 			}
 		});
-		btnCancel.setBounds(220, 197, 89, 23);
+		btnCancel.setBounds(207, 197, 110, 40);
 		contentPane.add(btnCancel);
+		Image cancel = new ImageIcon(this.getClass().getResource("/cancel.png")).getImage();
+		btnCancel.setIcon(new ImageIcon(cancel));
 		
 		JLabel lblOldPassword = new JLabel("Old Password");
 		lblOldPassword.setFont(new Font("Tahoma", Font.PLAIN, 12));
@@ -173,7 +179,7 @@ public class ChangePasswordUI extends JFrame {
 		try {
 			int id = Integer.valueOf(txtUID.getText());
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(this, "User ID must be numeric");
+			JOptionPane.showMessageDialog(this, "User ID must be numeric","Alert",JOptionPane.WARNING_MESSAGE);
 			return false;
 		}
 		if (txtOPW.getText().equals("")) {

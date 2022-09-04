@@ -27,6 +27,7 @@ public class BookDB implements IBook {
 			if (con != null) {
 				System.out.println("Database connected successfully");
 				ConnectionStatus.message="Database connected successfully";
+				ConnectionStatus.status=true;
 
 			} else {
 				System.out.println("Database connection failed");
@@ -36,11 +37,12 @@ public class BookDB implements IBook {
 		} catch (SQLException e) {
 			System.err.println(e.getMessage());
 			ConnectionStatus.message="Database connection failed";
+			ConnectionStatus.status=false;
 		}
 	}
 	
 	@Override
-	public int add(Book ob) {
+	public int addBook(Book ob) {
 		String insert = "INSERT INTO book( name, isbn,author, date, price,ID) VALUES (?,?,?,?,?,?)";
 		try {
 			PreparedStatement ps = con.prepareStatement(insert);
@@ -58,7 +60,7 @@ public class BookDB implements IBook {
 		} 
 		catch (SQLException e) {
 			if (e instanceof SQLIntegrityConstraintViolationException) {
-				JOptionPane.showMessageDialog(null, "There is an existing Book for the above ID. Please check again!","Alert",JOptionPane.WARNING_MESSAGE);
+				JOptionPane.showMessageDialog(null, "There is an existing Book for the above ID. Please check again!","Alert",JOptionPane.ERROR_MESSAGE);
 				return 0;
 		    } 
 			return 0;
@@ -70,11 +72,11 @@ public class BookDB implements IBook {
 	}
 
 	@Override
-	public int delete(int id) {
+	public int deleteBook(int bookId) {
 		String delete = "DELETE FROM book WHERE ID=?";
 		try {
 			PreparedStatement ps = con.prepareStatement(delete);
-			ps.setInt(1, id);
+			ps.setInt(1, bookId);
 			int result = ps.executeUpdate();
 			ps.close();
 			return result;
@@ -85,7 +87,7 @@ public class BookDB implements IBook {
 	}
 
 	@Override
-	public int update(Book ob) {
+	public int updateBook(Book ob) {
 		String update = "UPDATE book set name=?, isbn=?,author=?, date=?, price=? WHERE ID=? ";
 
 		try {

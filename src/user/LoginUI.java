@@ -5,9 +5,12 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.Image;
+
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import java.awt.event.ActionListener;
@@ -19,6 +22,7 @@ import data.pwdHash;
 import business.User;
 import javax.swing.SwingConstants;
 
+
 public class LoginUI extends JFrame {
 
 	private JPanel contentPane;
@@ -26,7 +30,7 @@ public class LoginUI extends JFrame {
 	private JPasswordField txtPWRD;
 	private JButton btnOK; 
 	private UserDB uDB;
-	private JLabel lblCon;
+	private JLabel conStatus;
 
 	/**
 	 * Launch the application.
@@ -62,12 +66,12 @@ public class LoginUI extends JFrame {
 		uDB = new UserDB();
 		
 		JLabel lblNewLabel = new JLabel("User ID");
-		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblNewLabel.setBounds(53, 35, 101, 23);
 		contentPane.add(lblNewLabel);
 		
 		JLabel lblPassword = new JLabel("Password");
-		lblPassword.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblPassword.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblPassword.setBounds(53, 69, 101, 23);
 		contentPane.add(lblPassword);
 		
@@ -94,12 +98,14 @@ public class LoginUI extends JFrame {
 					mUI.setVisible(true); 
 					setVisible(false);
 				}else {
-					JOptionPane.showMessageDialog(null, "Incorrect User ID or Password","Alert",JOptionPane.WARNING_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Incorrect User ID or Password","Alert",JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});
-		btnOK.setBounds(64, 127, 110, 24);
+		btnOK.setBounds(64, 124, 110, 40);
 		contentPane.add(btnOK);
+		Image ok = new ImageIcon(this.getClass().getResource("/lin.png")).getImage();
+		btnOK.setIcon(new ImageIcon(ok));
 		
 		JButton btnCancel = new JButton("Cancel");
 		btnCancel.addActionListener(new ActionListener() {
@@ -107,15 +113,29 @@ public class LoginUI extends JFrame {
 				System.exit(0);
 			}
 		});
-		btnCancel.setBounds(210, 127, 110, 24);
+		btnCancel.setBounds(210, 124, 110, 40);
 		contentPane.add(btnCancel);
+		Image cancel = new ImageIcon(this.getClass().getResource("/cancel.png")).getImage();
+		btnCancel.setIcon(new ImageIcon(cancel));
 		
-		lblCon = new JLabel("");
-		lblCon.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblCon.setForeground(Color.GRAY);
-		lblCon.setBounds(170, 183, 210, 14);
-		contentPane.add(lblCon);
+		conStatus = new JLabel("");
+		conStatus.setForeground(Color.BLACK);
+		conStatus.setHorizontalAlignment(SwingConstants.LEFT);
+		conStatus.setBounds(10, 175, 331, 22);
+		contentPane.add(conStatus);
+		conStatus.setText(ConnectionStatus.message);
 		
-		lblCon.setText(ConnectionStatus.message);
+		JLabel bgLogin = new JLabel("");
+		bgLogin.setBounds(0, 0, 400, 208);
+		contentPane.add(bgLogin);
+		Image bglogin = new ImageIcon(this.getClass().getResource("/bgLogin.jpg")).getImage();
+		bgLogin.setIcon(new ImageIcon(bglogin));
+		
+		Image redDot= new ImageIcon(this.getClass().getResource("/redDot.png")).getImage();
+		Image greenDot= new ImageIcon(this.getClass().getResource("/greenDot.png")).getImage();
+		if(ConnectionStatus.status) {
+			conStatus.setIcon(new ImageIcon(greenDot));
+		}else {
+		conStatus.setIcon(new ImageIcon(redDot));}
 	}
 }
