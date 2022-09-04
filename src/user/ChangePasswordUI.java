@@ -52,7 +52,7 @@ public class ChangePasswordUI extends JFrame {
 	 * Create the frame.
 	 */
 	public ChangePasswordUI() {
-		setTitle("Change Password");
+		setTitle("City Bookshop - Change Password");
 		setResizable(false);
 		setBounds(100, 100, 391, 295);
 		contentPane = new JPanel();

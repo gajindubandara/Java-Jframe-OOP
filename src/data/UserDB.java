@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 import business.User;
+import user.ConnectionStatus;
+import user.LoginStatus;
 
 public class UserDB implements IUser {
 private Connection con;
@@ -24,13 +26,16 @@ private Connection con;
 			con = DriverManager.getConnection(url, user, password);
 			if (con != null) {
 				System.out.println("Database connected successfully");
+				ConnectionStatus.message="Database connected successfully";
 
 			} else {
 				System.out.println("Database connection failed");
+				
 			}
 
 		} catch (SQLException e) {
 			System.err.println(e.getMessage());
+			ConnectionStatus.message="Database connection failed";
 		}
 	}
 

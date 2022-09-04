@@ -5,12 +5,13 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
-import business.Book;
-import data.BookDB;
+import business.User;
+import data.UserDB;
 
 
 import javax.swing.JMenuBar;
@@ -26,19 +27,23 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.awt.event.InputEvent;
 import javax.swing.JTable;
+import javax.swing.ButtonGroup;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
+
 import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
-public class ViewBooksUI extends JFrame {
+public class ViewUserUI extends JFrame {
 
 	private JPanel contentPane;
 	private JTable booktbl;
 	private DefaultTableModel tblModel;
 	private JTextField txtName;
-	private BookDB bDB;
+	private UserDB uDB;
 	private JTextField txtPrice;
 	private JButton btnPrice;
 	private JTextField txtCategory;
@@ -53,7 +58,7 @@ public class ViewBooksUI extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					ViewBooksUI frame = new ViewBooksUI();
+					ViewUserUI frame = new ViewUserUI();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -65,12 +70,12 @@ public class ViewBooksUI extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public ViewBooksUI() {
+	public ViewUserUI() {
 		setResizable(false);
-		setTitle("City Bookshop - Book List");
+		setTitle("City Bookshop - User List");
 		setBounds(100, 100, 1024, 600);
 		
-		BookDB bDB = new BookDB();
+		UserDB uDB = new UserDB();
 		
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -95,23 +100,23 @@ public class ViewBooksUI extends JFrame {
 		contentPane.add(txtName);
 		txtName.setColumns(10);
 		
-		btnVAll = new JButton("View All Books");
+		btnVAll = new JButton("View All Users");
 		btnVAll.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					ArrayList<Book> bList = bDB.getAll();
+					ArrayList<User> bList = uDB.getAll();
 					tblModel.setRowCount(0);
-					for (Book b : bList) {
-						int ID = b.getBookID();
-						String name =b.getName();
-						String isbn =b.getIsbn();
-						String author=b.getAuthor();
-						Date date=b.getDate();
-						String price="Rs."+b.getPrice()+".00/-";
-								
+					for (User u : bList) {
+						int id = u.getUserID();
+						String name =u.getName();
+						String address =u.getAddress();
+						String num =u.getNumber();
+						String email=u.getEmail();
+						String type=u.getType();
+						
 
-						tblModel.addRow(new Object[] { ID,name,isbn,author,date,price});
-						btnVAll.setEnabled(false);
+						tblModel.addRow(new Object[] { id,name,address,num,email,type});
+						 btnVAll.setEnabled(false);
 					}
 				}
 				catch(Exception ex) {
@@ -128,18 +133,21 @@ public class ViewBooksUI extends JFrame {
 		btnName.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String Bname=txtName.getText();
-				ArrayList<Book> BookList=bDB.getAll();
+				ArrayList<User> UserList=uDB.getAll();
 				tblModel.setRowCount(0);
-				 for(Book b:BookList) {
-					 if( b.getName().equalsIgnoreCase(Bname)) {
-						 int Bid=b.getBookID();
-						 String name = b.getName();
-						 String isbn = b.getIsbn();
-						 String author = b.getAuthor();
-						 Date bdate =b.getDate();
-						 String price ="Rs."+b.getPrice()+".00/-";
+				 for(User u:UserList) {
+					 if( u.getName().equalsIgnoreCase(Bname)) {
+						
+								int id = u.getUserID();
+								String name =u.getName();
+								String address =u.getAddress();
+								String num =u.getNumber();
+								String email=u.getEmail();
+								String type=u.getType();
+								
+
+							tblModel.addRow(new Object[] { id,name,address,num,email,type});
 					
-						   tblModel.addRow(new Object[] {Bid,name,isbn,author,bdate,price}); 
 						
 					 }
 					   
@@ -151,48 +159,48 @@ public class ViewBooksUI extends JFrame {
 		btnName.setBounds(165, 69, 132, 23);
 		contentPane.add(btnName);
 		
-		txtPrice = new JTextField();
-		txtPrice.setColumns(10);
-		txtPrice.setBounds(350, 68, 132, 20);
-		contentPane.add(txtPrice);
+//		txtPrice = new JTextField();
+//		txtPrice.setColumns(10);
+//		txtPrice.setBounds(350, 68, 132, 20);
+//		contentPane.add(txtPrice);
 		
-		btnPrice = new JButton("Search By Price");
-		btnPrice.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if (checkValid()) {
-				String Price=txtPrice.getText();
-				ArrayList<Book> BookList=bDB.getAll();
-				tblModel.setRowCount(0);
-				 for(Book b:BookList) {
-					 if( b.getPrice().equals(Price)) {
-						 int Bid=b.getBookID();
-						 String name = b.getName();
-						 String isbn = b.getIsbn();
-						 String author = b.getAuthor();
-						 Date bdate =b.getDate();
-						 String price ="Rs."+b.getPrice()+".00/-";
-					
-						 tblModel.addRow(new Object[] {Bid,name,isbn,author,bdate,price}); 
-					 }					
-				   }
-				}
-				 txtPrice.setText("");
-				 btnVAll.setEnabled(true);
-				
-			}
-		});
-		btnPrice.setBounds(492, 67, 132, 23);
-		contentPane.add(btnPrice);
+//		btnPrice = new JButton("Search By Price");
+//		btnPrice.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent e) {
+//				if (checkValid()) {
+//				String Price=txtPrice.getText();
+//				ArrayList<Book> BookList=bDB.getAll();
+//				tblModel.setRowCount(0);
+//				 for(Book b:BookList) {
+//					 if( b.getPrice().equals(Price)) {
+//						 int Bid=b.getBookID();
+//						 String name = b.getName();
+//						 String isbn = b.getIsbn();
+//						 String author = b.getAuthor();
+//						 Date bdate =b.getDate();
+//						 String price ="Rs."+b.getPrice()+".00/-";
+//					
+//						 tblModel.addRow(new Object[] {Bid,name,isbn,author,bdate,price}); 
+//					 }					
+//				   }
+//				}
+//				 txtPrice.setText("");
+//				 btnVAll.setEnabled(true);
+//				
+//			}
+//		});
+//		btnPrice.setBounds(492, 67, 132, 23);
+//		contentPane.add(btnPrice);
 		
-		txtCategory = new JTextField();
-		txtCategory.setColumns(10);
-		txtCategory.setBounds(695, 66, 132, 20);
-		contentPane.add(txtCategory);
-		
-		btncategory = new JButton("Search By Category");
-		btncategory.setBounds(837, 65, 146, 23);
-		contentPane.add(btncategory);
-		
+//		txtCategory = new JTextField();
+//		txtCategory.setColumns(10);
+//		txtCategory.setBounds(695, 66, 132, 20);
+//		contentPane.add(txtCategory);
+//		
+//		btncategory = new JButton("Search By Category");
+//		btncategory.setBounds(837, 65, 146, 23);
+//		contentPane.add(btncategory);
+//		
 		
 		
 		lblNewLabel = new JLabel("Book List");
@@ -213,25 +221,25 @@ public class ViewBooksUI extends JFrame {
 
 		tblModel.addColumn("ID");
 		tblModel.addColumn("Name");
-		tblModel.addColumn("ISBN");
-		tblModel.addColumn("Author");
-		tblModel.addColumn("Date");
-		tblModel.addColumn("Price");
+		tblModel.addColumn("Address");
+		tblModel.addColumn("Number");
+		tblModel.addColumn("Email");
+		tblModel.addColumn("Account Type");
 		
 				
 				try {
-					ArrayList<Book> bList = bDB.getAll();
+					ArrayList<User> bList = uDB.getAll();
 					tblModel.setRowCount(0);
-					for (Book b : bList) {
-						int ID = b.getBookID();
-						String name =b.getName();
-						String isbn =b.getIsbn();
-						String author=b.getAuthor();
-						Date date=b.getDate();
-						String price="Rs."+b.getPrice()+".00/-";
-								
+					for (User u : bList) {
+						int id = u.getUserID();
+						String name =u.getName();
+						String address =u.getAddress();
+						String num =u.getNumber();
+						String email=u.getEmail();
+						String type=u.getType();
+						
 
-						tblModel.addRow(new Object[] { ID,name,isbn,author,date,price});
+						tblModel.addRow(new Object[] { id,name,address,num,email,type});
 					}
 				}
 				catch(Exception ex) {

@@ -16,6 +16,13 @@ import java.awt.event.ActionEvent;
 import javax.swing.KeyStroke;
 import java.awt.event.KeyEvent;
 import java.awt.event.InputEvent;
+import javax.swing.JTextField;
+import javax.swing.JLabel;
+import java.awt.Color;
+import javax.swing.SwingConstants;
+import javax.swing.JButton;
+import java.awt.Font;
+import java.awt.Toolkit;
 
 public class MainUI extends JFrame {
 
@@ -105,13 +112,6 @@ public class MainUI extends JFrame {
 		mnaccount.add(mntmNewMenuItem_1);
 		mnaccount.add(mntmLogout);
 		
-		JMenu mnhelp = new JMenu("Help");
-		menuBar.add(mnhelp);
-		
-		JMenuItem mniUsermaual = new JMenuItem("User Manual");
-		mniUsermaual.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_U, InputEvent.CTRL_DOWN_MASK));
-		mnhelp.add(mniUsermaual);
-		
 		JMenu mnManageAccounts = new JMenu("Manage Accounts");
 		menuBar.add(mnManageAccounts);
 		
@@ -124,18 +124,86 @@ public class MainUI extends JFrame {
 			}
 		});
 		mnManageAccounts.add(mntmNewAccount);
+		
+		JMenuItem mntmNewMenuItem = new JMenuItem("View Users");
+		mntmNewMenuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ViewUserUI vu=new ViewUserUI ();
+				vu.setVisible(true);
+			}
+		});
+		mnManageAccounts.add(mntmNewMenuItem);
+		
+		JMenu mnhelp = new JMenu("Help");
+		menuBar.add(mnhelp);
+		
+		JMenuItem mniUsermaual = new JMenuItem("User Manual");
+		mniUsermaual.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_U, InputEvent.CTRL_DOWN_MASK));
+		mnhelp.add(mniUsermaual);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.setLayout(new BorderLayout(0, 0));
 		setLocationRelativeTo(this);
 		setContentPane(contentPane);
+		contentPane.setLayout(null);
 		
+		JLabel lblCon = new JLabel("New label");
+		lblCon.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblCon.setForeground(Color.GRAY);
+		lblCon.setBounds(542, 362, 210, 14);
+		contentPane.add(lblCon);
 		
+		lblCon.setText(ConnectionStatus.message);
+		
+		JButton btnNewButton = new JButton("Manage Books");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 21));
+		btnNewButton.setBounds(132, 69, 481, 45);
+		contentPane.add(btnNewButton);
+		
+		JButton btnManageAccounts = new JButton("Manage Accounts");
+		btnManageAccounts.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnManageAccounts.setFont(new Font("Tahoma", Font.PLAIN, 21));
+		btnManageAccounts.setBounds(132, 178, 481, 45);
+		contentPane.add(btnManageAccounts);
+		
+		JButton btnHelp = new JButton("Help");
+		btnHelp.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnHelp.setFont(new Font("Tahoma", Font.PLAIN, 21));
+		btnHelp.setBounds(132, 234, 481, 45);
+		contentPane.add(btnHelp);
+		
+		JLabel lblNewLabel = new JLabel("Welcome!");
+		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 24));
+		lblNewLabel.setBounds(132, 11, 481, 47);
+		contentPane.add(lblNewLabel);
+		
+		JButton btnNewButton_2 = new JButton("View Books");
+		btnNewButton_2.setFont(new Font("Tahoma", Font.PLAIN, 21));
+		btnNewButton_2.setBounds(132, 122, 481, 45);
+		contentPane.add(btnNewButton_2);
+		
+		JButton btnNewButton_1 = new JButton("Logout");
+		btnNewButton_1.setBounds(21, 314, 154, 23);
+		contentPane.add(btnNewButton_1);
+		
+		JButton btnNewButton_1_1 = new JButton("Change Password");
+		btnNewButton_1_1.setBounds(21, 348, 154, 23);
+		contentPane.add(btnNewButton_1_1);
+//		System.out.println(ConnectionStatus.message);
 		
 		if(LoginStatus.type.equals("Cashier")) {
 			mnManageAccounts.setVisible(false);
 
 		}
 	}
-
 }

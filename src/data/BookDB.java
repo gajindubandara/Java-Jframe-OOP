@@ -12,6 +12,8 @@ import javax.swing.JOptionPane;
 import java.sql.*;
 
 import business.Book;
+import user.ConnectionStatus;
+import user.LoginStatus;
 
 public class BookDB implements IBook {
 	private Connection con;
@@ -24,13 +26,16 @@ public class BookDB implements IBook {
 			con = DriverManager.getConnection(url, user, password);
 			if (con != null) {
 				System.out.println("Database connected successfully");
+				ConnectionStatus.message="Database connected successfully";
 
 			} else {
 				System.out.println("Database connection failed");
+				
 			}
 
 		} catch (SQLException e) {
 			System.err.println(e.getMessage());
+			ConnectionStatus.message="Database connection failed";
 		}
 	}
 	

@@ -17,6 +17,7 @@ import java.awt.Color;
 import data.UserDB;
 import data.pwdHash;
 import business.User;
+import javax.swing.SwingConstants;
 
 public class LoginUI extends JFrame {
 
@@ -25,6 +26,7 @@ public class LoginUI extends JFrame {
 	private JPasswordField txtPWRD;
 	private JButton btnOK; 
 	private UserDB uDB;
+	private JLabel lblCon;
 
 	/**
 	 * Launch the application.
@@ -46,10 +48,10 @@ public class LoginUI extends JFrame {
 	 * Create the frame.
 	 */
 	public LoginUI() {
-		setTitle("Login");
+		setTitle("City Bookshop - Login");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 365, 232);
+		setBounds(100, 100, 406, 247);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.WHITE);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -61,21 +63,21 @@ public class LoginUI extends JFrame {
 		
 		JLabel lblNewLabel = new JLabel("User ID");
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblNewLabel.setBounds(50, 34, 101, 23);
+		lblNewLabel.setBounds(53, 35, 101, 23);
 		contentPane.add(lblNewLabel);
 		
 		JLabel lblPassword = new JLabel("Password");
 		lblPassword.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblPassword.setBounds(50, 68, 101, 23);
+		lblPassword.setBounds(53, 69, 101, 23);
 		contentPane.add(lblPassword);
 		
 		txtUID = new JTextField();
-		txtUID.setBounds(163, 37, 129, 20);
+		txtUID.setBounds(166, 38, 162, 20);
 		contentPane.add(txtUID);
 		txtUID.setColumns(10);
 		
 		txtPWRD = new JPasswordField();
-		txtPWRD.setBounds(163, 71, 129, 20);
+		txtPWRD.setBounds(166, 72, 162, 20);
 		contentPane.add(txtPWRD);
 		
 		btnOK = new JButton("Login");
@@ -96,7 +98,7 @@ public class LoginUI extends JFrame {
 				}
 			}
 		});
-		btnOK.setBounds(61, 138, 89, 23);
+		btnOK.setBounds(64, 127, 110, 24);
 		contentPane.add(btnOK);
 		
 		JButton btnCancel = new JButton("Cancel");
@@ -105,7 +107,15 @@ public class LoginUI extends JFrame {
 				System.exit(0);
 			}
 		});
-		btnCancel.setBounds(181, 138, 89, 23);
+		btnCancel.setBounds(210, 127, 110, 24);
 		contentPane.add(btnCancel);
+		
+		lblCon = new JLabel("");
+		lblCon.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblCon.setForeground(Color.GRAY);
+		lblCon.setBounds(170, 183, 210, 14);
+		contentPane.add(lblCon);
+		
+		lblCon.setText(ConnectionStatus.message);
 	}
 }

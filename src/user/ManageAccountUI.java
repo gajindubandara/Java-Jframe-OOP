@@ -65,7 +65,7 @@ public class ManageAccountUI extends JFrame {
 	 * Create the frame.
 	 */
 	public ManageAccountUI() {
-		setTitle("Manage Accounts");
+		setTitle("City Bookshop - Manage Accounts");
 		setResizable(false);
 		setBounds(100, 100, 450, 416);
 		setLocationRelativeTo(this);

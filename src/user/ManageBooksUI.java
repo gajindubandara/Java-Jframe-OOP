@@ -58,9 +58,9 @@ public class ManageBooksUI extends JFrame {
 	 * Create the frame.
 	 */
 	public ManageBooksUI() {
-		setTitle("Manage Books");
+		setTitle("City Bookshop - Manage Books");
 		setResizable(false);
-		setBounds(100, 100, 450, 361);
+		setBounds(100, 100, 454, 376);
 		setLocationRelativeTo(this);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -95,30 +95,30 @@ public class ManageBooksUI extends JFrame {
 		contentPane.add(lblNewLabel_2_1);
 
 		txtID = new JTextField();
-		txtID.setBounds(153, 72, 136, 20);
+		txtID.setBounds(153, 72, 222, 20);
 		contentPane.add(txtID);
 		txtID.setColumns(10);
 
 		txtIsbn = new JTextField();
 		txtIsbn.setColumns(10);
-		txtIsbn.setBounds(153, 102, 136, 20);
+		txtIsbn.setBounds(153, 102, 222, 20);
 		contentPane.add(txtIsbn);
 
 		txtAuthor = new JTextField();
 		txtAuthor.setColumns(10);
-		txtAuthor.setBounds(153, 132, 136, 20);
+		txtAuthor.setBounds(153, 132, 222, 20);
 		contentPane.add(txtAuthor);
 
 		txtPrice = new JTextField();
 		txtPrice.setColumns(10);
-		txtPrice.setBounds(153, 192, 136, 20);
+		txtPrice.setBounds(153, 192, 222, 20);
 		contentPane.add(txtPrice);
 
 	
 
 		JComboBox cCategory = new JComboBox();
 		cCategory.setModel(new DefaultComboBoxModel(new String[] { "IT", "Engineering", "Science" }));
-		cCategory.setBounds(153, 222, 136, 22);
+		cCategory.setBounds(153, 222, 222, 22);
 		contentPane.add(cCategory);
 
 
@@ -153,7 +153,7 @@ public class ManageBooksUI extends JFrame {
 			}
 		});
 		btnAdd.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnAdd.setBounds(27, 255, 85, 21);
+		btnAdd.setBounds(35, 269, 85, 21);
 		contentPane.add(btnAdd);
 
 		JButton btnDelete = new JButton("Delete");
@@ -170,7 +170,7 @@ public class ManageBooksUI extends JFrame {
 			}
 		});
 		btnDelete.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnDelete.setBounds(122, 255, 85, 21);
+		btnDelete.setBounds(130, 269, 85, 21);
 		contentPane.add(btnDelete);
 
 		JButton btnUpdate = new JButton("Update");
@@ -204,7 +204,7 @@ public class ManageBooksUI extends JFrame {
 			}
 		});
 		btnUpdate.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnUpdate.setBounds(217, 255, 85, 21);
+		btnUpdate.setBounds(225, 269, 85, 21);
 		contentPane.add(btnUpdate);
 
 		JButton btnCancel = new JButton("Cancel");
@@ -214,7 +214,7 @@ public class ManageBooksUI extends JFrame {
 			}
 		});
 		btnCancel.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnCancel.setBounds(312, 255, 85, 21);
+		btnCancel.setBounds(181, 305, 85, 21);
 		contentPane.add(btnCancel);
 		
 		JButton btnFind = new JButton("Find");
@@ -238,7 +238,7 @@ public class ManageBooksUI extends JFrame {
 			}
 		});
 		btnFind.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnFind.setBounds(174, 290, 85, 21);
+		btnFind.setBounds(320, 269, 85, 21);
 		contentPane.add(btnFind);
 		
 		JLabel lblNewLabel_1_1_1_1 = new JLabel("Published Date");
@@ -248,12 +248,12 @@ public class ManageBooksUI extends JFrame {
 		
 		txtDate = new JTextField();
 		txtDate.setColumns(10);
-		txtDate.setBounds(153, 162, 136, 20);
+		txtDate.setBounds(153, 162, 222, 20);
 		contentPane.add(txtDate);
 		
 		txtName = new JTextField();
 		txtName.setColumns(10);
-		txtName.setBounds(153, 41, 136, 20);
+		txtName.setBounds(153, 41, 222, 20);
 		contentPane.add(txtName);
 		
 		JLabel lblNewLabel_1_2 = new JLabel("Name");
