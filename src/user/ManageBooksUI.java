@@ -63,7 +63,7 @@ public class ManageBooksUI extends JFrame {
 	public ManageBooksUI() {
 		setTitle("City Bookshop - Manage Books");
 		setResizable(false);
-		setBounds(100, 100, 454, 421);
+		setBounds(100, 100, 454, 454);
 		setLocationRelativeTo(this);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -73,27 +73,27 @@ public class ManageBooksUI extends JFrame {
 		BookDB bDB = new BookDB();
 
 		JLabel lblNewLabel = new JLabel("ISBN");
-		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 12));
 		lblNewLabel.setBounds(49, 107, 71, 14);
 		contentPane.add(lblNewLabel);
 
 		JLabel lblNewLabel_1 = new JLabel("Book ID");
-		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 12));
 		lblNewLabel_1.setBounds(49, 77, 71, 14);
 		contentPane.add(lblNewLabel_1);
 
 		JLabel lblNewLabel_1_1 = new JLabel("Author");
-		lblNewLabel_1_1.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		lblNewLabel_1_1.setFont(new Font("Tahoma", Font.BOLD, 12));
 		lblNewLabel_1_1.setBounds(49, 137, 71, 14);
 		contentPane.add(lblNewLabel_1_1);
 
 		JLabel lblNewLabel_1_1_1 = new JLabel("Price");
-		lblNewLabel_1_1_1.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		lblNewLabel_1_1_1.setFont(new Font("Tahoma", Font.BOLD, 12));
 		lblNewLabel_1_1_1.setBounds(49, 197, 71, 14);
 		contentPane.add(lblNewLabel_1_1_1);
 
 		JLabel lblNewLabel_2_1 = new JLabel("Category");
-		lblNewLabel_2_1.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		lblNewLabel_2_1.setFont(new Font("Tahoma", Font.BOLD, 12));
 		lblNewLabel_2_1.setBounds(49, 227, 71, 14);
 		contentPane.add(lblNewLabel_2_1);
 
@@ -155,8 +155,8 @@ public class ManageBooksUI extends JFrame {
 
 			}
 		});
-		btnAdd.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnAdd.setBounds(49, 269, 159, 40);
+		btnAdd.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btnAdd.setBounds(40, 281, 168, 40);
 		contentPane.add(btnAdd);
 		Image add = new ImageIcon(this.getClass().getResource("/add.png")).getImage();
 		btnAdd.setIcon(new ImageIcon(add));
@@ -184,8 +184,8 @@ public class ManageBooksUI extends JFrame {
 
 			}
 		});
-		btnDelete.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnDelete.setBounds(49, 331, 159, 40);
+		btnDelete.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btnDelete.setBounds(40, 343, 168, 40);
 		contentPane.add(btnDelete);
 		Image del = new ImageIcon(this.getClass().getResource("/del.png")).getImage();
 		btnDelete.setIcon(new ImageIcon(del));
@@ -198,15 +198,15 @@ public class ManageBooksUI extends JFrame {
 				setVisible(false);
 			}
 		});
-		btnCancel.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnCancel.setBounds(218, 331, 159, 40);
+		btnCancel.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btnCancel.setBounds(218, 343, 168, 40);
 		contentPane.add(btnCancel);
 		Image cancel = new ImageIcon(this.getClass().getResource("/cancel.png")).getImage();
 		btnCancel.setIcon(new ImageIcon(cancel));
 
 		
 		JLabel lblNewLabel_1_1_1_1 = new JLabel("Published Date");
-		lblNewLabel_1_1_1_1.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		lblNewLabel_1_1_1_1.setFont(new Font("Tahoma", Font.BOLD, 12));
 		lblNewLabel_1_1_1_1.setBounds(49, 167, 94, 14);
 		contentPane.add(lblNewLabel_1_1_1_1);
 		
@@ -221,12 +221,12 @@ public class ManageBooksUI extends JFrame {
 		contentPane.add(txtName);
 		
 		JLabel lblNewLabel_1_2 = new JLabel("Name");
-		lblNewLabel_1_2.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		lblNewLabel_1_2.setFont(new Font("Tahoma", Font.BOLD, 12));
 		lblNewLabel_1_2.setBounds(49, 46, 71, 14);
 		contentPane.add(lblNewLabel_1_2);
 		
 		JButton btnUF = new JButton("Find & Update");
-		btnUF.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btnUF.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnUF.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -249,7 +249,7 @@ public class ManageBooksUI extends JFrame {
 				
 			}
 		});
-		btnUF.setBounds(218, 269, 159, 40);
+		btnUF.setBounds(218, 281, 168, 40);
 		contentPane.add(btnUF);
 		Image find = new ImageIcon(this.getClass().getResource("/find.png")).getImage();
 		btnUF.setIcon(new ImageIcon(find));
@@ -284,11 +284,17 @@ public class ManageBooksUI extends JFrame {
 				}
 			}
 		});
-		btnU.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnU.setBounds(218, 269, 159, 40);
+		btnU.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btnU.setBounds(218, 281, 168, 40);
 		contentPane.add(btnU);
 		Image up = new ImageIcon(this.getClass().getResource("/update.png")).getImage();
 		btnU.setIcon(new ImageIcon(up));
+		
+		JLabel bgMb = new JLabel("");
+		bgMb.setBounds(0, 0, 438, 415);
+		contentPane.add(bgMb);
+		Image bg = new ImageIcon(this.getClass().getResource("/bgMb.jpg")).getImage();
+		bgMb.setIcon(new ImageIcon(bg));
 
 	}
 

@@ -144,6 +144,13 @@ public class MainUI extends JFrame {
 		menuBar.add(mnhelp);
 		
 		JMenuItem mniUsermaual = new JMenuItem("User Manual");
+		mniUsermaual.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				UserManualUI um=new UserManualUI();
+				um.setVisible(true);
+				
+			}
+		});
 		mniUsermaual.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_U, InputEvent.CTRL_DOWN_MASK));
 		mnhelp.add(mniUsermaual);
 		contentPane = new JPanel();
@@ -155,10 +162,12 @@ public class MainUI extends JFrame {
 		JButton btnVb = new JButton("View Books");
 		btnVb.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				ViewBooksUI s =new ViewBooksUI();
+				s.setVisible(true);
 			}
 		});
 		btnVb.setFont(new Font("Tahoma", Font.PLAIN, 21));
-		btnVb.setBounds(298, 267, 246, 74);
+		btnVb.setBounds(335, 267, 246, 74);
 		contentPane.add(btnVb);
 		Image viewB = new ImageIcon(this.getClass().getResource("/viewB.png")).getImage();
 		btnVb.setIcon(new ImageIcon(viewB));
@@ -170,26 +179,32 @@ public class MainUI extends JFrame {
 		contentPane.add(lblNewLabel);
 
 		
-		JButton btnLogout = new JButton("Logout");
+		JButton btnLogout = new JButton("");
 		btnLogout.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		btnLogout.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				LoginUI logUI=new LoginUI();
+				logUI.setVisible(true);
+				setVisible(false);
 			}
 		});
 		Image img = new ImageIcon(this.getClass().getResource("/lout.png")).getImage();
 		btnLogout.setIcon(new ImageIcon(img));
-		btnLogout.setBounds(1134, 11, 120, 45);
+		btnLogout.setBounds(1214, 11, 40, 40);
 		contentPane.add(btnLogout);
+
 		
-		JButton btnCP = new JButton("Change Pasword");
+		JButton btnCP = new JButton("");
 		btnCP.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				ChangePasswordUI cpw=new ChangePasswordUI();
+				cpw.setVisible(true);
 			}
 		});
-		Image cp = new ImageIcon(this.getClass().getResource("/pw.png")).getImage();
+		Image cp = new ImageIcon(this.getClass().getResource("/rpw.png")).getImage();
 		btnCP.setIcon(new ImageIcon(cp));
 		btnCP.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		btnCP.setBounds(1069, 67, 185, 45);
+		btnCP.setBounds(1155, 11, 40, 40);
 		contentPane.add(btnCP);
 
 		
@@ -203,22 +218,24 @@ public class MainUI extends JFrame {
 		JLabel conStatus = new JLabel("");
 		conStatus.setForeground(Color.BLACK);
 		conStatus.setHorizontalAlignment(SwingConstants.LEFT);
-		conStatus.setBounds(10, 706, 331, 22);
+		conStatus.setBounds(10, 717, 331, 22);
 		contentPane.add(conStatus);
 		conStatus.setText(ConnectionStatus.message);
 		
-		JLabel lblNewLabel_2 = new JLabel("Books -");
-		lblNewLabel_2.setFont(new Font("Tahoma", Font.BOLD, 25));
-		lblNewLabel_2.setBounds(10, 197, 246, 45);
-		contentPane.add(lblNewLabel_2);
+		JLabel lblBooks = new JLabel("Books -");
+		lblBooks.setFont(new Font("Tahoma", Font.BOLD, 25));
+		lblBooks.setBounds(10, 197, 246, 45);
+		contentPane.add(lblBooks);
 		
 		JButton btnMb = new JButton("Manage Books");
 		btnMb.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				ManageBooksUI mb =new ManageBooksUI();
+				mb.setVisible(true);
 			}
 		});
 		btnMb.setFont(new Font("Tahoma", Font.PLAIN, 21));
-		btnMb.setBounds(293, 490, 246, 74);
+		btnMb.setBounds(49, 267, 246, 74);
 		contentPane.add(btnMb);
 		Image manageB = new ImageIcon(this.getClass().getResource("/manageB.png")).getImage();
 		btnMb.setIcon(new ImageIcon(manageB));
@@ -226,10 +243,12 @@ public class MainUI extends JFrame {
 		JButton btnVa = new JButton("View Accounts");
 		btnVa.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				ViewUserUI vu=new ViewUserUI ();
+				vu.setVisible(true);
 			}
 		});
 		btnVa.setFont(new Font("Tahoma", Font.PLAIN, 21));
-		btnVa.setBounds(10, 490, 246, 74);
+		btnVa.setBounds(335, 494, 246, 74);
 		contentPane.add(btnVa);
 		Image viewA = new ImageIcon(this.getClass().getResource("/viewA.png")).getImage();
 		btnVa.setIcon(new ImageIcon(viewA));
@@ -238,24 +257,41 @@ public class MainUI extends JFrame {
 		JButton btnMa = new JButton("Manage Accounts");
 		btnMa.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				ManageAccountUI ca=new ManageAccountUI();
+				ca.setVisible(true);
 			}
 		});
 		btnMa.setFont(new Font("Tahoma", Font.PLAIN, 21));
-		btnMa.setBounds(10, 267, 246, 74);
+		btnMa.setBounds(49, 494, 246, 74);
 		contentPane.add(btnMa);
 		Image manageA = new ImageIcon(this.getClass().getResource("/manageA.png")).getImage();
 		btnMa.setIcon(new ImageIcon(manageA));
 		
-		JLabel lblNewLabel_2_1 = new JLabel("Accounts -");
-		lblNewLabel_2_1.setFont(new Font("Tahoma", Font.BOLD, 25));
-		lblNewLabel_2_1.setBounds(10, 383, 246, 45);
-		contentPane.add(lblNewLabel_2_1);
+		JLabel lblAccounts = new JLabel("Accounts - ");
+		lblAccounts.setFont(new Font("Tahoma", Font.BOLD, 25));
+		lblAccounts.setBounds(10, 416, 246, 45);
+		contentPane.add(lblAccounts);
+		
+		JButton btnUserManual = new JButton("");
+		btnUserManual.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				UserManualUI um=new UserManualUI();
+				um.setVisible(true);
+			}
+		});
+		btnUserManual.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		btnUserManual.setBounds(1100, 11, 40, 40);
+		contentPane.add(btnUserManual);
+		Image um = new ImageIcon(this.getClass().getResource("/um.png")).getImage();
+		btnUserManual.setIcon(new ImageIcon(um));
 		
 		JLabel bgMain = new JLabel("");
 		bgMain.setBounds(0, -21, 1286, 772);
 		contentPane.add(bgMain);
 		Image bgmain = new ImageIcon(this.getClass().getResource("/bgMain.jpg")).getImage();
 		bgMain.setIcon(new ImageIcon(bgmain));
+		
+		
 		
 		Image redDot= new ImageIcon(this.getClass().getResource("/redDot.png")).getImage();
 		Image greenDot= new ImageIcon(this.getClass().getResource("/greenDot.png")).getImage();
@@ -266,9 +302,11 @@ public class MainUI extends JFrame {
 		
 		
 		
-//		if(LoginStatus.type.equals("Cashier")) {
-//			mnManageAccounts.setVisible(false);
-//
-//		}
+		if(LoginStatus.type.equals("Cashier")) {
+			mnManageAccounts.setVisible(false);
+			btnVa.setVisible(false);
+			btnMa.setVisible(false);
+			lblAccounts.setVisible(false);
+		}
 	}
 }

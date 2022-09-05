@@ -31,6 +31,10 @@ import data.UserDB;
 import data.pwdHash;
 import javax.swing.JPasswordField;
 import javax.swing.JRadioButton;
+import javax.swing.JTextPane;
+import javax.swing.JSpinner;
+import javax.swing.JList;
+import javax.swing.JScrollBar;
 
 
 public class ManageAccountUI extends JFrame {
@@ -71,7 +75,7 @@ public class ManageAccountUI extends JFrame {
 	public ManageAccountUI() {
 		setTitle("City Bookshop - Manage Accounts");
 		setResizable(false);
-		setBounds(100, 100, 450, 456);
+		setBounds(100, 100, 472, 472);
 		setLocationRelativeTo(this);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -81,38 +85,38 @@ public class ManageAccountUI extends JFrame {
 		UserDB uDB = new UserDB();
 
 		JLabel lblNewLabel = new JLabel("Address");
-		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblNewLabel.setBounds(49, 145, 71, 14);
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblNewLabel.setBounds(55, 145, 71, 14);
 		contentPane.add(lblNewLabel);
 
 		JLabel lblNewLabel_1 = new JLabel("ID");
-		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblNewLabel_1.setBounds(49, 115, 71, 14);
+		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblNewLabel_1.setBounds(55, 115, 71, 14);
 		contentPane.add(lblNewLabel_1);
 
 		JLabel lblNewLabel_1_1 = new JLabel("Contact Number");
-		lblNewLabel_1_1.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblNewLabel_1_1.setBounds(49, 175, 94, 14);
+		lblNewLabel_1_1.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblNewLabel_1_1.setBounds(55, 175, 103, 14);
 		contentPane.add(lblNewLabel_1_1);
 
 		JLabel lblNewLabel_1_1_1 = new JLabel("Password");
-		lblNewLabel_1_1_1.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblNewLabel_1_1_1.setBounds(49, 235, 71, 14);
+		lblNewLabel_1_1_1.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblNewLabel_1_1_1.setBounds(55, 235, 71, 14);
 		contentPane.add(lblNewLabel_1_1_1);
 
 		txtID = new JTextField();
-		txtID.setBounds(153, 109, 223, 20);
+		txtID.setBounds(179, 109, 223, 20);
 		contentPane.add(txtID);
 		txtID.setColumns(10);
 
 		txtAddress = new JTextField();
 		txtAddress.setColumns(10);
-		txtAddress.setBounds(153, 139, 223, 20);
+		txtAddress.setBounds(179, 140, 223, 20);
 		contentPane.add(txtAddress);
 
 		txtNum = new JTextField();
 		txtNum.setColumns(10);
-		txtNum.setBounds(153, 169, 223, 20);
+		txtNum.setBounds(179, 171, 223, 20);
 		contentPane.add(txtNum);
 
 
@@ -120,11 +124,11 @@ public class ManageAccountUI extends JFrame {
 		
 		JRadioButton rCashier = new JRadioButton("Cashier");
 		rCashier.setSelected(true);
-		rCashier.setBounds(153, 48, 85, 23);
+		rCashier.setBounds(179, 48, 85, 23);
 		contentPane.add(rCashier);
 
 		JRadioButton rManager = new JRadioButton("Manager");
-		rManager.setBounds(254, 48, 94, 23);
+		rManager.setBounds(280, 48, 94, 23);
 		contentPane.add(rManager);
 
 		ButtonGroup bg = new ButtonGroup();
@@ -132,41 +136,41 @@ public class ManageAccountUI extends JFrame {
 		bg.add(rManager);
 		
 		JLabel lblNewLabel_1_1_1_1 = new JLabel("Email");
-		lblNewLabel_1_1_1_1.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblNewLabel_1_1_1_1.setBounds(49, 205, 94, 14);
+		lblNewLabel_1_1_1_1.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblNewLabel_1_1_1_1.setBounds(55, 205, 94, 14);
 		contentPane.add(lblNewLabel_1_1_1_1);
 		
 		txtEm = new JTextField();
 		txtEm.setColumns(10);
-		txtEm.setBounds(153, 199, 223, 20);
+		txtEm.setBounds(179, 199, 223, 20);
 		contentPane.add(txtEm);
 		
 		txtName = new JTextField();
 		txtName.setColumns(10);
-		txtName.setBounds(153, 78, 223, 20);
+		txtName.setBounds(179, 78, 223, 20);
 		contentPane.add(txtName);
 		
 		JLabel lblNewLabel_1_2 = new JLabel("Name");
-		lblNewLabel_1_2.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblNewLabel_1_2.setBounds(49, 84, 71, 14);
+		lblNewLabel_1_2.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblNewLabel_1_2.setBounds(55, 84, 71, 14);
 		contentPane.add(lblNewLabel_1_2);
 		
 		JLabel lblNewLabel_1_1_1_2 = new JLabel("Confirm Password");
-		lblNewLabel_1_1_1_2.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblNewLabel_1_1_1_2.setBounds(49, 265, 103, 14);
+		lblNewLabel_1_1_1_2.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblNewLabel_1_1_1_2.setBounds(55, 265, 118, 14);
 		contentPane.add(lblNewLabel_1_1_1_2);
 		
 		txtPW = new JPasswordField();
-		txtPW.setBounds(153, 233, 223, 20);
+		txtPW.setBounds(179, 233, 223, 20);
 		contentPane.add(txtPW);
 		
 		txtCPW = new JPasswordField();
-		txtCPW.setBounds(153, 263, 223, 20);
+		txtCPW.setBounds(179, 263, 223, 20);
 		contentPane.add(txtCPW);
 		
 		JLabel lblNewLabel_1_2_1 = new JLabel("Account Type");
-		lblNewLabel_1_2_1.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblNewLabel_1_2_1.setBounds(49, 52, 94, 14);
+		lblNewLabel_1_2_1.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblNewLabel_1_2_1.setBounds(55, 52, 94, 14);
 		contentPane.add(lblNewLabel_1_2_1);
 		
 		JButton btnAdd = new JButton("Add");
@@ -214,8 +218,8 @@ public class ManageAccountUI extends JFrame {
 
 			}
 		});
-		btnAdd.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnAdd.setBounds(49, 310, 159, 40);
+		btnAdd.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btnAdd.setBounds(44, 310, 168, 40);
 		contentPane.add(btnAdd);
 		Image add = new ImageIcon(this.getClass().getResource("/add.png")).getImage();
 		btnAdd.setIcon(new ImageIcon(add));
@@ -238,8 +242,8 @@ public class ManageAccountUI extends JFrame {
 
 			}
 		});
-		btnDelete.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnDelete.setBounds(49, 366, 159, 40);
+		btnDelete.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btnDelete.setBounds(44, 366, 168, 40);
 		contentPane.add(btnDelete);
 		Image del = new ImageIcon(this.getClass().getResource("/del.png")).getImage();
 		btnDelete.setIcon(new ImageIcon(del));
@@ -277,8 +281,8 @@ public class ManageAccountUI extends JFrame {
 
 			}
 		});
-		btnUF.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnUF.setBounds(217, 310, 159, 40);
+		btnUF.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btnUF.setBounds(242, 310, 168, 40);
 		contentPane.add(btnUF);
 		Image find = new ImageIcon(this.getClass().getResource("/find.png")).getImage();
 		btnUF.setIcon(new ImageIcon(find));
@@ -327,8 +331,8 @@ public class ManageAccountUI extends JFrame {
 				
 			}
 		});
-		btnU.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnU.setBounds(217, 310, 159, 40);
+		btnU.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btnU.setBounds(242, 310, 168, 40);
 		contentPane.add(btnU);
 		Image up = new ImageIcon(this.getClass().getResource("/update.png")).getImage();
 		btnU.setIcon(new ImageIcon(up));
@@ -339,11 +343,17 @@ public class ManageAccountUI extends JFrame {
 				setVisible(false);
 			}
 		});
-		btnCancel.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnCancel.setBounds(218, 366, 159, 40);
+		btnCancel.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btnCancel.setBounds(243, 366, 168, 40);
 		contentPane.add(btnCancel);
 		Image cancel = new ImageIcon(this.getClass().getResource("/cancel.png")).getImage();
 		btnCancel.setIcon(new ImageIcon(cancel));
+		
+		JLabel bgMa = new JLabel("");
+		bgMa.setBounds(0, 0, 456, 433);
+		contentPane.add(bgMa);
+		Image bgMAccount = new ImageIcon(this.getClass().getResource("/bgMa.jpg")).getImage();
+		bgMa.setIcon(new ImageIcon(bgMAccount));
 
 	}
 

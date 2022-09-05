@@ -85,11 +85,14 @@ public class LoginUI extends JFrame {
 		contentPane.add(txtPWRD);
 		
 		btnOK = new JButton("Login");
+		btnOK.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnOK.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) { 
 				int userid=Integer.valueOf(txtUID.getText());
 				String password=txtPWRD.getText();
 				User u =uDB.get(userid); 
+				
+				//Hashing the entered password
 				String hashPW =pwdHash.getMd5(password);
 				
 				if(u!=null&& hashPW.equals(u.getPassword())) {
@@ -102,18 +105,19 @@ public class LoginUI extends JFrame {
 				}
 			}
 		});
-		btnOK.setBounds(64, 124, 110, 40);
+		btnOK.setBounds(53, 124, 120, 40);
 		contentPane.add(btnOK);
 		Image ok = new ImageIcon(this.getClass().getResource("/lin.png")).getImage();
 		btnOK.setIcon(new ImageIcon(ok));
 		
 		JButton btnCancel = new JButton("Cancel");
+		btnCancel.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnCancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.exit(0);
 			}
 		});
-		btnCancel.setBounds(210, 124, 110, 40);
+		btnCancel.setBounds(210, 124, 120, 40);
 		contentPane.add(btnCancel);
 		Image cancel = new ImageIcon(this.getClass().getResource("/cancel.png")).getImage();
 		btnCancel.setIcon(new ImageIcon(cancel));
@@ -121,7 +125,7 @@ public class LoginUI extends JFrame {
 		conStatus = new JLabel("");
 		conStatus.setForeground(Color.BLACK);
 		conStatus.setHorizontalAlignment(SwingConstants.LEFT);
-		conStatus.setBounds(10, 175, 331, 22);
+		conStatus.setBounds(10, 186, 331, 22);
 		contentPane.add(conStatus);
 		conStatus.setText(ConnectionStatus.message);
 		

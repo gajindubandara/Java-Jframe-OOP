@@ -66,34 +66,35 @@ public class ChangePasswordUI extends JFrame {
 		uDB  = new UserDB();
 		
 		JLabel lblNewLabel = new JLabel("New Password");
-		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblNewLabel.setBounds(55, 108, 106, 14);
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblNewLabel.setBounds(42, 106, 106, 14);
 		contentPane.add(lblNewLabel);
 		
 		JLabel lblUserId = new JLabel("User ID");
-		lblUserId.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblUserId.setBounds(55, 36, 106, 14);
+		lblUserId.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblUserId.setBounds(42, 34, 106, 14);
 		contentPane.add(lblUserId);
 		
 		JLabel lblConfirmPassword = new JLabel("Confirm Password");
-		lblConfirmPassword.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblConfirmPassword.setBounds(55, 142, 106, 14);
+		lblConfirmPassword.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblConfirmPassword.setBounds(42, 140, 123, 14);
 		contentPane.add(lblConfirmPassword);
 		
 		txtUID = new JTextField();
-		txtUID.setBounds(188, 34, 121, 20);
+		txtUID.setBounds(188, 34, 142, 20);
 		contentPane.add(txtUID);
 		txtUID.setColumns(10);
 		
 		txtPW = new JPasswordField();
-		txtPW.setBounds(188, 106, 121, 20);
+		txtPW.setBounds(188, 104, 142, 20);
 		contentPane.add(txtPW);
 		
 		txtCPW = new JPasswordField();
-		txtCPW.setBounds(188, 140, 121, 20);
+		txtCPW.setBounds(188, 140, 142, 20);
 		contentPane.add(txtCPW);
 		
 		JButton btnUpdate = new JButton("Update");
+		btnUpdate.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnUpdate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -144,31 +145,38 @@ public class ChangePasswordUI extends JFrame {
 			}
 			}
 		});
-		btnUpdate.setBounds(55, 197, 110, 40);
+		btnUpdate.setBounds(42, 197, 120, 40);
 		contentPane.add(btnUpdate);
 		Image up = new ImageIcon(this.getClass().getResource("/update.png")).getImage();
 		btnUpdate.setIcon(new ImageIcon(up));
 		
 		JButton btnCancel = new JButton("Cancel");
+		btnCancel.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnCancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
 			}
 		});
-		btnCancel.setBounds(207, 197, 110, 40);
+		btnCancel.setBounds(210, 197, 120, 40);
 		contentPane.add(btnCancel);
 		Image cancel = new ImageIcon(this.getClass().getResource("/cancel.png")).getImage();
 		btnCancel.setIcon(new ImageIcon(cancel));
 		
 		JLabel lblOldPassword = new JLabel("Old Password");
-		lblOldPassword.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblOldPassword.setBounds(55, 73, 106, 14);
+		lblOldPassword.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblOldPassword.setBounds(42, 71, 106, 14);
 		contentPane.add(lblOldPassword);
 		
 		txtOPW = new JTextField();
 		txtOPW.setColumns(10);
-		txtOPW.setBounds(188, 65, 121, 20);
+		txtOPW.setBounds(188, 65, 142, 20);
 		contentPane.add(txtOPW);
+		
+		JLabel bgCp = new JLabel("");
+		bgCp.setBounds(0, 0, 375, 256);
+		contentPane.add(bgCp);
+		Image bgCpw = new ImageIcon(this.getClass().getResource("/bgCp.jpg")).getImage();
+		bgCp.setIcon(new ImageIcon(bgCpw));
 	}
 	private boolean checkValid() {
 		if (txtUID.getText().equals("")) {
