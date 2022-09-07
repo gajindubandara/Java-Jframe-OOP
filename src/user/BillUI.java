@@ -1,54 +1,46 @@
 package user;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
 
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
 import business.Book;
+import business.Stock;
 import data.BookDB;
-
-
-import javax.swing.JMenuBar;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import javax.swing.KeyStroke;
-import java.awt.event.KeyEvent;
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.awt.event.InputEvent;
-import javax.swing.JTable;
-import javax.swing.DefaultListModel;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import java.awt.Font;
-import java.awt.Image;
-
-import javax.swing.JTextField;
-import javax.swing.JLabel;
-import javax.swing.SwingConstants;
-import javax.swing.JList;
-import javax.swing.JComboBox;
+import data.StockDB;
 
 public class BillUI extends JFrame {
 
 	private JPanel contentPane;
-	private DefaultTableModel tblModel;
 	private BookDB bDB;
+	private StockDB sDB;
 	private JLabel bgView;
-	
+
 	HashMap<String, String> product_and_price;
-    
-    DefaultListModel<String> product_name_bill, product_quantity_bill,product_price_bill;
+
+	private JTable tblBill;
+	private DefaultTableModel tblModel;
+	int amount = 0;
+	int product_quantity = 0;
+	int id = 0;
 
 	/**
 	 * Launch the application.
@@ -72,159 +64,174 @@ public class BillUI extends JFrame {
 	public BillUI() {
 		setResizable(false);
 		setTitle("City Bookshop - Book List");
-		setBounds(100, 100, 715, 641);
-		
+		setBounds(100, 100, 560, 526);
+
 		BookDB bDB = new BookDB();
-		
+		StockDB sDB = new StockDB();
+
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setLocationRelativeTo(this);
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
-		  
-//		
-//		bgView = new JLabel("");
-//		bgView.setBounds(0, 0, 1008, 599);
-//		contentPane.add(bgView);
-//		Image bgV = new ImageIcon(this.getClass().getResource("/bgViewBA.jpg")).getImage();
-//		bgView.setIcon(new ImageIcon(bgV));
-		
-		JList product_bill = new JList();
-		product_bill.setBounds(54, 220, 175, 297);
-		contentPane.add(product_bill);
-		
-		JLabel lblNewLabel = new JLabel("Item");
-		lblNewLabel.setBounds(54, 205, 46, 14);
-		contentPane.add(lblNewLabel);
-		
-		JLabel lblQty = new JLabel("Qty");
-		lblQty.setBounds(252, 205, 46, 14);
-		contentPane.add(lblQty);
-		
-		JList product_quantity = new JList();
-		product_quantity.setBounds(252, 220, 175, 297);
-		contentPane.add(product_quantity);
-		
-		JLabel lblNewLabel_1_1 = new JLabel("Cost");
-		lblNewLabel_1_1.setBounds(452, 205, 46, 14);
-		contentPane.add(lblNewLabel_1_1);
-		
-		JList product_price = new JList();
-		product_price.setBounds(452, 220, 175, 297);
-		contentPane.add(product_price);
-		
-		JLabel lblNewLabel_1 = new JLabel("Total:");
-		lblNewLabel_1.setBounds(310, 550, 46, 14);
-		contentPane.add(lblNewLabel_1);
-		
 
-		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(61, 187, 431, 175);
+		contentPane.add(scrollPane);
+
+		tblBill = new JTable();
+		tblBill.setBounds(63, 334, 549, 175);
+		scrollPane.setViewportView(tblBill);
+
+		tblModel = new DefaultTableModel();
+		scrollPane.setViewportView(tblBill);
+		tblBill.setModel(tblModel);
+
+		tblModel.addColumn("Book");
+		tblModel.addColumn("Quantity");
+		tblModel.addColumn("Price");
+
+		JLabel lblNewLabel_1 = new JLabel("Total:");
+		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 20));
+		lblNewLabel_1.setBounds(61, 386, 89, 23);
+		contentPane.add(lblNewLabel_1);
+
 		JLabel lblNewLabel_2 = new JLabel("Price");
 		lblNewLabel_2.setBounds(287, 41, 46, 14);
 		contentPane.add(lblNewLabel_2);
-		
-		JLabel price_per_unit_label = new JLabel("Rs.");
-		price_per_unit_label.setBounds(287, 66, 69, 14);
-		contentPane.add(price_per_unit_label);
-		
+
+		JLabel bookPrice = new JLabel("");
+		bookPrice.setBounds(308, 66, 113, 22);
+		contentPane.add(bookPrice);
+
 		JLabel lblNewLabel_2_1 = new JLabel("Product name");
-		lblNewLabel_2_1.setBounds(54, 41, 105, 14);
+		lblNewLabel_2_1.setBounds(40, 41, 181, 14);
 		contentPane.add(lblNewLabel_2_1);
-		
+
 		JLabel lblNewLabel_2_1_1 = new JLabel("Quantity");
-		lblNewLabel_2_1_1.setBounds(503, 41, 46, 14);
+		lblNewLabel_2_1_1.setBounds(452, 41, 46, 14);
 		contentPane.add(lblNewLabel_2_1_1);
-		
-		JComboBox product_list = new JComboBox();
-		product_list.addActionListener(new ActionListener() {
+
+		JComboBox books = new JComboBox();
+		books.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				price_per_unit_label.setText(product_and_price.get(product_list.getSelectedItem()));
+				bookPrice.setText(product_and_price.get(books.getSelectedItem()));
 			}
 		});
-		product_list.setBounds(54, 66, 132, 22);
-		contentPane.add(product_list);
-		
-		JComboBox quantity_list = new JComboBox();
-		quantity_list.setBounds(459, 66, 132, 22);
-		contentPane.add(quantity_list);
-		
-		JLabel total_amount = new JLabel("amount");
-		total_amount.setBounds(427, 550, 71, 14);
+		books.setBounds(40, 66, 206, 22);
+		contentPane.add(books);
+
+		JComboBox bookQty = new JComboBox();
+		bookQty.setBounds(452, 66, 56, 22);
+		contentPane.add(bookQty);
+
+		JLabel total_amount = new JLabel("");
+		total_amount.setFont(new Font("Tahoma", Font.BOLD, 20));
+		total_amount.setBounds(128, 386, 194, 23);
 		contentPane.add(total_amount);
-		
-//		tblModel.addColumn("ID");
-//		tblModel.addColumn("Name");
-//		tblModel.addColumn("ISBN");
-//		tblModel.addColumn("Author");
-//		tblModel.addColumn("Date");
-//		tblModel.addColumn("Price");
-		
 
-		  product_and_price = new HashMap<String, String>();
+		product_and_price = new HashMap<String, String>();
 
-		  
-		  
-		  try {
-				ArrayList<Book> bList = bDB.getAll();
-//				tblModel.setRowCount(0);
-				for (Book b : bList) {
-					int ID = b.getBookID();
-					String name =b.getName();
-					String isbn =b.getIsbn();
-					String author=b.getAuthor();
-					Date date=b.getDate();
-					String price=b.getPrice();
-							
-	
-//					tblModel.addRow(new Object[] { ID,name,isbn,author,date,price});
-					 product_and_price.put(name, price);
+		try {
+			ArrayList<Book> bList = bDB.getAll();
+			for (Book b : bList) {
+				String name = b.getName();
+				String price = b.getPrice();
+				int bookId = b.getBookID();
+
+				product_and_price.put(name, price);
+			}
+		} catch (Exception ex) {
+			System.err.println(ex.getMessage());
+
+		}
+
+		product_and_price.forEach((key, value) -> {
+			books.addItem(key);
+		});
+		for (int i = 1; i <= 10; i++) {
+			bookQty.addItem(Integer.toString(i));
+		}
+
+		JButton btnAdd = new JButton("Add");
+		btnAdd.addActionListener(new ActionListener() {
+			Integer[] price_list = {};
+			List<Integer> arrayPrice = new ArrayList<Integer>(Arrays.asList(price_list));
+
+			public void actionPerformed(ActionEvent e) {
+				String book = (String) books.getSelectedItem();
+				String qty = (String) bookQty.getSelectedItem();
+				int unit_price = Integer.valueOf(bookPrice.getText());
+				product_quantity = Integer.parseInt((String) bookQty.getSelectedItem());
+
+				Book b = bDB.getBookByName(book);
+				id = b.getBookID();
+				Stock stock = sDB.getStock(id);
+				amount = Integer.valueOf(stock.getsAmount());
+
+				if (amount >= product_quantity) {
+
+					int total_for_product = unit_price * product_quantity;
+					int total_cost = 0;
+
+					tblModel.addRow(new Object[] { book, qty, total_for_product });
+					arrayPrice.add(total_for_product);
+					price_list = arrayPrice.toArray(price_list);
+
+					for (int counter = 0; counter < arrayPrice.size(); counter++) {
+						int price = arrayPrice.get(counter);
+						total_cost = total_cost + price;
+					}
+					total_amount.setText("Rs." + String.valueOf(total_cost) + ".00/-");
+					bookQty.setSelectedIndex(0);
+
+				} else {
+
+					JOptionPane.showMessageDialog(null, "There aren't enough books in stock", "Alert",
+							JOptionPane.WARNING_MESSAGE);
 				}
 			}
-			catch(Exception ex) {
-				System.err.println(ex.getMessage());
-				
+		});
+		btnAdd.setBounds(187, 121, 168, 40);
+		contentPane.add(btnAdd);
+		Image add = new ImageIcon(this.getClass().getResource("/add.png")).getImage();
+		btnAdd.setIcon(new ImageIcon(add));
+
+		JButton btnOk = new JButton("Ok");
+		btnOk.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String currentStock = String.valueOf(amount - product_quantity);
+				Stock s = new Stock(id, currentStock);
+				int result = sDB.updateStock(s);
+				JOptionPane.showMessageDialog(null, "Purchase Successful!", "Alert", JOptionPane.INFORMATION_MESSAGE);
+				setVisible(false);
 			}
-		  
-		  
-		  
-		  product_and_price.forEach((key,value)->
-	        {
-	            product_list.addItem(key);
-	        });
-		  for(int i=1; i<=10; i++)
-	        {
-	            quantity_list.addItem(Integer.toString(i));
-	        }
-		  
-	
-		  
-			JButton add_product = new JButton("Add");
-			add_product.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					 product_name_bill.addElement((String) product_list.getSelectedItem());
-					 System.out.println(product_list.getSelectedItem());
-			            product_quantity_bill.addElement((String) quantity_list.getSelectedItem());
-			            int unit_price = Integer.parseInt(product_and_price.get(product_list.getSelectedItem()));
-			            System.out.println(unit_price);
-			            int product_quantity = Integer.parseInt((String) quantity_list.getSelectedItem());
-			            int total_for_product = unit_price*product_quantity; 
-			            int total_cost = 0;
-			            product_price_bill.addElement(Integer.toString(total_for_product));
-			            
-			            for(int i=0;i<product_price_bill.getSize();i++)
-			            {
-			                total_cost += Integer.parseInt(product_price_bill.getElementAt(i));
-			            }
-			            
-			            total_amount.setText(Integer.toString(total_cost));
-				}
-			});
-			add_product.setBounds(299, 157, 89, 23);
-			contentPane.add(add_product);
-		  
-		  
-		  
-		
+		});
+		btnOk.setBounds(389, 373, 103, 40);
+		contentPane.add(btnOk);
+		Image ok = new ImageIcon(this.getClass().getResource("/ok.png")).getImage();
+		btnOk.setIcon(new ImageIcon(ok));
+
+		JButton btnCancel = new JButton("Cancel");
+		btnCancel.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				setVisible(false);
 			}
+		});
+		btnCancel.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btnCancel.setBounds(187, 436, 168, 40);
+		contentPane.add(btnCancel);
+		Image cancel = new ImageIcon(this.getClass().getResource("/cancel.png")).getImage();
+		btnCancel.setIcon(new ImageIcon(cancel));
+
+		JLabel lblNewLabel = new JLabel("Rs.");
+		lblNewLabel.setBounds(287, 66, 18, 22);
+		contentPane.add(lblNewLabel);
+
+		bgView = new JLabel("");
+		bgView.setBounds(0, 0, 1008, 599);
+		contentPane.add(bgView);
+		Image bgBill = new ImageIcon(this.getClass().getResource("/bgMedium.jpg")).getImage();
+		bgView.setIcon(new ImageIcon(bgBill));
+	}
 }

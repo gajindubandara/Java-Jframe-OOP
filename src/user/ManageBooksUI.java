@@ -1,30 +1,30 @@
 package user;
 
-
 import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.Image;
-
-import javax.swing.JTextField;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import javax.swing.JOptionPane;
-import javax.swing.JComboBox;
-import javax.swing.ButtonGroup;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.ImageIcon;
-
+import java.awt.event.ActionListener;
 import java.sql.Date;
+import java.util.ArrayList;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
 import business.Book;
+import business.Category;
+import business.Stock;
 import data.BookDB;
+import data.CategoryDB;
+import data.StockDB;
 
 public class ManageBooksUI extends JFrame {
 
@@ -38,9 +38,11 @@ public class ManageBooksUI extends JFrame {
 	protected JLabel GetAllText;
 	private DefaultTableModel tblModel;
 	private JTextField txtName;
-	
+
 	private BookDB bDB;
-	
+	private CategoryDB cDB;
+	private StockDB sDB;
+
 	/**
 	 * Launch the application.
 	 */
@@ -71,6 +73,8 @@ public class ManageBooksUI extends JFrame {
 		contentPane.setLayout(null);
 
 		BookDB bDB = new BookDB();
+		CategoryDB cDB = new CategoryDB();
+		StockDB sDB = new StockDB();
 
 		JLabel lblNewLabel = new JLabel("ISBN");
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 12));
@@ -117,39 +121,57 @@ public class ManageBooksUI extends JFrame {
 		txtPrice.setBounds(153, 192, 222, 20);
 		contentPane.add(txtPrice);
 
-	
-
 		JComboBox cCategory = new JComboBox();
-		cCategory.setModel(new DefaultComboBoxModel(new String[] { "IT", "Engineering", "Science" }));
 		cCategory.setBounds(153, 222, 222, 22);
 		contentPane.add(cCategory);
 
+		try {
+			ArrayList<Category> cList = cDB.getAll();
+			for (Category c : cList) {
+				int ID = c.getCategoryId();
+				String name = c.getCategoryName();
+				cCategory.addItem(name);
+			}
+
+		} catch (Exception ex) {
+			System.err.println(ex.getMessage());
+		}
 
 		JButton btnAdd = new JButton("Add");
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
 				if (checkValid()) {
-					int id=Integer.valueOf(txtID.getText());
+					int id = Integer.valueOf(txtID.getText());
 					String name = txtName.getText();
 					String isbn = txtIsbn.getText();
 					String author = txtAuthor.getText();
-					Date bdate =Date.valueOf(txtDate.getText());
+					Date bdate = Date.valueOf(txtDate.getText());
 					String price = txtPrice.getText();
+					String category = String.valueOf(cCategory.getSelectedItem());
 
-					Book b = new Book(id,name,isbn,author,bdate,price);
-					int result = bDB.addBook(b);
+					Category c = cDB.getByCategory(category);
+					if (c != null) {
+						int categoryId = c.getCategoryId();
+						Book b = new Book(id, name, isbn, author, bdate, price, categoryId);
+						int result = bDB.addBook(b);
+						if (result == 1) {
+							String noOfBooks = "0";
+							Stock s = new Stock(id, noOfBooks);
+							sDB.addStock(s);
 
-					if (result == 1) {
-						JOptionPane.showMessageDialog(null, "New Record is added","Alert",JOptionPane.INFORMATION_MESSAGE);
-						txtID.setText("");
-						txtName.setText("");
-						txtIsbn.setText("");
-						txtAuthor.setText("");
-						txtDate.setText("");
-						txtPrice.setText("");
-					} else {
-						JOptionPane.showMessageDialog(null, "New Record is not added","Alert",JOptionPane.ERROR_MESSAGE);
+							JOptionPane.showMessageDialog(null, "New Record is added", "Alert",
+									JOptionPane.INFORMATION_MESSAGE);
+							txtID.setText("");
+							txtName.setText("");
+							txtIsbn.setText("");
+							txtAuthor.setText("");
+							txtDate.setText("");
+							txtPrice.setText("");
+						} else {
+							JOptionPane.showMessageDialog(null, "New Record is not added", "Alert",
+									JOptionPane.ERROR_MESSAGE);
+						}
 					}
 				}
 
@@ -164,23 +186,22 @@ public class ManageBooksUI extends JFrame {
 		JButton btnDelete = new JButton("Delete");
 		btnDelete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int id = Integer.valueOf( JOptionPane.showInputDialog("Enter the Book ID"));
-				
-				 JFrame f=new JFrame(); 
-				int a=JOptionPane.showConfirmDialog(f,"Are you sure?");  
-				 
-				if(a==JOptionPane.YES_OPTION){  
-				    f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
-				    int result = bDB.deleteBook(id);
+				int id = Integer.valueOf(JOptionPane.showInputDialog("Enter the Book ID"));
+
+				JFrame f = new JFrame();
+				int a = JOptionPane.showConfirmDialog(f, "Are you sure?");
+
+				if (a == JOptionPane.YES_OPTION) {
+					f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+					int result = bDB.deleteBook(id);
 					if (result == 1) {
-						JOptionPane.showMessageDialog(null, "The Book is deleted","Alert",JOptionPane.INFORMATION_MESSAGE);
+						JOptionPane.showMessageDialog(null, "The Book is deleted", "Alert",
+								JOptionPane.INFORMATION_MESSAGE);
 					} else {
-						JOptionPane.showMessageDialog(null, "The Book is not deleted","Alert",JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null, "The Book is not deleted", "Alert",
+								JOptionPane.ERROR_MESSAGE);
 					}
 				}
-				
-				  
-				
 
 			}
 		});
@@ -189,8 +210,6 @@ public class ManageBooksUI extends JFrame {
 		contentPane.add(btnDelete);
 		Image del = new ImageIcon(this.getClass().getResource("/del.png")).getImage();
 		btnDelete.setIcon(new ImageIcon(del));
-
-
 
 		JButton btnCancel = new JButton("Cancel");
 		btnCancel.addActionListener(new ActionListener() {
@@ -204,35 +223,33 @@ public class ManageBooksUI extends JFrame {
 		Image cancel = new ImageIcon(this.getClass().getResource("/cancel.png")).getImage();
 		btnCancel.setIcon(new ImageIcon(cancel));
 
-		
 		JLabel lblNewLabel_1_1_1_1 = new JLabel("Published Date");
 		lblNewLabel_1_1_1_1.setFont(new Font("Tahoma", Font.BOLD, 12));
 		lblNewLabel_1_1_1_1.setBounds(49, 167, 94, 14);
 		contentPane.add(lblNewLabel_1_1_1_1);
-		
+
 		txtDate = new JTextField();
 		txtDate.setColumns(10);
 		txtDate.setBounds(153, 162, 222, 20);
 		contentPane.add(txtDate);
-		
+
 		txtName = new JTextField();
 		txtName.setColumns(10);
 		txtName.setBounds(153, 41, 222, 20);
 		contentPane.add(txtName);
-		
+
 		JLabel lblNewLabel_1_2 = new JLabel("Name");
 		lblNewLabel_1_2.setFont(new Font("Tahoma", Font.BOLD, 12));
 		lblNewLabel_1_2.setBounds(49, 46, 71, 14);
 		contentPane.add(lblNewLabel_1_2);
-		
+
 		JButton btnUF = new JButton("Find & Update");
 		btnUF.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnUF.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
 
 				int id = Integer.valueOf(JOptionPane.showInputDialog("Enter the Book ID"));
-				Book b = bDB.get(id);
+				Book b = bDB.getBook(id);
 				if (b != null) {
 					txtName.setText(b.getName());
 					txtID.setText(String.valueOf(b.getBookID()));
@@ -241,46 +258,61 @@ public class ManageBooksUI extends JFrame {
 					txtAuthor.setText(b.getAuthor());
 					txtDate.setText(String.valueOf(b.getDate()));
 					txtPrice.setText(b.getPrice());
-					btnUF.setVisible(false);
 
-				}else {
-					JOptionPane.showMessageDialog(null, "No book for this ID number","Alert",JOptionPane.ERROR_MESSAGE);
+					Category c = cDB.getCategory(b.getCategory());
+					if (c != null) {
+						String categoryName = c.getCategoryName();
+						cCategory.setSelectedItem(c.getCategoryName());
+						btnUF.setVisible(false);
+					}
+				} else {
+					JOptionPane.showMessageDialog(null, "No book for this ID number", "Alert",
+							JOptionPane.ERROR_MESSAGE);
 				}
-				
+
 			}
 		});
 		btnUF.setBounds(218, 281, 168, 40);
 		contentPane.add(btnUF);
 		Image find = new ImageIcon(this.getClass().getResource("/find.png")).getImage();
 		btnUF.setIcon(new ImageIcon(find));
-		
+
 		JButton btnU = new JButton("Update");
 		btnU.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (checkValid()) {
-					int id=Integer.valueOf(txtID.getText());
+					int id = Integer.valueOf(txtID.getText());
 					String name = txtName.getText();
 					String isbn = txtIsbn.getText();
 					String author = txtAuthor.getText();
-					Date bdate =Date.valueOf(txtDate.getText());
+					Date bdate = Date.valueOf(txtDate.getText());
 					String price = txtPrice.getText();
-
-					Book b = new Book(id,name,isbn,author,bdate,price);
-					int result = bDB.updateBook(b);
-					if (result == 1) {
-						JOptionPane.showMessageDialog(null, "The Book is updated","Alert",JOptionPane.INFORMATION_MESSAGE);
-						txtID.setText("");
-						txtID.setEnabled(true);
-						txtName.setText("");
-						txtIsbn.setText("");
-						txtAuthor.setText("");
-						txtDate.setText("");
-						txtPrice.setText("");
-						btnU.setVisible(false);
-						btnUF.setVisible(true);
-					} else {
-						JOptionPane.showMessageDialog(null, "The Book is not updated","Alert",JOptionPane.ERROR_MESSAGE);
+					String category = String.valueOf(cCategory.getSelectedItem()); // sinhala
+					System.out.println(category);
+					Category c = cDB.getByCategory(category);
+					if (c != null) {
+						int categoryId = c.getCategoryId();
+						System.out.println(categoryId);
+						Book b = new Book(id, name, isbn, author, bdate, price, categoryId);
+						int result = bDB.updateBook(b);
+						if (result == 1) {
+							JOptionPane.showMessageDialog(null, "The Book is updated", "Alert",
+									JOptionPane.INFORMATION_MESSAGE);
+							txtID.setText("");
+							txtID.setEnabled(true);
+							txtName.setText("");
+							txtIsbn.setText("");
+							txtAuthor.setText("");
+							txtDate.setText("");
+							txtPrice.setText("");
+							btnU.setVisible(false);
+							btnUF.setVisible(true);
+						} else {
+							JOptionPane.showMessageDialog(null, "The Book is not updated", "Alert",
+									JOptionPane.ERROR_MESSAGE);
+						}
 					}
+
 				}
 			}
 		});
@@ -289,7 +321,7 @@ public class ManageBooksUI extends JFrame {
 		contentPane.add(btnU);
 		Image up = new ImageIcon(this.getClass().getResource("/update.png")).getImage();
 		btnU.setIcon(new ImageIcon(up));
-		
+
 		JLabel bgMb = new JLabel("");
 		bgMb.setBounds(0, 0, 438, 415);
 		contentPane.add(bgMb);
@@ -310,7 +342,7 @@ public class ManageBooksUI extends JFrame {
 		try {
 			int id = Integer.valueOf(txtID.getText());
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(this, "Book ID must be numeric","Alert",JOptionPane.WARNING_MESSAGE);
+			JOptionPane.showMessageDialog(this, "Book ID must be numeric", "Alert", JOptionPane.WARNING_MESSAGE);
 			return false;
 		}
 		if (txtIsbn.getText().equals("")) {
@@ -325,7 +357,8 @@ public class ManageBooksUI extends JFrame {
 		try {
 			Date date = Date.valueOf(txtDate.getText());
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(this, "Date of birth must be in YYYY-MM-DD format","Alert",JOptionPane.WARNING_MESSAGE);
+			JOptionPane.showMessageDialog(this, "Date of birth must be in YYYY-MM-DD format", "Alert",
+					JOptionPane.WARNING_MESSAGE);
 			return false;
 		}
 
@@ -333,11 +366,11 @@ public class ManageBooksUI extends JFrame {
 			JOptionPane.showMessageDialog(this, "Price cannot be blank");
 			return false;
 		}
-		
+
 		try {
 			int price = Integer.valueOf(txtPrice.getText());
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(this, "Price must be numeric: Ex- 100","Alert",JOptionPane.WARNING_MESSAGE);
+			JOptionPane.showMessageDialog(this, "Price must be numeric: Ex- 100", "Alert", JOptionPane.WARNING_MESSAGE);
 			return false;
 		}
 

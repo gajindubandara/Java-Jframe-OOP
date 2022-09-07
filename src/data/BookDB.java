@@ -1,19 +1,18 @@
 package data;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
-import java.sql.*;
-
 import business.Book;
 import user.ConnectionStatus;
-import user.LoginStatus;
 
 public class BookDB implements IBook {
 	private Connection con;
@@ -26,43 +25,43 @@ public class BookDB implements IBook {
 			con = DriverManager.getConnection(url, user, password);
 			if (con != null) {
 				System.out.println("Database connected successfully");
-				ConnectionStatus.message="Database connected successfully";
-				ConnectionStatus.status=true;
+				ConnectionStatus.message = "Database connected successfully";
+				ConnectionStatus.status = true;
 
 			} else {
 				System.out.println("Database connection failed");
-				
+
 			}
 
 		} catch (SQLException e) {
 			System.err.println(e.getMessage());
-			ConnectionStatus.message="Database connection failed";
-			ConnectionStatus.status=false;
+			ConnectionStatus.message = "Database connection failed";
+			ConnectionStatus.status = false;
 		}
 	}
-	
+
 	@Override
 	public int addBook(Book ob) {
-		String insert = "INSERT INTO book( name, isbn,author, date, price,ID) VALUES (?,?,?,?,?,?)";
+		String insert = "INSERT INTO book( name, isbn,author, date, price,ID,category) VALUES (?,?,?,?,?,?,?)";
 		try {
 			PreparedStatement ps = con.prepareStatement(insert);
 			ps.setString(1, ob.getName());
-			ps.setString(2,ob.getIsbn());
-			ps.setString(3,ob.getAuthor());
-			ps.setDate(4,ob.getDate());
-			ps.setString(5,ob.getPrice());
-			ps.setInt(6,ob.getBookID());
-			
-			
+			ps.setString(2, ob.getIsbn());
+			ps.setString(3, ob.getAuthor());
+			ps.setDate(4, ob.getDate());
+			ps.setString(5, ob.getPrice());
+			ps.setInt(6, ob.getBookID());
+			ps.setInt(7, ob.getCategory());
+
 			int result = ps.executeUpdate();
 			ps.close();
 			return result;
-		} 
-		catch (SQLException e) {
+		} catch (SQLException e) {
 			if (e instanceof SQLIntegrityConstraintViolationException) {
-				JOptionPane.showMessageDialog(null, "There is an existing Book for the above ID. Please check again!","Alert",JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, "There is an existing Book for the above ID. Please check again!",
+						"Alert", JOptionPane.ERROR_MESSAGE);
 				return 0;
-		    } 
+			}
 			return 0;
 		}
 //		catch (SQLException e) {
@@ -88,7 +87,7 @@ public class BookDB implements IBook {
 
 	@Override
 	public int updateBook(Book ob) {
-		String update = "UPDATE book set name=?, isbn=?,author=?, date=?, price=? WHERE ID=? ";
+		String update = "UPDATE book set name=?, isbn=?,author=?, date=?, price=?,category=? WHERE ID=? ";
 
 		try {
 			PreparedStatement ps = con.prepareStatement(update);
@@ -96,9 +95,9 @@ public class BookDB implements IBook {
 			ps.setString(2, ob.getIsbn());
 			ps.setString(3, ob.getAuthor());
 			ps.setDate(4, ob.getDate());
-			ps.setString(5,ob.getPrice());
-			ps.setInt(6, ob.getBookID());
-
+			ps.setString(5, ob.getPrice());
+			ps.setInt(6, ob.getCategory());
+			ps.setInt(7, ob.getBookID());
 
 			int result = ps.executeUpdate();
 			ps.close();
@@ -110,7 +109,7 @@ public class BookDB implements IBook {
 	}
 
 	@Override
-	public Book get(int id) {
+	public Book getBook(int id) {
 		Book b = null;
 		String select = "SELECT * FROM book WHERE ID=?";
 		try {
@@ -118,14 +117,15 @@ public class BookDB implements IBook {
 			ps.setInt(1, id);
 			ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
-				int ID=rs.getInt("ID");
-				String name =rs.getString("name");
-				String isbn =rs.getString("isbn");
-				String author =rs.getString("author");
-				Date rdate =rs.getDate("date");
-				String price =rs.getString("price");
-			
-				b = new Book(ID,name,isbn,author,rdate,price);
+				int ID = rs.getInt("ID");
+				String name = rs.getString("name");
+				String isbn = rs.getString("isbn");
+				String author = rs.getString("author");
+				Date rdate = rs.getDate("date");
+				String price = rs.getString("price");
+				int category = rs.getInt("category");
+
+				b = new Book(ID, name, isbn, author, rdate, price, category);
 			}
 			rs.close();
 			ps.close();
@@ -145,13 +145,14 @@ public class BookDB implements IBook {
 			PreparedStatement ps = con.prepareStatement(select);
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
-				int ID=rs.getInt("ID");
-				String name =rs.getString("name");
-				String isbn =rs.getString("isbn");
-				String author =rs.getString("author");
-				Date rdate =rs.getDate("date");
-				String price =rs.getString("price");
-				Book c = new Book(ID,name,isbn,author,rdate,price);
+				int ID = rs.getInt("ID");
+				String name = rs.getString("name");
+				String isbn = rs.getString("isbn");
+				String author = rs.getString("author");
+				Date rdate = rs.getDate("date");
+				String price = rs.getString("price");
+				int category = rs.getInt("category");
+				Book c = new Book(ID, name, isbn, author, rdate, price, category);
 				BList.add(c);
 			}
 			rs.close();
@@ -163,6 +164,34 @@ public class BookDB implements IBook {
 			return null;
 		}
 	}
-	
+
+	@Override
+	public Book getBookByName(String name) {
+		Book b = null;
+		String select = "SELECT * FROM book WHERE name=?";
+		try {
+			PreparedStatement ps = con.prepareStatement(select);
+			ps.setString(1, name);
+			ResultSet rs = ps.executeQuery();
+			if (rs.next()) {
+				int ID = rs.getInt("ID");
+				String bookName = rs.getString("name");
+				String isbn = rs.getString("isbn");
+				String author = rs.getString("author");
+				Date rdate = rs.getDate("date");
+				String price = rs.getString("price");
+				int category = rs.getInt("category");
+
+				b = new Book(ID, bookName, isbn, author, rdate, price, category);
+			}
+			rs.close();
+			ps.close();
+			return b;
+
+		} catch (SQLException e) {
+			System.err.println(e.getMessage());
+			return null;
+		}
+	}
 
 }

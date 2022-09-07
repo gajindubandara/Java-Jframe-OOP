@@ -111,7 +111,7 @@ public class ChangePasswordUI extends JFrame {
 				String oldpassword = txtOPW.getText();
 				
 		
-				User user =uDB.get(uid);
+				User user =uDB.getUser(uid);
 				
 				if(password.equals(cpassword)) {
 					String newHashPW =pwdHash.getMd5(password);
@@ -124,7 +124,7 @@ public class ChangePasswordUI extends JFrame {
 
 						if(user.getPassword().equals(oldHashPW) && Integer.valueOf(user.getUserID()).equals(uid)) {
 							User userPW =new User(uid,name,address,num,un,newHashPW,type);
-							int result=uDB.updatepw(userPW);
+							int result=uDB.updateUserPw(userPW);
 							if(result>0) {
 								 JOptionPane.showMessageDialog(null,"Password is updated","Alert",JOptionPane.INFORMATION_MESSAGE);   
 								txtOPW.setText("");

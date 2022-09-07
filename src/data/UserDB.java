@@ -111,7 +111,7 @@ private Connection con;
 
 
 	@Override
-	public User get(int id) {
+	public User getUser(int id) {
 		User c = null;
 		String select = "SELECT * FROM user WHERE ID=?";
 		try {
@@ -170,7 +170,7 @@ private Connection con;
 
 
 	@Override
-	public int updatepw(User ob) {
+	public int updateUserPw(User ob) {
 		String update = "UPDATE user set  password=? WHERE ID=?  ";		
 		try {
 			PreparedStatement ps = con.prepareStatement(update);

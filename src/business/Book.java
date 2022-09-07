@@ -9,18 +9,20 @@ public class Book {
 	private String author;
 	private Date date;
 	private String price;
+	private int category;
 	
 	public Book() {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public Book(int bookID, String name, String isbn, String author,Date date,String price) {
+	public Book(int bookID, String name, String isbn, String author,Date date,String price,int category) {
 		this.bookID=bookID;
 		this.name=name;
 		this.isbn=isbn;
 		this.author=author;
 		this.date=date;
 		this.price=price;
+		this.category=category;
 	}
 
 	public int getBookID() {
@@ -66,6 +68,14 @@ public class Book {
 
 	public void setPrice(String price) {
 		this.price = price;
+	}
+
+	public int getCategory() {
+		return category;
+	}
+
+	public void setCategory(int category) {
+		this.category = category;
 	}
 	
 	

@@ -1,41 +1,28 @@
 package user;
 
-
 import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.Image;
-
-import javax.swing.JTextField;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.math.BigInteger;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.awt.event.ActionEvent;
-import javax.swing.JOptionPane;
-import javax.swing.JComboBox;
-import javax.swing.ButtonGroup;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.ImageIcon;
+import java.awt.event.ActionListener;
 
-import java.sql.Date;
+import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JRadioButton;
+import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
 import business.User;
 import data.UserDB;
 import data.pwdHash;
-import javax.swing.JPasswordField;
-import javax.swing.JRadioButton;
-import javax.swing.JTextPane;
-import javax.swing.JSpinner;
-import javax.swing.JList;
-import javax.swing.JScrollBar;
-
 
 public class ManageAccountUI extends JFrame {
 
@@ -48,11 +35,11 @@ public class ManageAccountUI extends JFrame {
 	protected JLabel GetAllText;
 	private DefaultTableModel tblModel;
 	private JTextField txtName;
-	
+
 	private UserDB uDB;
 	private JPasswordField txtPW;
 	private JPasswordField txtCPW;
-	
+
 	/**
 	 * Launch the application.
 	 */
@@ -119,9 +106,6 @@ public class ManageAccountUI extends JFrame {
 		txtNum.setBounds(179, 171, 223, 20);
 		contentPane.add(txtNum);
 
-
-		
-		
 		JRadioButton rCashier = new JRadioButton("Cashier");
 		rCashier.setSelected(true);
 		rCashier.setBounds(179, 48, 85, 23);
@@ -134,72 +118,72 @@ public class ManageAccountUI extends JFrame {
 		ButtonGroup bg = new ButtonGroup();
 		bg.add(rCashier);
 		bg.add(rManager);
-		
+
 		JLabel lblNewLabel_1_1_1_1 = new JLabel("Email");
 		lblNewLabel_1_1_1_1.setFont(new Font("Tahoma", Font.BOLD, 12));
 		lblNewLabel_1_1_1_1.setBounds(55, 205, 94, 14);
 		contentPane.add(lblNewLabel_1_1_1_1);
-		
+
 		txtEm = new JTextField();
 		txtEm.setColumns(10);
 		txtEm.setBounds(179, 199, 223, 20);
 		contentPane.add(txtEm);
-		
+
 		txtName = new JTextField();
 		txtName.setColumns(10);
 		txtName.setBounds(179, 78, 223, 20);
 		contentPane.add(txtName);
-		
+
 		JLabel lblNewLabel_1_2 = new JLabel("Name");
 		lblNewLabel_1_2.setFont(new Font("Tahoma", Font.BOLD, 12));
 		lblNewLabel_1_2.setBounds(55, 84, 71, 14);
 		contentPane.add(lblNewLabel_1_2);
-		
+
 		JLabel lblNewLabel_1_1_1_2 = new JLabel("Confirm Password");
 		lblNewLabel_1_1_1_2.setFont(new Font("Tahoma", Font.BOLD, 12));
 		lblNewLabel_1_1_1_2.setBounds(55, 265, 118, 14);
 		contentPane.add(lblNewLabel_1_1_1_2);
-		
+
 		txtPW = new JPasswordField();
 		txtPW.setBounds(179, 233, 223, 20);
 		contentPane.add(txtPW);
-		
+
 		txtCPW = new JPasswordField();
 		txtCPW.setBounds(179, 263, 223, 20);
 		contentPane.add(txtCPW);
-		
+
 		JLabel lblNewLabel_1_2_1 = new JLabel("Account Type");
 		lblNewLabel_1_2_1.setFont(new Font("Tahoma", Font.BOLD, 12));
 		lblNewLabel_1_2_1.setBounds(55, 52, 94, 14);
 		contentPane.add(lblNewLabel_1_2_1);
-		
+
 		JButton btnAdd = new JButton("Add");
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
 				if (checkValid()) {
-					int id=Integer.valueOf(txtID.getText());
-					String type ="";
+					int id = Integer.valueOf(txtID.getText());
+					String type = "";
 					if (rCashier.isSelected()) {
 						type = "Cashier";
 					} else {
 						type = "Manager";
 					}
 					String name = txtName.getText();
-					String address= txtAddress.getText();
+					String address = txtAddress.getText();
 					String num = txtNum.getText();
 					String em = txtEm.getText();
 					String pw = txtPW.getText();
-					String cpw= txtCPW.getText();
-					
-					String hashPW =pwdHash.getMd5(pw);
+					String cpw = txtCPW.getText();
 
-					if(pw.equals(cpw)){
-						User user = new User(id,name,address,num,em,hashPW,type);
+					String hashPW = pwdHash.getMd5(pw);
+
+					if (pw.equals(cpw)) {
+						User user = new User(id, name, address, num, em, hashPW, type);
 						int result = uDB.addUser(user);
 
 						if (result == 1) {
-							JOptionPane.showMessageDialog(null, "New user account created","Alert",JOptionPane.INFORMATION_MESSAGE);
+							JOptionPane.showMessageDialog(null, "New user account created", "Alert",
+									JOptionPane.INFORMATION_MESSAGE);
 							txtID.setText("");
 							txtName.setText("");
 							txtAddress.setText("");
@@ -208,10 +192,12 @@ public class ManageAccountUI extends JFrame {
 							txtPW.setText("");
 							txtCPW.setText("");
 						} else {
-							JOptionPane.showMessageDialog(null, "The account has not been created","Alert",JOptionPane.ERROR_MESSAGE);
+							JOptionPane.showMessageDialog(null, "The account has not been created", "Alert",
+									JOptionPane.ERROR_MESSAGE);
 						}
-					}else {
-						JOptionPane.showMessageDialog(null, "The passwords dose not match","Alert",JOptionPane.ERROR_MESSAGE);
+					} else {
+						JOptionPane.showMessageDialog(null, "The passwords dose not match", "Alert",
+								JOptionPane.ERROR_MESSAGE);
 					}
 
 				}
@@ -227,18 +213,20 @@ public class ManageAccountUI extends JFrame {
 		JButton btnDelete = new JButton("Delete");
 		btnDelete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int id = Integer.valueOf( JOptionPane.showInputDialog("Enter the User ID"));
-				 JFrame f=new JFrame(); 
-					int a=JOptionPane.showConfirmDialog(f,"Are you sure?");  
-					 
-					if(a==JOptionPane.YES_OPTION) {
-				int result = uDB.deleteUser(id);
-				if (result == 1) {
-					JOptionPane.showMessageDialog(null, "The User is deleted","Alert",JOptionPane.INFORMATION_MESSAGE);
-				} else {
-					JOptionPane.showMessageDialog(null, "The User is not deleted","Alert",JOptionPane.ERROR_MESSAGE);
+				int id = Integer.valueOf(JOptionPane.showInputDialog("Enter the User ID"));
+				JFrame f = new JFrame();
+				int a = JOptionPane.showConfirmDialog(f, "Are you sure?");
+
+				if (a == JOptionPane.YES_OPTION) {
+					int result = uDB.deleteUser(id);
+					if (result == 1) {
+						JOptionPane.showMessageDialog(null, "The User is deleted", "Alert",
+								JOptionPane.INFORMATION_MESSAGE);
+					} else {
+						JOptionPane.showMessageDialog(null, "The User is not deleted", "Alert",
+								JOptionPane.ERROR_MESSAGE);
+					}
 				}
-			}
 
 			}
 		});
@@ -253,7 +241,7 @@ public class ManageAccountUI extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 
 				int id = Integer.valueOf(JOptionPane.showInputDialog("Enter the User ID"));
-				User user = uDB.get(id);
+				User user = uDB.getUser(id);
 				if (user != null) {
 					if (user.getType().equals("Cashier")) {
 						rCashier.setSelected(true);
@@ -274,9 +262,10 @@ public class ManageAccountUI extends JFrame {
 					txtCPW.setText(user.getPassword());
 					txtCPW.setEnabled(false);
 					btnUF.setVisible(false);
-					
-				}else {
-					JOptionPane.showMessageDialog(null, "No User account for this ID number","Alert",JOptionPane.ERROR_MESSAGE);
+
+				} else {
+					JOptionPane.showMessageDialog(null, "No User account for this ID number", "Alert",
+							JOptionPane.ERROR_MESSAGE);
 				}
 
 			}
@@ -291,24 +280,24 @@ public class ManageAccountUI extends JFrame {
 		btnU.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (checkValid()) {
-					String type ="";
+					String type = "";
 					if (rCashier.isSelected()) {
 						type = "Cashier";
 					} else {
 						type = "Manager";
 					}
-					int id=Integer.valueOf(txtID.getText());
+					int id = Integer.valueOf(txtID.getText());
 					String name = txtName.getText();
 					String address = txtAddress.getText();
 					String num = txtNum.getText();
-					String em =txtEm.getText();
-					String pw =txtPW.getText();
+					String em = txtEm.getText();
+					String pw = txtPW.getText();
 
-
-					User c = new User(id,name,address,num,em,pw,type);
+					User c = new User(id, name, address, num, em, pw, type);
 					int result = uDB.updateUser(c);
 					if (result == 1) {
-						JOptionPane.showMessageDialog(null, "The User is updated","Alert",JOptionPane.INFORMATION_MESSAGE);
+						JOptionPane.showMessageDialog(null, "The User is updated", "Alert",
+								JOptionPane.INFORMATION_MESSAGE);
 						txtID.setText("");
 						txtName.setText("");
 						txtAddress.setText("");
@@ -325,10 +314,11 @@ public class ManageAccountUI extends JFrame {
 						btnU.setVisible(false);
 						btnUF.setVisible(true);
 					} else {
-						JOptionPane.showMessageDialog(null, "The User is not updated","Alert",JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null, "The User is not updated", "Alert",
+								JOptionPane.ERROR_MESSAGE);
 					}
 				}
-				
+
 			}
 		});
 		btnU.setFont(new Font("Tahoma", Font.BOLD, 14));
@@ -336,7 +326,7 @@ public class ManageAccountUI extends JFrame {
 		contentPane.add(btnU);
 		Image up = new ImageIcon(this.getClass().getResource("/update.png")).getImage();
 		btnU.setIcon(new ImageIcon(up));
-		
+
 		JButton btnCancel = new JButton("Cancel");
 		btnCancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -348,7 +338,7 @@ public class ManageAccountUI extends JFrame {
 		contentPane.add(btnCancel);
 		Image cancel = new ImageIcon(this.getClass().getResource("/cancel.png")).getImage();
 		btnCancel.setIcon(new ImageIcon(cancel));
-		
+
 		JLabel bgMa = new JLabel("");
 		bgMa.setBounds(0, 0, 456, 433);
 		contentPane.add(bgMa);
@@ -369,7 +359,7 @@ public class ManageAccountUI extends JFrame {
 		try {
 			int id = Integer.valueOf(txtID.getText());
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(this, "User ID must be numeric","Alert",JOptionPane.WARNING_MESSAGE);
+			JOptionPane.showMessageDialog(this, "User ID must be numeric", "Alert", JOptionPane.WARNING_MESSAGE);
 			return false;
 		}
 		if (txtAddress.getText().equals("")) {
@@ -384,7 +374,7 @@ public class ManageAccountUI extends JFrame {
 		try {
 			int id = Integer.valueOf(txtNum.getText());
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(this, "Contact Number must be numeric","Alert",JOptionPane.WARNING_MESSAGE);
+			JOptionPane.showMessageDialog(this, "Contact Number must be numeric", "Alert", JOptionPane.WARNING_MESSAGE);
 			return false;
 		}
 		if (txtEm.getText().equals("")) {

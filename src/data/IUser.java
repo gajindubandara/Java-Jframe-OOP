@@ -1,13 +1,20 @@
 package data;
-import business.User;
+
 import java.util.ArrayList;
+
+import business.User;
 
 public interface IUser {
 
-		int addUser(User user);
-		int deleteUser(int id);
-		int updateUser(User user);
-		User get(int id);
-		ArrayList<User> getAll();
-		int updatepw(User ob);
+	int addUser(User user);
+
+	int deleteUser(int id);
+
+	int updateUser(User user);
+
+	User getUser(int id);
+
+	ArrayList<User> getAll();
+
+	int updateUserPw(User ob);
 }

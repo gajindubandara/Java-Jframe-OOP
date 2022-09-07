@@ -1,31 +1,25 @@
 package user;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JMenuBar;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import javax.swing.KeyStroke;
-import java.awt.event.KeyEvent;
-import java.awt.event.InputEvent;
-import javax.swing.JTextField;
-import javax.swing.JLabel;
 import java.awt.Color;
-import javax.swing.SwingConstants;
-import javax.swing.JButton;
+import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Image;
-import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
+
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.KeyStroke;
+import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
 
 public class MainUI extends JFrame {
 
@@ -58,97 +52,142 @@ public class MainUI extends JFrame {
 		setResizable(false);
 		setTitle("City Bookshop");
 		setBounds(100, 100, 1280, 800);
-		
+
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
-		
+
 		JMenu mnaccount = new JMenu("My account");
 		menuBar.add(mnaccount);
-		
+
 		JMenuItem mntmLogout = new JMenuItem("Logout");
 		mntmLogout.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_L, InputEvent.CTRL_DOWN_MASK));
 		mntmLogout.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				LoginUI logUI=new LoginUI();
+				LoginUI logUI = new LoginUI();
 				logUI.setVisible(true);
 				setVisible(false);
 			}
 		});
-		
+
 		JMenuItem mntmNewMenuItem_1 = new JMenuItem("Change Password");
 		mntmNewMenuItem_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ChangePasswordUI cpw=new ChangePasswordUI();
+				ChangePasswordUI cpw = new ChangePasswordUI();
 				cpw.setVisible(true);
-				
+
 			}
 		});
 		mntmNewMenuItem_1.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P, InputEvent.CTRL_DOWN_MASK));
 		mnaccount.add(mntmNewMenuItem_1);
 		mnaccount.add(mntmLogout);
-		
+
 		JMenu mnFile = new JMenu("Books");
 		menuBar.add(mnFile);
-		
+
 		JMenuItem mntmMBooks = new JMenuItem("Manage Books");
 		mntmMBooks.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_DOWN_MASK));
 		mntmMBooks.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ManageBooksUI mb =new ManageBooksUI();
+				ManageBooksUI mb = new ManageBooksUI();
 				mb.setVisible(true);
 			}
 		});
 		mnFile.add(mntmMBooks);
-		
+
 		JMenuItem mntmVBooks = new JMenuItem("View Books");
 		mntmVBooks.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ViewBooksUI s =new ViewBooksUI();
-				s.setVisible(true);			
+				ViewBooksUI s = new ViewBooksUI();
+				s.setVisible(true);
 			}
 		});
 		mntmVBooks.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_V, InputEvent.CTRL_DOWN_MASK));
 		mnFile.add(mntmVBooks);
-		
+
 		JMenuItem mntmNewCat = new JMenuItem("Add a New Category");
 		mntmNewCat.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+
 			}
 		});
 		mnFile.add(mntmNewCat);
-		
+
+		JMenu mnCategory = new JMenu("Category");
+		menuBar.add(mnCategory);
+
+		JMenuItem mntmManageCategory = new JMenuItem("Manage Category");
+		mntmManageCategory.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ManageCategoryUI um = new ManageCategoryUI();
+				um.setVisible(true);
+			}
+		});
+		mnCategory.add(mntmManageCategory);
+
 		JMenu mnManageAccounts = new JMenu("Accounts");
 		menuBar.add(mnManageAccounts);
-		
+
 		JMenuItem mntmNewAccount = new JMenuItem("Manage Accounts");
 		mntmNewAccount.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, InputEvent.CTRL_DOWN_MASK));
 		mntmNewAccount.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ManageAccountUI ca=new ManageAccountUI();
+				ManageAccountUI ca = new ManageAccountUI();
 				ca.setVisible(true);
 			}
 		});
 		mnManageAccounts.add(mntmNewAccount);
-		
+
 		JMenuItem mntmNewMenuItem = new JMenuItem("View Users");
 		mntmNewMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ViewUserUI vu=new ViewUserUI ();
+				ViewUserUI vu = new ViewUserUI();
 				vu.setVisible(true);
 			}
 		});
 		mnManageAccounts.add(mntmNewMenuItem);
-		
+
+		JMenu mnNewMenu = new JMenu("Billing");
+		menuBar.add(mnNewMenu);
+
+		JMenuItem mntmBill = new JMenuItem("New Bill");
+		mntmBill.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				BillUI vu = new BillUI();
+				vu.setVisible(true);
+			}
+		});
+		mnNewMenu.add(mntmBill);
+
+		JMenu mnNewMenu_1 = new JMenu("Stocks");
+		menuBar.add(mnNewMenu_1);
+
+		JMenuItem mntmAs = new JMenuItem("Add Stocks");
+		mntmAs.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				AddStockUI vu = new AddStockUI();
+				vu.setVisible(true);
+			}
+		});
+		mnNewMenu_1.add(mntmAs);
+
+		JMenuItem mntmVs = new JMenuItem("View Stocks");
+		mntmVs.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ViewStocksUI vu = new ViewStocksUI();
+				vu.setVisible(true);
+			}
+		});
+		mnNewMenu_1.add(mntmVs);
+
 		JMenu mnhelp = new JMenu("Help");
 		menuBar.add(mnhelp);
-		
+
 		JMenuItem mniUsermaual = new JMenuItem("User Manual");
 		mniUsermaual.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				UserManualUI um=new UserManualUI();
+				UserManualUI um = new UserManualUI();
 				um.setVisible(true);
-				
+
 			}
 		});
 		mniUsermaual.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_U, InputEvent.CTRL_DOWN_MASK));
@@ -158,32 +197,31 @@ public class MainUI extends JFrame {
 		setLocationRelativeTo(this);
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
+
 		JButton btnVb = new JButton("View Books");
 		btnVb.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ViewBooksUI s =new ViewBooksUI();
+				ViewBooksUI s = new ViewBooksUI();
 				s.setVisible(true);
 			}
 		});
 		btnVb.setFont(new Font("Tahoma", Font.PLAIN, 21));
-		btnVb.setBounds(335, 267, 246, 74);
+		btnVb.setBounds(296, 188, 246, 50);
 		contentPane.add(btnVb);
 		Image viewB = new ImageIcon(this.getClass().getResource("/viewB.png")).getImage();
 		btnVb.setIcon(new ImageIcon(viewB));
-		
+
 		JLabel lblNewLabel = new JLabel("Welcome!");
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 52));
-		lblNewLabel.setBounds(298, 11, 635, 137);
+		lblNewLabel.setBounds(299, 11, 635, 56);
 		contentPane.add(lblNewLabel);
 
-		
 		JButton btnLogout = new JButton("");
 		btnLogout.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		btnLogout.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				LoginUI logUI=new LoginUI();
+				LoginUI logUI = new LoginUI();
 				logUI.setVisible(true);
 				setVisible(false);
 			}
@@ -193,11 +231,10 @@ public class MainUI extends JFrame {
 		btnLogout.setBounds(1214, 11, 40, 40);
 		contentPane.add(btnLogout);
 
-		
 		JButton btnCP = new JButton("");
 		btnCP.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ChangePasswordUI cpw=new ChangePasswordUI();
+				ChangePasswordUI cpw = new ChangePasswordUI();
 				cpw.setVisible(true);
 			}
 		});
@@ -207,75 +244,72 @@ public class MainUI extends JFrame {
 		btnCP.setBounds(1155, 11, 40, 40);
 		contentPane.add(btnCP);
 
-		
 		JLabel lblNewLabel_1 = new JLabel("- City BookShop -");
 		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 35));
-		lblNewLabel_1.setBounds(298, 115, 635, 71);
+		lblNewLabel_1.setBounds(299, 49, 635, 71);
 		contentPane.add(lblNewLabel_1);
-		
-		
+
 		JLabel conStatus = new JLabel("");
 		conStatus.setForeground(Color.BLACK);
 		conStatus.setHorizontalAlignment(SwingConstants.LEFT);
 		conStatus.setBounds(10, 717, 331, 22);
 		contentPane.add(conStatus);
 		conStatus.setText(ConnectionStatus.message);
-		
+
 		JLabel lblBooks = new JLabel("Books -");
 		lblBooks.setFont(new Font("Tahoma", Font.BOLD, 25));
-		lblBooks.setBounds(10, 197, 246, 45);
+		lblBooks.setBounds(10, 131, 246, 45);
 		contentPane.add(lblBooks);
-		
+
 		JButton btnMb = new JButton("Manage Books");
 		btnMb.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ManageBooksUI mb =new ManageBooksUI();
+				ManageBooksUI mb = new ManageBooksUI();
 				mb.setVisible(true);
 			}
 		});
 		btnMb.setFont(new Font("Tahoma", Font.PLAIN, 21));
-		btnMb.setBounds(49, 267, 246, 74);
+		btnMb.setBounds(10, 188, 246, 50);
 		contentPane.add(btnMb);
 		Image manageB = new ImageIcon(this.getClass().getResource("/manageB.png")).getImage();
 		btnMb.setIcon(new ImageIcon(manageB));
-		
+
 		JButton btnVa = new JButton("View Accounts");
 		btnVa.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ViewUserUI vu=new ViewUserUI ();
+				ViewUserUI vu = new ViewUserUI();
 				vu.setVisible(true);
 			}
 		});
 		btnVa.setFont(new Font("Tahoma", Font.PLAIN, 21));
-		btnVa.setBounds(335, 494, 246, 74);
+		btnVa.setBounds(296, 612, 246, 50);
 		contentPane.add(btnVa);
 		Image viewA = new ImageIcon(this.getClass().getResource("/viewA.png")).getImage();
 		btnVa.setIcon(new ImageIcon(viewA));
-		
-		
+
 		JButton btnMa = new JButton("Manage Accounts");
 		btnMa.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ManageAccountUI ca=new ManageAccountUI();
+				ManageAccountUI ca = new ManageAccountUI();
 				ca.setVisible(true);
 			}
 		});
 		btnMa.setFont(new Font("Tahoma", Font.PLAIN, 21));
-		btnMa.setBounds(49, 494, 246, 74);
+		btnMa.setBounds(10, 612, 246, 50);
 		contentPane.add(btnMa);
 		Image manageA = new ImageIcon(this.getClass().getResource("/manageA.png")).getImage();
 		btnMa.setIcon(new ImageIcon(manageA));
-		
+
 		JLabel lblAccounts = new JLabel("Accounts - ");
 		lblAccounts.setFont(new Font("Tahoma", Font.BOLD, 25));
-		lblAccounts.setBounds(10, 416, 246, 45);
+		lblAccounts.setBounds(10, 556, 246, 45);
 		contentPane.add(lblAccounts);
-		
+
 		JButton btnUserManual = new JButton("");
 		btnUserManual.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				UserManualUI um=new UserManualUI();
+				UserManualUI um = new UserManualUI();
 				um.setVisible(true);
 			}
 		});
@@ -284,25 +318,89 @@ public class MainUI extends JFrame {
 		contentPane.add(btnUserManual);
 		Image um = new ImageIcon(this.getClass().getResource("/um.png")).getImage();
 		btnUserManual.setIcon(new ImageIcon(um));
-		
+
+		JButton btnMc = new JButton("Manage Category");
+		btnMc.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ManageCategoryUI um = new ManageCategoryUI();
+				um.setVisible(true);
+			}
+		});
+		btnMc.setFont(new Font("Tahoma", Font.PLAIN, 21));
+		btnMc.setBounds(10, 343, 246, 50);
+		contentPane.add(btnMc);
+		Image Mc = new ImageIcon(this.getClass().getResource("/category.png")).getImage();
+		btnMc.setIcon(new ImageIcon(Mc));
+
+		JLabel lblAccounts_1 = new JLabel("Category - ");
+		lblAccounts_1.setFont(new Font("Tahoma", Font.BOLD, 25));
+		lblAccounts_1.setBounds(10, 265, 246, 45);
+		contentPane.add(lblAccounts_1);
+
+		JButton btnBill = new JButton("New Bill");
+		btnBill.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				BillUI vu = new BillUI();
+				vu.setVisible(true);
+			}
+		});
+		btnBill.setFont(new Font("Tahoma", Font.PLAIN, 21));
+		btnBill.setBounds(361, 343, 246, 50);
+		contentPane.add(btnBill);
+		Image bill = new ImageIcon(this.getClass().getResource("/bill.png")).getImage();
+		btnBill.setIcon(new ImageIcon(bill));
+
+		JLabel lblAccounts_1_1 = new JLabel("Billing - ");
+		lblAccounts_1_1.setFont(new Font("Tahoma", Font.BOLD, 25));
+		lblAccounts_1_1.setBounds(361, 265, 246, 45);
+		contentPane.add(lblAccounts_1_1);
+
+		JButton btnVs = new JButton("View Stocks");
+		btnVs.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ViewStocksUI vu = new ViewStocksUI();
+				vu.setVisible(true);
+			}
+		});
+		btnVs.setFont(new Font("Tahoma", Font.PLAIN, 21));
+		btnVs.setBounds(296, 476, 246, 50);
+		contentPane.add(btnVs);
+		Image bgVs = new ImageIcon(this.getClass().getResource("/viewStock.png")).getImage();
+		btnVs.setIcon(new ImageIcon(bgVs));
+
+		JButton btnAs = new JButton("Add Stocks");
+		btnAs.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				AddStockUI vu = new AddStockUI();
+				vu.setVisible(true);
+			}
+		});
+		btnAs.setFont(new Font("Tahoma", Font.PLAIN, 21));
+		btnAs.setBounds(10, 476, 246, 50);
+		contentPane.add(btnAs);
+		Image bgStock = new ImageIcon(this.getClass().getResource("/addStock.png")).getImage();
+		btnAs.setIcon(new ImageIcon(bgStock));
+
+		JLabel lblAccounts_2 = new JLabel("Stocks - ");
+		lblAccounts_2.setFont(new Font("Tahoma", Font.BOLD, 25));
+		lblAccounts_2.setBounds(10, 420, 246, 45);
+		contentPane.add(lblAccounts_2);
+
 		JLabel bgMain = new JLabel("");
 		bgMain.setBounds(0, -21, 1286, 772);
 		contentPane.add(bgMain);
 		Image bgmain = new ImageIcon(this.getClass().getResource("/bgMain.jpg")).getImage();
 		bgMain.setIcon(new ImageIcon(bgmain));
-		
-		
-		
-		Image redDot= new ImageIcon(this.getClass().getResource("/redDot.png")).getImage();
-		Image greenDot= new ImageIcon(this.getClass().getResource("/greenDot.png")).getImage();
-		if(ConnectionStatus.status) {
+
+		Image redDot = new ImageIcon(this.getClass().getResource("/redDot.png")).getImage();
+		Image greenDot = new ImageIcon(this.getClass().getResource("/greenDot.png")).getImage();
+		if (ConnectionStatus.status) {
 			conStatus.setIcon(new ImageIcon(greenDot));
-		}else {
-		conStatus.setIcon(new ImageIcon(redDot));}
-		
-		
-		
-		if(LoginStatus.type.equals("Cashier")) {
+		} else {
+			conStatus.setIcon(new ImageIcon(redDot));
+		}
+
+		if (LoginStatus.type.equals("Cashier")) {
 			mnManageAccounts.setVisible(false);
 			btnVa.setVisible(false);
 			btnMa.setVisible(false);
