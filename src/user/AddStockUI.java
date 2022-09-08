@@ -8,30 +8,24 @@ import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
-import javax.swing.table.DefaultTableModel;
 
 import business.Stock;
-import data.BookDB;
 import data.StockDB;
 
 public class AddStockUI extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField txtAmount;
-	protected JComboBox cMajor;
 	protected JLabel GetAllText;
-	private DefaultTableModel tblModel;
 	private JTextField txtID;
 
 	private StockDB sDB;
-	private BookDB bDB;
 
 	/**
 	 * Launch the application.
@@ -63,7 +57,6 @@ public class AddStockUI extends JFrame {
 		contentPane.setLayout(null);
 
 		StockDB sDB = new StockDB();
-		BookDB bDB = new BookDB();
 
 		JLabel lblNewLabel_1 = new JLabel("New Stock");
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 12));
@@ -79,16 +72,19 @@ public class AddStockUI extends JFrame {
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
+				// Validating text fields
 				if (checkValid()) {
 					int id = Integer.valueOf(txtID.getText());
 					int newNoOfBooks = Integer.valueOf(txtAmount.getText());
 					Stock stockTest = sDB.getStock(id);
 
+					// Checking the availability of the stock
 					if (stockTest != null) {
 						int currentStock = Integer.valueOf(stockTest.getsAmount());
-
 						String totalStock = String.valueOf(currentStock + newNoOfBooks);
 						Stock s = new Stock(id, totalStock);
+
+						// Updating the stock
 						int result = sDB.updateStock(s);
 						if (result == 1) {
 							JOptionPane.showMessageDialog(null, "The Stock is updated", "Alert",
@@ -96,18 +92,15 @@ public class AddStockUI extends JFrame {
 							txtID.setText("");
 							txtID.setEnabled(true);
 							txtAmount.setText("");
-
 						} else {
 							JOptionPane.showMessageDialog(null, "The Stock is not updated", "Alert",
 									JOptionPane.ERROR_MESSAGE);
 						}
-
 					} else {
 						JOptionPane.showMessageDialog(null, "Book ID is Incorrect.", "Alert",
 								JOptionPane.ERROR_MESSAGE);
 					}
 				}
-
 			}
 		});
 		btnAdd.setFont(new Font("Tahoma", Font.BOLD, 14));
@@ -115,7 +108,6 @@ public class AddStockUI extends JFrame {
 		contentPane.add(btnAdd);
 		Image add = new ImageIcon(this.getClass().getResource("/add.png")).getImage();
 		btnAdd.setIcon(new ImageIcon(add));
-		Image del = new ImageIcon(this.getClass().getResource("/del.png")).getImage();
 
 		JButton btnCancel = new JButton("Cancel");
 		btnCancel.addActionListener(new ActionListener() {
@@ -138,8 +130,6 @@ public class AddStockUI extends JFrame {
 		lblNewLabel_1_2.setFont(new Font("Tahoma", Font.BOLD, 12));
 		lblNewLabel_1_2.setBounds(49, 46, 118, 14);
 		contentPane.add(lblNewLabel_1_2);
-		Image find = new ImageIcon(this.getClass().getResource("/find.png")).getImage();
-		Image up = new ImageIcon(this.getClass().getResource("/update.png")).getImage();
 
 		JLabel bgMb = new JLabel("");
 		bgMb.setBounds(0, 0, 390, 208);

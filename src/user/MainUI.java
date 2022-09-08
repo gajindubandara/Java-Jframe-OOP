@@ -60,7 +60,7 @@ public class MainUI extends JFrame {
 		menuBar.add(mnaccount);
 
 		JMenuItem mntmLogout = new JMenuItem("Logout");
-		mntmLogout.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_L, InputEvent.CTRL_DOWN_MASK));
+		mntmLogout.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_L, InputEvent.ALT_DOWN_MASK));
 		mntmLogout.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				LoginUI logUI = new LoginUI();
@@ -77,7 +77,7 @@ public class MainUI extends JFrame {
 
 			}
 		});
-		mntmNewMenuItem_1.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P, InputEvent.CTRL_DOWN_MASK));
+		mntmNewMenuItem_1.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P, InputEvent.ALT_DOWN_MASK));
 		mnaccount.add(mntmNewMenuItem_1);
 		mnaccount.add(mntmLogout);
 
@@ -85,7 +85,7 @@ public class MainUI extends JFrame {
 		menuBar.add(mnFile);
 
 		JMenuItem mntmMBooks = new JMenuItem("Manage Books");
-		mntmMBooks.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_DOWN_MASK));
+		mntmMBooks.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.ALT_DOWN_MASK));
 		mntmMBooks.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ManageBooksUI mb = new ManageBooksUI();
@@ -101,21 +101,14 @@ public class MainUI extends JFrame {
 				s.setVisible(true);
 			}
 		});
-		mntmVBooks.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_V, InputEvent.CTRL_DOWN_MASK));
+		mntmVBooks.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_V, InputEvent.ALT_DOWN_MASK));
 		mnFile.add(mntmVBooks);
-
-		JMenuItem mntmNewCat = new JMenuItem("Add a New Category");
-		mntmNewCat.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-
-			}
-		});
-		mnFile.add(mntmNewCat);
 
 		JMenu mnCategory = new JMenu("Category");
 		menuBar.add(mnCategory);
 
 		JMenuItem mntmManageCategory = new JMenuItem("Manage Category");
+		mntmManageCategory.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, InputEvent.ALT_DOWN_MASK));
 		mntmManageCategory.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ManageCategoryUI um = new ManageCategoryUI();
@@ -128,7 +121,7 @@ public class MainUI extends JFrame {
 		menuBar.add(mnManageAccounts);
 
 		JMenuItem mntmNewAccount = new JMenuItem("Manage Accounts");
-		mntmNewAccount.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, InputEvent.CTRL_DOWN_MASK));
+		mntmNewAccount.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, InputEvent.ALT_DOWN_MASK));
 		mntmNewAccount.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ManageAccountUI ca = new ManageAccountUI();
@@ -138,6 +131,7 @@ public class MainUI extends JFrame {
 		mnManageAccounts.add(mntmNewAccount);
 
 		JMenuItem mntmNewMenuItem = new JMenuItem("View Users");
+		mntmNewMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_U, InputEvent.ALT_DOWN_MASK));
 		mntmNewMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ViewUserUI vu = new ViewUserUI();
@@ -150,6 +144,7 @@ public class MainUI extends JFrame {
 		menuBar.add(mnNewMenu);
 
 		JMenuItem mntmBill = new JMenuItem("New Bill");
+		mntmBill.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_B, InputEvent.ALT_DOWN_MASK));
 		mntmBill.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				BillUI vu = new BillUI();
@@ -162,6 +157,7 @@ public class MainUI extends JFrame {
 		menuBar.add(mnNewMenu_1);
 
 		JMenuItem mntmAs = new JMenuItem("Add Stocks");
+		mntmAs.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, InputEvent.ALT_DOWN_MASK));
 		mntmAs.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				AddStockUI vu = new AddStockUI();
@@ -171,6 +167,7 @@ public class MainUI extends JFrame {
 		mnNewMenu_1.add(mntmAs);
 
 		JMenuItem mntmVs = new JMenuItem("View Stocks");
+		mntmVs.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_I, InputEvent.ALT_DOWN_MASK));
 		mntmVs.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ViewStocksUI vu = new ViewStocksUI();
@@ -190,7 +187,7 @@ public class MainUI extends JFrame {
 
 			}
 		});
-		mniUsermaual.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_U, InputEvent.CTRL_DOWN_MASK));
+		mniUsermaual.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_H, InputEvent.ALT_DOWN_MASK));
 		mnhelp.add(mniUsermaual);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -206,7 +203,7 @@ public class MainUI extends JFrame {
 			}
 		});
 		btnVb.setFont(new Font("Tahoma", Font.PLAIN, 21));
-		btnVb.setBounds(296, 188, 246, 50);
+		btnVb.setBounds(66, 249, 246, 50);
 		contentPane.add(btnVb);
 		Image viewB = new ImageIcon(this.getClass().getResource("/viewB.png")).getImage();
 		btnVb.setIcon(new ImageIcon(viewB));
@@ -259,7 +256,7 @@ public class MainUI extends JFrame {
 
 		JLabel lblBooks = new JLabel("Books -");
 		lblBooks.setFont(new Font("Tahoma", Font.BOLD, 25));
-		lblBooks.setBounds(10, 131, 246, 45);
+		lblBooks.setBounds(66, 131, 246, 45);
 		contentPane.add(lblBooks);
 
 		JButton btnMb = new JButton("Manage Books");
@@ -270,7 +267,7 @@ public class MainUI extends JFrame {
 			}
 		});
 		btnMb.setFont(new Font("Tahoma", Font.PLAIN, 21));
-		btnMb.setBounds(10, 188, 246, 50);
+		btnMb.setBounds(66, 188, 246, 50);
 		contentPane.add(btnMb);
 		Image manageB = new ImageIcon(this.getClass().getResource("/manageB.png")).getImage();
 		btnMb.setIcon(new ImageIcon(manageB));
@@ -283,7 +280,7 @@ public class MainUI extends JFrame {
 			}
 		});
 		btnVa.setFont(new Font("Tahoma", Font.PLAIN, 21));
-		btnVa.setBounds(296, 612, 246, 50);
+		btnVa.setBounds(236, 615, 246, 50);
 		contentPane.add(btnVa);
 		Image viewA = new ImageIcon(this.getClass().getResource("/viewA.png")).getImage();
 		btnVa.setIcon(new ImageIcon(viewA));
@@ -296,14 +293,15 @@ public class MainUI extends JFrame {
 			}
 		});
 		btnMa.setFont(new Font("Tahoma", Font.PLAIN, 21));
-		btnMa.setBounds(10, 612, 246, 50);
+		btnMa.setBounds(236, 554, 246, 50);
 		contentPane.add(btnMa);
 		Image manageA = new ImageIcon(this.getClass().getResource("/manageA.png")).getImage();
 		btnMa.setIcon(new ImageIcon(manageA));
 
 		JLabel lblAccounts = new JLabel("Accounts - ");
+		lblAccounts.setHorizontalAlignment(SwingConstants.CENTER);
 		lblAccounts.setFont(new Font("Tahoma", Font.BOLD, 25));
-		lblAccounts.setBounds(10, 556, 246, 45);
+		lblAccounts.setBounds(236, 498, 246, 45);
 		contentPane.add(lblAccounts);
 
 		JButton btnUserManual = new JButton("");
@@ -327,14 +325,14 @@ public class MainUI extends JFrame {
 			}
 		});
 		btnMc.setFont(new Font("Tahoma", Font.PLAIN, 21));
-		btnMc.setBounds(10, 343, 246, 50);
+		btnMc.setBounds(66, 399, 246, 50);
 		contentPane.add(btnMc);
 		Image Mc = new ImageIcon(this.getClass().getResource("/category.png")).getImage();
 		btnMc.setIcon(new ImageIcon(Mc));
 
 		JLabel lblAccounts_1 = new JLabel("Category - ");
 		lblAccounts_1.setFont(new Font("Tahoma", Font.BOLD, 25));
-		lblAccounts_1.setBounds(10, 265, 246, 45);
+		lblAccounts_1.setBounds(66, 346, 246, 45);
 		contentPane.add(lblAccounts_1);
 
 		JButton btnBill = new JButton("New Bill");
@@ -345,14 +343,14 @@ public class MainUI extends JFrame {
 			}
 		});
 		btnBill.setFont(new Font("Tahoma", Font.PLAIN, 21));
-		btnBill.setBounds(361, 343, 246, 50);
+		btnBill.setBounds(393, 399, 246, 50);
 		contentPane.add(btnBill);
 		Image bill = new ImageIcon(this.getClass().getResource("/bill.png")).getImage();
 		btnBill.setIcon(new ImageIcon(bill));
 
 		JLabel lblAccounts_1_1 = new JLabel("Billing - ");
 		lblAccounts_1_1.setFont(new Font("Tahoma", Font.BOLD, 25));
-		lblAccounts_1_1.setBounds(361, 265, 246, 45);
+		lblAccounts_1_1.setBounds(393, 346, 246, 45);
 		contentPane.add(lblAccounts_1_1);
 
 		JButton btnVs = new JButton("View Stocks");
@@ -363,7 +361,7 @@ public class MainUI extends JFrame {
 			}
 		});
 		btnVs.setFont(new Font("Tahoma", Font.PLAIN, 21));
-		btnVs.setBounds(296, 476, 246, 50);
+		btnVs.setBounds(393, 249, 246, 50);
 		contentPane.add(btnVs);
 		Image bgVs = new ImageIcon(this.getClass().getResource("/viewStock.png")).getImage();
 		btnVs.setIcon(new ImageIcon(bgVs));
@@ -376,14 +374,14 @@ public class MainUI extends JFrame {
 			}
 		});
 		btnAs.setFont(new Font("Tahoma", Font.PLAIN, 21));
-		btnAs.setBounds(10, 476, 246, 50);
+		btnAs.setBounds(393, 188, 246, 50);
 		contentPane.add(btnAs);
 		Image bgStock = new ImageIcon(this.getClass().getResource("/addStock.png")).getImage();
 		btnAs.setIcon(new ImageIcon(bgStock));
 
 		JLabel lblAccounts_2 = new JLabel("Stocks - ");
 		lblAccounts_2.setFont(new Font("Tahoma", Font.BOLD, 25));
-		lblAccounts_2.setBounds(10, 420, 246, 45);
+		lblAccounts_2.setBounds(393, 132, 246, 45);
 		contentPane.add(lblAccounts_2);
 
 		JLabel bgMain = new JLabel("");

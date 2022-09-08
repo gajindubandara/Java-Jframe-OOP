@@ -33,9 +33,7 @@ public class ViewStocksUI extends JFrame {
 	private StockDB sDB;
 	private BookDB bDB;
 	private JTextField txtPrice;
-	private JButton btnPrice;
 	private JTextField txtCategory;
-	private JButton btncategory;
 	private JButton btnViewAll;
 	private JLabel lblNewLabel;
 	private JLabel bgView;
@@ -94,6 +92,8 @@ public class ViewStocksUI extends JFrame {
 		btnViewAll.setFont(new Font("Tahoma", Font.BOLD, 12));
 		btnViewAll.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+
+				// Getting all the stocks and display them in a table
 				try {
 					ArrayList<Stock> stockList = sDB.getAll();
 					tblModel.setRowCount(0);
@@ -108,7 +108,6 @@ public class ViewStocksUI extends JFrame {
 					}
 				} catch (Exception ex) {
 					System.err.println(ex.getMessage());
-
 				}
 			}
 		});
@@ -127,17 +126,16 @@ public class ViewStocksUI extends JFrame {
 
 				tblModel.setRowCount(0);
 				for (Stock u : stockList) {
-					if (u.getsId() == Bid) {
 
+					// Getting the stocks with the entered id
+					if (u.getsId() == Bid) {
 						int id = u.getsId();
 						String amount = u.getsAmount();
-
 						String bName = book.getName();
 
+						// Display the stock on the entered id
 						tblModel.addRow(new Object[] { id, bName, amount });
-
 					}
-
 				}
 				txtName.setText("");
 				btnViewAll.setEnabled(true);
@@ -167,15 +165,16 @@ public class ViewStocksUI extends JFrame {
 		btnCancel.setIcon(new ImageIcon(cancel));
 
 		bgView = new JLabel("");
-		bgView.setBounds(0, 0, 1008, 599);
+		bgView.setBounds(0, 0, 544, 487);
 		contentPane.add(bgView);
-//		Image bgV = new ImageIcon(this.getClass().getResource("/bgViewBA.jpg")).getImage();
-//		bgView.setIcon(new ImageIcon(bgV));
+		Image bgVs = new ImageIcon(this.getClass().getResource("/bgMedium.jpg")).getImage();
+		bgView.setIcon(new ImageIcon(bgVs));
 
 		tblModel.addColumn("ID");
 		tblModel.addColumn("Name");
 		tblModel.addColumn("Amount");
 
+		// Getting all the books and display them in a table
 		try {
 			ArrayList<Stock> stockList = sDB.getAll();
 			tblModel.setRowCount(0);
@@ -190,8 +189,6 @@ public class ViewStocksUI extends JFrame {
 			}
 		} catch (Exception ex) {
 			System.err.println(ex.getMessage());
-
 		}
-
 	}
 }

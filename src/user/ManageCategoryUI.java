@@ -9,7 +9,6 @@ import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -26,7 +25,6 @@ import data.CategoryDB;
 public class ManageCategoryUI extends JFrame {
 
 	private JPanel contentPane;
-	protected JComboBox cMajor;
 	protected JLabel GetAllText;
 	private DefaultTableModel tblModel;
 	private JTextField txtCName;
@@ -69,16 +67,20 @@ public class ManageCategoryUI extends JFrame {
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
+				// Validating the text fields
 				if (checkValid()) {
 					int id = 0;
 					String name = txtCName.getText();
 					Category c = new Category(id, name);
-					int result = cDB.addCategory(c);
 
+					// Adding a new category
+					int result = cDB.addCategory(c);
 					if (result == 1) {
-						JOptionPane.showMessageDialog(null, "New Record is added", "Alert",
+						JOptionPane.showMessageDialog(null, "New Category is added", "Alert",
 								JOptionPane.INFORMATION_MESSAGE);
 						txtCName.setText("");
+
+						// Adding the new category to the table
 						try {
 							ArrayList<Category> cList = cDB.getAll();
 							tblModel.setRowCount(0);
@@ -91,11 +93,10 @@ public class ManageCategoryUI extends JFrame {
 							System.err.println(ex.getMessage());
 						}
 					} else {
-						JOptionPane.showMessageDialog(null, "New Record is not added", "Alert",
+						JOptionPane.showMessageDialog(null, "New Category is not added", "Alert",
 								JOptionPane.ERROR_MESSAGE);
 					}
 				}
-
 			}
 		});
 		btnAdd.setFont(new Font("Tahoma", Font.BOLD, 14));
@@ -107,19 +108,24 @@ public class ManageCategoryUI extends JFrame {
 		JButton btnDelete = new JButton("Delete");
 		btnDelete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int id = Integer.valueOf(JOptionPane.showInputDialog("Enter the Book ID"));
+
+				// Getting the user Id from a JOptionPane Input dialog
+				int id = Integer.valueOf(JOptionPane.showInputDialog("Enter the Category ID"));
 
 				JFrame f = new JFrame();
 				int a = JOptionPane.showConfirmDialog(f,
-						"This category may include books. If you remove the category, the books will no longer have one."
+						"This category may include books. If you remove the category, the books will also be removed."
 								+ "Are you sure you want to delete it?");
-
 				if (a == JOptionPane.YES_OPTION) {
 					f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+					// Deleting the category
 					int result = cDB.deleteCategory(id);
 					if (result == 1) {
 						JOptionPane.showMessageDialog(null, "Category is deleted", "Alert",
 								JOptionPane.INFORMATION_MESSAGE);
+
+						// Updating the table
 						try {
 							ArrayList<Category> cList = cDB.getAll();
 							tblModel.setRowCount(0);
@@ -132,11 +138,11 @@ public class ManageCategoryUI extends JFrame {
 							System.err.println(ex.getMessage());
 						}
 					} else {
-						JOptionPane.showMessageDialog(null, "Category is not deleted", "Alert",
+						JOptionPane.showMessageDialog(null,
+								"No category found for the entered ID.Please check the ID Again!", "Alert",
 								JOptionPane.ERROR_MESSAGE);
 					}
 				}
-
 			}
 		});
 		btnDelete.setFont(new Font("Tahoma", Font.BOLD, 14));
@@ -173,22 +179,27 @@ public class ManageCategoryUI extends JFrame {
 		txtID.setVisible(false);
 
 		JButton btnUF = new JButton("Find & Update");
+		JButton btnU = new JButton("Update");
 		btnUF.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnUF.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				// Getting the user Id from a JOptionPane Input dialog
 
-				int id = Integer.valueOf(JOptionPane.showInputDialog("Enter the Book ID"));
+				int id = Integer.valueOf(JOptionPane.showInputDialog("Enter the Category ID"));
+
+				// Getting the category from the database
 				Category c = cDB.getCategory(id);
 				if (c != null) {
 					txtCName.setText(c.getCategoryName());
 					txtID.setText(String.valueOf(c.getCategoryId()));
 					btnUF.setVisible(false);
-
+					btnU.setVisible(true);
+					btnAdd.setEnabled(false);
+					btnDelete.setEnabled(false);
 				} else {
-					JOptionPane.showMessageDialog(null, "No book for this ID number", "Alert",
+					JOptionPane.showMessageDialog(null, "No category for this ID number", "Alert",
 							JOptionPane.ERROR_MESSAGE);
 				}
-
 			}
 		});
 		btnUF.setBounds(227, 86, 168, 40);
@@ -196,13 +207,16 @@ public class ManageCategoryUI extends JFrame {
 		Image find = new ImageIcon(this.getClass().getResource("/find.png")).getImage();
 		btnUF.setIcon(new ImageIcon(find));
 
-		JButton btnU = new JButton("Update");
 		btnU.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+
+				// Validating the text fields
 				if (checkValid()) {
 					int id = Integer.valueOf(txtID.getText());
 					String name = txtCName.getText();
 					Category c = new Category(id, name);
+
+					// Updating the category
 					int result = cDB.updateCategory(c);
 					if (result == 1) {
 						JOptionPane.showMessageDialog(null, "The Category is updated", "Alert",
@@ -210,6 +224,10 @@ public class ManageCategoryUI extends JFrame {
 						txtCName.setText("");
 						btnU.setVisible(false);
 						btnUF.setVisible(true);
+						btnAdd.setEnabled(true);
+						btnDelete.setEnabled(true);
+
+						// updating the table
 						try {
 							ArrayList<Category> cList = cDB.getAll();
 							tblModel.setRowCount(0);
@@ -255,6 +273,7 @@ public class ManageCategoryUI extends JFrame {
 		Image bg = new ImageIcon(this.getClass().getResource("/bgMb.jpg")).getImage();
 		bgMb.setIcon(new ImageIcon(bg));
 
+		// Setting the category data to the table
 		try {
 			ArrayList<Category> cList = cDB.getAll();
 			tblModel.setRowCount(0);
@@ -266,12 +285,11 @@ public class ManageCategoryUI extends JFrame {
 		} catch (Exception ex) {
 			System.err.println(ex.getMessage());
 		}
-
 	}
 
 	private boolean checkValid() {
 		if (txtCName.getText().equals("")) {
-			JOptionPane.showMessageDialog(this, "Book name cannot be blank");
+			JOptionPane.showMessageDialog(this, "Category name cannot be blank");
 			return false;
 		}
 		try {

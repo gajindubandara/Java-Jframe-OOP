@@ -1,7 +1,6 @@
 package data;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,34 +10,16 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 import business.Stock;
-import user.ConnectionStatus;
 
 public class StockDB implements IStock {
 	private Connection con;
 
 	public StockDB() {
-		try {
-			String url = "jdbc:mysql://localhost:3306/bookshop";
-			String user = "root";
-			String password = "";
-			con = DriverManager.getConnection(url, user, password);
-			if (con != null) {
-				System.out.println("Database connected successfully");
-				ConnectionStatus.message = "Database connected successfully";
-				ConnectionStatus.status = true;
-
-			} else {
-				System.out.println("Database connection failed");
-
-			}
-
-		} catch (SQLException e) {
-			System.err.println(e.getMessage());
-			ConnectionStatus.message = "Database connection failed";
-			ConnectionStatus.status = false;
-		}
+		SetConnection check = new SetConnection();
+		con = check.SetConnection();
 	}
 
+	// Adding a new stock to the database
 	@Override
 	public int addStock(Stock stock) {
 		String insert = "INSERT INTO stock(ID,stock) VALUES (?,?)";
@@ -59,6 +40,7 @@ public class StockDB implements IStock {
 		}
 	}
 
+	// Deleting a stock from the database
 	@Override
 	public int deleteStock(int sId) {
 		String delete = "DELETE FROM stock WHERE ID=?";
@@ -74,10 +56,10 @@ public class StockDB implements IStock {
 		}
 	}
 
+	// Updating the stock on the database
 	@Override
 	public int updateStock(Stock stock) {
 		String update = "UPDATE stock set stock=? WHERE ID=? ";
-
 		try {
 			PreparedStatement ps = con.prepareStatement(update);
 			ps.setString(1, stock.getsAmount());
@@ -92,6 +74,7 @@ public class StockDB implements IStock {
 		}
 	}
 
+	// Getting the stock from the database
 	@Override
 	public Stock getStock(int sId) {
 		Stock s = null;
@@ -109,13 +92,13 @@ public class StockDB implements IStock {
 			rs.close();
 			ps.close();
 			return s;
-
 		} catch (SQLException e) {
 			System.err.println(e.getMessage());
 			return null;
 		}
 	}
 
+	// Getting all stock from the database
 	@Override
 	public ArrayList<Stock> getAll() {
 		ArrayList<Stock> cList = new ArrayList<Stock>();

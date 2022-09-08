@@ -63,7 +63,7 @@ public class BillUI extends JFrame {
 	 */
 	public BillUI() {
 		setResizable(false);
-		setTitle("City Bookshop - Book List");
+		setTitle("City Bookshop - New Bill");
 		setBounds(100, 100, 560, 526);
 
 		BookDB bDB = new BookDB();
@@ -89,7 +89,7 @@ public class BillUI extends JFrame {
 
 		tblModel.addColumn("Book");
 		tblModel.addColumn("Quantity");
-		tblModel.addColumn("Price");
+		tblModel.addColumn("Price - Rs.");
 
 		JLabel lblNewLabel_1 = new JLabel("Total:");
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 20));
@@ -101,7 +101,7 @@ public class BillUI extends JFrame {
 		contentPane.add(lblNewLabel_2);
 
 		JLabel bookPrice = new JLabel("");
-		bookPrice.setBounds(308, 66, 113, 22);
+		bookPrice.setBounds(308, 66, 46, 22);
 		contentPane.add(bookPrice);
 
 		JLabel lblNewLabel_2_1 = new JLabel("Product name");
@@ -109,7 +109,7 @@ public class BillUI extends JFrame {
 		contentPane.add(lblNewLabel_2_1);
 
 		JLabel lblNewLabel_2_1_1 = new JLabel("Quantity");
-		lblNewLabel_2_1_1.setBounds(452, 41, 46, 14);
+		lblNewLabel_2_1_1.setBounds(364, 41, 56, 14);
 		contentPane.add(lblNewLabel_2_1_1);
 
 		JComboBox books = new JComboBox();
@@ -122,7 +122,7 @@ public class BillUI extends JFrame {
 		contentPane.add(books);
 
 		JComboBox bookQty = new JComboBox();
-		bookQty.setBounds(452, 66, 56, 22);
+		bookQty.setBounds(364, 66, 56, 22);
 		contentPane.add(bookQty);
 
 		JLabel total_amount = new JLabel("");
@@ -132,12 +132,12 @@ public class BillUI extends JFrame {
 
 		product_and_price = new HashMap<String, String>();
 
+		// Getting the book details from the database
 		try {
 			ArrayList<Book> bList = bDB.getAll();
 			for (Book b : bList) {
 				String name = b.getName();
 				String price = b.getPrice();
-				int bookId = b.getBookID();
 
 				product_and_price.put(name, price);
 			}
@@ -169,8 +169,8 @@ public class BillUI extends JFrame {
 				Stock stock = sDB.getStock(id);
 				amount = Integer.valueOf(stock.getsAmount());
 
+				// Checking the availability of the books
 				if (amount >= product_quantity) {
-
 					int total_for_product = unit_price * product_quantity;
 					int total_cost = 0;
 
@@ -178,15 +178,14 @@ public class BillUI extends JFrame {
 					arrayPrice.add(total_for_product);
 					price_list = arrayPrice.toArray(price_list);
 
+					// Calculating the total
 					for (int counter = 0; counter < arrayPrice.size(); counter++) {
 						int price = arrayPrice.get(counter);
 						total_cost = total_cost + price;
 					}
 					total_amount.setText("Rs." + String.valueOf(total_cost) + ".00/-");
 					bookQty.setSelectedIndex(0);
-
 				} else {
-
 					JOptionPane.showMessageDialog(null, "There aren't enough books in stock", "Alert",
 							JOptionPane.WARNING_MESSAGE);
 				}
@@ -202,7 +201,7 @@ public class BillUI extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				String currentStock = String.valueOf(amount - product_quantity);
 				Stock s = new Stock(id, currentStock);
-				int result = sDB.updateStock(s);
+				sDB.updateStock(s);
 				JOptionPane.showMessageDialog(null, "Purchase Successful!", "Alert", JOptionPane.INFORMATION_MESSAGE);
 				setVisible(false);
 			}
@@ -229,7 +228,7 @@ public class BillUI extends JFrame {
 		contentPane.add(lblNewLabel);
 
 		bgView = new JLabel("");
-		bgView.setBounds(0, 0, 1008, 599);
+		bgView.setBounds(0, 0, 544, 487);
 		contentPane.add(bgView);
 		Image bgBill = new ImageIcon(this.getClass().getResource("/bgMedium.jpg")).getImage();
 		bgView.setIcon(new ImageIcon(bgBill));

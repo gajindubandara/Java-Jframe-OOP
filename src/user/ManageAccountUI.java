@@ -9,7 +9,6 @@ import java.awt.event.ActionListener;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -18,7 +17,6 @@ import javax.swing.JPasswordField;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
-import javax.swing.table.DefaultTableModel;
 
 import business.User;
 import data.UserDB;
@@ -31,9 +29,7 @@ public class ManageAccountUI extends JFrame {
 	private JTextField txtAddress;
 	private JTextField txtNum;
 	private JTextField txtEm;
-	protected JComboBox cMajor;
 	protected JLabel GetAllText;
-	private DefaultTableModel tblModel;
 	private JTextField txtName;
 
 	private UserDB uDB;
@@ -160,6 +156,8 @@ public class ManageAccountUI extends JFrame {
 		JButton btnAdd = new JButton("Add");
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+
+				// Validating the text fields
 				if (checkValid()) {
 					int id = Integer.valueOf(txtID.getText());
 					String type = "";
@@ -175,12 +173,15 @@ public class ManageAccountUI extends JFrame {
 					String pw = txtPW.getText();
 					String cpw = txtCPW.getText();
 
+					// Hashing the entered password
 					String hashPW = pwdHash.getMd5(pw);
 
+					// Checking the password matches the confirm password
 					if (pw.equals(cpw)) {
 						User user = new User(id, name, address, num, em, hashPW, type);
-						int result = uDB.addUser(user);
 
+						// Adding user to the database
+						int result = uDB.addUser(user);
 						if (result == 1) {
 							JOptionPane.showMessageDialog(null, "New user account created", "Alert",
 									JOptionPane.INFORMATION_MESSAGE);
@@ -199,9 +200,7 @@ public class ManageAccountUI extends JFrame {
 						JOptionPane.showMessageDialog(null, "The passwords dose not match", "Alert",
 								JOptionPane.ERROR_MESSAGE);
 					}
-
 				}
-
 			}
 		});
 		btnAdd.setFont(new Font("Tahoma", Font.BOLD, 14));
@@ -213,17 +212,20 @@ public class ManageAccountUI extends JFrame {
 		JButton btnDelete = new JButton("Delete");
 		btnDelete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				// Getting the user Id from a JOptionPane Input dialog
 				int id = Integer.valueOf(JOptionPane.showInputDialog("Enter the User ID"));
 				JFrame f = new JFrame();
-				int a = JOptionPane.showConfirmDialog(f, "Are you sure?");
+				int a = JOptionPane.showConfirmDialog(f, "Are you sure you want to contine?");
 
 				if (a == JOptionPane.YES_OPTION) {
+					// Deleting the user
 					int result = uDB.deleteUser(id);
 					if (result == 1) {
 						JOptionPane.showMessageDialog(null, "The User is deleted", "Alert",
 								JOptionPane.INFORMATION_MESSAGE);
 					} else {
-						JOptionPane.showMessageDialog(null, "The User is not deleted", "Alert",
+						JOptionPane.showMessageDialog(null,
+								"No user found for the entered ID.Please check the ID Again!", "Alert",
 								JOptionPane.ERROR_MESSAGE);
 					}
 				}
@@ -237,15 +239,17 @@ public class ManageAccountUI extends JFrame {
 		btnDelete.setIcon(new ImageIcon(del));
 
 		JButton btnUF = new JButton("Find & Update");
+		JButton btnU = new JButton("Update");
 		btnUF.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
+				// Getting the user Id from a JOptionPane Input dialog
 				int id = Integer.valueOf(JOptionPane.showInputDialog("Enter the User ID"));
+
+				// Getting the user form the database
 				User user = uDB.getUser(id);
 				if (user != null) {
 					if (user.getType().equals("Cashier")) {
 						rCashier.setSelected(true);
-
 					} else {
 						rManager.setSelected(true);
 					}
@@ -262,12 +266,13 @@ public class ManageAccountUI extends JFrame {
 					txtCPW.setText(user.getPassword());
 					txtCPW.setEnabled(false);
 					btnUF.setVisible(false);
-
+					btnU.setVisible(true);
+					btnAdd.setEnabled(false);
+					btnDelete.setEnabled(false);
 				} else {
 					JOptionPane.showMessageDialog(null, "No User account for this ID number", "Alert",
 							JOptionPane.ERROR_MESSAGE);
 				}
-
 			}
 		});
 		btnUF.setFont(new Font("Tahoma", Font.BOLD, 14));
@@ -276,9 +281,10 @@ public class ManageAccountUI extends JFrame {
 		Image find = new ImageIcon(this.getClass().getResource("/find.png")).getImage();
 		btnUF.setIcon(new ImageIcon(find));
 
-		JButton btnU = new JButton("Update");
 		btnU.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+
+				// Validating the text fields
 				if (checkValid()) {
 					String type = "";
 					if (rCashier.isSelected()) {
@@ -294,6 +300,8 @@ public class ManageAccountUI extends JFrame {
 					String pw = txtPW.getText();
 
 					User c = new User(id, name, address, num, em, pw, type);
+
+					// Updating the user
 					int result = uDB.updateUser(c);
 					if (result == 1) {
 						JOptionPane.showMessageDialog(null, "The User is updated", "Alert",
@@ -313,12 +321,13 @@ public class ManageAccountUI extends JFrame {
 						rCashier.setEnabled(true);
 						btnU.setVisible(false);
 						btnUF.setVisible(true);
+						btnAdd.setEnabled(true);
+						btnDelete.setEnabled(true);
 					} else {
 						JOptionPane.showMessageDialog(null, "The User is not updated", "Alert",
 								JOptionPane.ERROR_MESSAGE);
 					}
 				}
-
 			}
 		});
 		btnU.setFont(new Font("Tahoma", Font.BOLD, 14));
@@ -363,7 +372,7 @@ public class ManageAccountUI extends JFrame {
 			return false;
 		}
 		if (txtAddress.getText().equals("")) {
-			JOptionPane.showMessageDialog(this, "Address number cannot be blank");
+			JOptionPane.showMessageDialog(this, "Address cannot be blank");
 			return false;
 		}
 
@@ -378,7 +387,7 @@ public class ManageAccountUI extends JFrame {
 			return false;
 		}
 		if (txtEm.getText().equals("")) {
-			JOptionPane.showMessageDialog(this, "Username cannot be blank");
+			JOptionPane.showMessageDialog(this, "Email cannot be blank");
 			return false;
 		}
 

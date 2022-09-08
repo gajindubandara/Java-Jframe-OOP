@@ -10,34 +10,37 @@ public class Book {
 	private Date date;
 	private String price;
 	private int category;
-	
+
 	public Book() {
 		// TODO Auto-generated constructor stub
 	}
-	
-	public Book(int bookID, String name, String isbn, String author,Date date,String price,int category) {
-		this.bookID=bookID;
-		this.name=name;
-		this.isbn=isbn;
-		this.author=author;
-		this.date=date;
-		this.price=price;
-		this.category=category;
+
+	public Book(int bookID, String name, String isbn, String author, Date date, String price, int category) {
+		this.bookID = bookID;
+		this.name = name;
+		this.isbn = isbn;
+		this.author = author;
+		this.date = date;
+		this.price = price;
+		this.category = category;
 	}
 
 	public int getBookID() {
 		return bookID;
 	}
+
 	public void setBookID(int bookID) {
 		this.bookID = bookID;
 	}
+
 	public String getName() {
 		return name;
 	}
+
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
 	public String getIsbn() {
 		return isbn;
 	}
@@ -77,9 +80,5 @@ public class Book {
 	public void setCategory(int category) {
 		this.category = category;
 	}
-	
-	
-
-	
 
 }

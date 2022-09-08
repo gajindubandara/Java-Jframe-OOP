@@ -87,21 +87,25 @@ public class LoginUI extends JFrame {
 		btnOK.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnOK.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int userid = Integer.valueOf(txtUID.getText());
-				String password = txtPWRD.getText();
-				User u = uDB.getUser(userid);
+				if (checkValid()) {
+					int userid = Integer.valueOf(txtUID.getText());
+					String password = txtPWRD.getText();
+					User u = uDB.getUser(userid);
 
-				// Hashing the entered password
-				String hashPW = pwdHash.getMd5(password);
+					// Hashing the entered password
+					String hashPW = pwdHash.getMd5(password);
 
-				if (u != null && hashPW.equals(u.getPassword())) {
-					LoginStatus.type = String.valueOf(u.getType());
-					MainUI mUI = new MainUI();
-					mUI.setVisible(true);
-					setVisible(false);
-				} else {
-					JOptionPane.showMessageDialog(null, "Incorrect User ID or Password", "Alert",
-							JOptionPane.ERROR_MESSAGE);
+					// Checking if there is a user for the entered user ID and the entered password
+					// matches the password from the database
+					if (u != null && hashPW.equals(u.getPassword())) {
+						LoginStatus.type = String.valueOf(u.getType());
+						MainUI mUI = new MainUI();
+						mUI.setVisible(true);
+						setVisible(false);
+					} else {
+						JOptionPane.showMessageDialog(null, "Incorrect User ID or Password", "Alert",
+								JOptionPane.ERROR_MESSAGE);
+					}
 				}
 			}
 		});
@@ -142,5 +146,23 @@ public class LoginUI extends JFrame {
 		} else {
 			conStatus.setIcon(new ImageIcon(redDot));
 		}
+	}
+
+	private boolean checkValid() {
+		if (txtUID.getText().equals("")) {
+			JOptionPane.showMessageDialog(this, "User ID cannot be blank");
+			return false;
+		}
+		try {
+			int id = Integer.valueOf(txtUID.getText());
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(this, "User ID must be numeric", "Alert", JOptionPane.WARNING_MESSAGE);
+			return false;
+		}
+		if (txtPWRD.getText().equals("")) {
+			JOptionPane.showMessageDialog(this, "Password cannot be blank");
+			return false;
+		}
+		return true;
 	}
 }

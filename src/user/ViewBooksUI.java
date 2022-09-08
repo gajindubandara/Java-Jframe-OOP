@@ -95,6 +95,8 @@ public class ViewBooksUI extends JFrame {
 		btnViewAll.setFont(new Font("Tahoma", Font.BOLD, 12));
 		btnViewAll.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+
+				// Getting all the books and display them in a table
 				try {
 					ArrayList<Book> bList = bDB.getAll();
 					tblModel.setRowCount(0);
@@ -104,7 +106,7 @@ public class ViewBooksUI extends JFrame {
 						String isbn = b.getIsbn();
 						String author = b.getAuthor();
 						Date date = b.getDate();
-						String price = "Rs." + b.getPrice() + ".00/-";
+						String price = b.getPrice();
 						int category = b.getCategory();
 
 						Category c = cDB.getCategory(category);
@@ -114,7 +116,6 @@ public class ViewBooksUI extends JFrame {
 					}
 				} catch (Exception ex) {
 					System.err.println(ex.getMessage());
-
 				}
 			}
 		});
@@ -131,22 +132,22 @@ public class ViewBooksUI extends JFrame {
 				ArrayList<Book> BookList = bDB.getAll();
 				tblModel.setRowCount(0);
 				for (Book b : BookList) {
+
+					// Getting the book with the entered name
 					if (b.getName().equalsIgnoreCase(Bname)) {
 						int Bid = b.getBookID();
 						String name = b.getName();
 						String isbn = b.getIsbn();
 						String author = b.getAuthor();
 						Date bdate = b.getDate();
-						String price = "Rs." + b.getPrice() + ".00/-";
+						String price = b.getPrice();
 						int category = b.getCategory();
 
 						Category c = cDB.getCategory(category);
 						String categoryName = c.getCategoryName();
-
+						// Display the book in the table
 						tblModel.addRow(new Object[] { Bid, name, isbn, author, bdate, price, categoryName });
-
 					}
-
 				}
 				txtSearch.setText("");
 				btnViewAll.setEnabled(true);
@@ -166,24 +167,25 @@ public class ViewBooksUI extends JFrame {
 				ArrayList<Book> BookList = bDB.getAll();
 				tblModel.setRowCount(0);
 				for (Book b : BookList) {
+					// Getting the books with the entered price
 					if (b.getPrice().equals(Price)) {
 						int Bid = b.getBookID();
 						String name = b.getName();
 						String isbn = b.getIsbn();
 						String author = b.getAuthor();
 						Date bdate = b.getDate();
-						String price = "Rs." + b.getPrice() + ".00/-";
+						String price = b.getPrice();
 						int category = b.getCategory();
 
 						Category c = cDB.getCategory(category);
 						String categoryName = c.getCategoryName();
 
+						// Display the books with the same price in the table
 						tblModel.addRow(new Object[] { Bid, name, isbn, author, bdate, price, categoryName });
 					}
 				}
 				txtSearch.setText("");
 				btnViewAll.setEnabled(true);
-
 			}
 		});
 		btnPrice.setBounds(407, 138, 192, 34);
@@ -201,22 +203,22 @@ public class ViewBooksUI extends JFrame {
 
 				tblModel.setRowCount(0);
 				for (Book b : BookList) {
-					if (b.getCategory() == cId) {
 
+					// Getting the books with the entered category
+					if (b.getCategory() == cId) {
 						int Bid = b.getBookID();
 						String name = b.getName();
 						String isbn = b.getIsbn();
 						String author = b.getAuthor();
 						Date bdate = b.getDate();
-						String price = "Rs." + b.getPrice() + ".00/-";
+						String price = b.getPrice();
 
 						String categoryName = cat.getCategoryName();
 						System.out.println(cat.getCategoryName());
 
+						// Display the books with the same category in the table
 						tblModel.addRow(new Object[] { Bid, name, isbn, author, bdate, price, categoryName });
-
 					}
-
 				}
 				txtSearch.setText("");
 				btnViewAll.setEnabled(true);
@@ -257,9 +259,10 @@ public class ViewBooksUI extends JFrame {
 		tblModel.addColumn("ISBN");
 		tblModel.addColumn("Author");
 		tblModel.addColumn("Date");
-		tblModel.addColumn("Price");
+		tblModel.addColumn("Price - Rs.");
 		tblModel.addColumn("Category");
 
+		// Getting all the books and display them in a table
 		try {
 			ArrayList<Book> bList = bDB.getAll();
 			tblModel.setRowCount(0);
@@ -269,7 +272,7 @@ public class ViewBooksUI extends JFrame {
 				String isbn = b.getIsbn();
 				String author = b.getAuthor();
 				Date date = b.getDate();
-				String price = "Rs." + b.getPrice() + ".00/-";
+				String price = b.getPrice();
 				int category = b.getCategory();
 
 				Category c = cDB.getCategory(category);
@@ -281,7 +284,5 @@ public class ViewBooksUI extends JFrame {
 			System.err.println(ex.getMessage());
 
 		}
-
 	}
-
 }

@@ -1,7 +1,6 @@
 package data;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,40 +10,21 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 import business.Category;
-import user.ConnectionStatus;
 
 public class CategoryDB implements ICategory {
 	private Connection con;
 
 	public CategoryDB() {
-		try {
-			String url = "jdbc:mysql://localhost:3306/bookshop";
-			String user = "root";
-			String password = "";
-			con = DriverManager.getConnection(url, user, password);
-			if (con != null) {
-				System.out.println("Database connected successfully");
-				ConnectionStatus.message = "Database connected successfully";
-				ConnectionStatus.status = true;
-
-			} else {
-				System.out.println("Database connection failed");
-
-			}
-
-		} catch (SQLException e) {
-			System.err.println(e.getMessage());
-			ConnectionStatus.message = "Database connection failed";
-			ConnectionStatus.status = false;
-		}
+		SetConnection check = new SetConnection();
+		con = check.SetConnection();
 	}
 
+	// Adding a new category to the database
 	@Override
 	public int addCategory(Category category) {
 		String insert = "INSERT INTO category(category) VALUES (?)";
 		try {
 			PreparedStatement ps = con.prepareStatement(insert);
-//			ps.setInt(1, category.getCategoryId());
 			ps.setString(1, category.getCategoryName());
 			int result = ps.executeUpdate();
 			ps.close();
@@ -59,6 +39,7 @@ public class CategoryDB implements ICategory {
 		}
 	}
 
+	// Deleting a category from the database
 	@Override
 	public int deleteCategory(int categoryId) {
 		String delete = "DELETE FROM category WHERE ID=?";
@@ -74,6 +55,7 @@ public class CategoryDB implements ICategory {
 		}
 	}
 
+	// Updating a category in the database
 	@Override
 	public int updateCategory(Category category) {
 		String update = "UPDATE category set category=? WHERE ID=? ";
@@ -92,6 +74,7 @@ public class CategoryDB implements ICategory {
 		}
 	}
 
+	// Getting a category from the database
 	@Override
 	public Category getCategory(int categoryId) {
 		Category c = null;
@@ -109,13 +92,13 @@ public class CategoryDB implements ICategory {
 			rs.close();
 			ps.close();
 			return c;
-
 		} catch (SQLException e) {
 			System.err.println(e.getMessage());
 			return null;
 		}
 	}
 
+	// Getting all categories form the database
 	@Override
 	public ArrayList<Category> getAll() {
 		ArrayList<Category> cList = new ArrayList<Category>();
@@ -133,13 +116,13 @@ public class CategoryDB implements ICategory {
 			rs.close();
 			ps.close();
 			return cList;
-
 		} catch (SQLException e) {
 			System.err.println(e.getMessage());
 			return null;
 		}
 	}
 
+	// Getting a category by the category name
 	@Override
 	public Category getByCategory(String categoryName) {
 		Category c = null;
@@ -157,7 +140,6 @@ public class CategoryDB implements ICategory {
 			rs.close();
 			ps.close();
 			return c;
-
 		} catch (SQLException e) {
 			System.err.println(e.getMessage());
 			return null;
