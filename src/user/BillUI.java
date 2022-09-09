@@ -199,11 +199,18 @@ public class BillUI extends JFrame {
 		JButton btnOk = new JButton("Ok");
 		btnOk.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String currentStock = String.valueOf(amount - product_quantity);
-				Stock s = new Stock(id, currentStock);
-				sDB.updateStock(s);
-				JOptionPane.showMessageDialog(null, "Purchase Successful!", "Alert", JOptionPane.INFORMATION_MESSAGE);
-				setVisible(false);
+
+				if (tblModel.getRowCount() > 0) {
+					String currentStock = String.valueOf(amount - product_quantity);
+					Stock s = new Stock(id, currentStock);
+					sDB.updateStock(s);
+					JOptionPane.showMessageDialog(null, "Purchase Successful!", "Alert",
+							JOptionPane.INFORMATION_MESSAGE);
+					setVisible(false);
+				} else {
+					JOptionPane.showMessageDialog(null, "Add at least one item", "Alert",
+							JOptionPane.INFORMATION_MESSAGE);
+				}
 			}
 		});
 		btnOk.setBounds(389, 373, 103, 40);

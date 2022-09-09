@@ -11,6 +11,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -133,6 +134,28 @@ public class ViewUserUI extends JFrame {
 
 						// Display the user in the table
 						tblModel.addRow(new Object[] { id, name, address, num, email, type });
+					}
+				}
+				// Check the if the result is available
+				if (tblModel.getRowCount() == 0) {
+					JOptionPane.showMessageDialog(null, "No user found");
+
+					// Getting all the books and display them in a table
+					try {
+						ArrayList<User> bList = uDB.getAll();
+						tblModel.setRowCount(0);
+						for (User u : bList) {
+							int id = u.getUserID();
+							String name = u.getName();
+							String address = u.getAddress();
+							String num = u.getNumber();
+							String email = u.getEmail();
+							String type = u.getType();
+
+							tblModel.addRow(new Object[] { id, name, address, num, email, type });
+						}
+					} catch (Exception ex) {
+						System.err.println(ex.getMessage());
 					}
 				}
 				txtName.setText("");

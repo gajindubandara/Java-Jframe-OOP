@@ -11,6 +11,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -29,7 +30,7 @@ public class ViewStocksUI extends JFrame {
 	private JPanel contentPane;
 	private JTable booktbl;
 	private DefaultTableModel tblModel;
-	private JTextField txtName;
+	private JTextField txtId;
 	private StockDB sDB;
 	private BookDB bDB;
 	private JTextField txtPrice;
@@ -83,10 +84,10 @@ public class ViewStocksUI extends JFrame {
 		tblModel = new DefaultTableModel();
 		booktbl.setModel(tblModel);
 
-		txtName = new JTextField();
-		txtName.setBounds(97, 65, 349, 27);
-		contentPane.add(txtName);
-		txtName.setColumns(10);
+		txtId = new JTextField();
+		txtId.setBounds(97, 65, 349, 27);
+		contentPane.add(txtId);
+		txtId.setColumns(10);
 
 		btnViewAll = new JButton("View All Stocks");
 		btnViewAll.setFont(new Font("Tahoma", Font.BOLD, 12));
@@ -120,25 +121,49 @@ public class ViewStocksUI extends JFrame {
 		btnName.setFont(new Font("Tahoma", Font.BOLD, 12));
 		btnName.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int Bid = Integer.valueOf(txtName.getText());
-				ArrayList<Stock> stockList = sDB.getAll();
-				Book book = bDB.getBook(Bid);
 
-				tblModel.setRowCount(0);
-				for (Stock u : stockList) {
+				// Validating text fields
+				if (checkValid()) {
+					int Bid = Integer.valueOf(txtId.getText());
+					ArrayList<Stock> stockList = sDB.getAll();
+					Book book = bDB.getBook(Bid);
 
-					// Getting the stocks with the entered id
-					if (u.getsId() == Bid) {
-						int id = u.getsId();
-						String amount = u.getsAmount();
-						String bName = book.getName();
+					tblModel.setRowCount(0);
+					for (Stock u : stockList) {
 
-						// Display the stock on the entered id
-						tblModel.addRow(new Object[] { id, bName, amount });
+						// Getting the stocks with the entered id
+						if (u.getsId() == Bid) {
+							int id = u.getsId();
+							String amount = u.getsAmount();
+							String bName = book.getName();
+
+							// Display the stock on the entered id
+							tblModel.addRow(new Object[] { id, bName, amount });
+						}
 					}
+
+					// Check the if the result is available
+					if (tblModel.getRowCount() == 0) {
+						JOptionPane.showMessageDialog(null, "No book found");
+						try {
+							ArrayList<Stock> sList = sDB.getAll();
+							tblModel.setRowCount(0);
+							for (Stock s : sList) {
+								int id = s.getsId();
+								String amount = s.getsAmount();
+
+								Book b = bDB.getBook(id);
+								String bName = b.getName();
+
+								tblModel.addRow(new Object[] { id, bName, amount });
+							}
+						} catch (Exception ex) {
+							System.err.println(ex.getMessage());
+						}
+					}
+					txtId.setText("");
+					btnViewAll.setEnabled(true);
 				}
-				txtName.setText("");
-				btnViewAll.setEnabled(true);
 			}
 		});
 		btnName.setBounds(179, 116, 192, 34);
@@ -174,7 +199,7 @@ public class ViewStocksUI extends JFrame {
 		tblModel.addColumn("Name");
 		tblModel.addColumn("Amount");
 
-		// Getting all the books and display them in a table
+		// Getting all the stocks and display them in a table
 		try {
 			ArrayList<Stock> stockList = sDB.getAll();
 			tblModel.setRowCount(0);
@@ -190,5 +215,19 @@ public class ViewStocksUI extends JFrame {
 		} catch (Exception ex) {
 			System.err.println(ex.getMessage());
 		}
+	}
+
+	private boolean checkValid() {
+		if (txtId.getText().equals("")) {
+			JOptionPane.showMessageDialog(this, "Book ID cannot be blank");
+			return false;
+		}
+		try {
+			int id = Integer.valueOf(txtId.getText());
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(this, "Book ID must be numeric", "Alert", JOptionPane.WARNING_MESSAGE);
+			return false;
+		}
+		return true;
 	}
 }

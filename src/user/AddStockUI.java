@@ -58,7 +58,7 @@ public class AddStockUI extends JFrame {
 
 		StockDB sDB = new StockDB();
 
-		JLabel lblNewLabel_1 = new JLabel("New Stock");
+		JLabel lblNewLabel_1 = new JLabel("Quantity");
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 12));
 		lblNewLabel_1.setBounds(49, 77, 110, 14);
 		contentPane.add(lblNewLabel_1);

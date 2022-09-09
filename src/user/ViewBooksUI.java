@@ -12,6 +12,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -149,6 +150,32 @@ public class ViewBooksUI extends JFrame {
 						tblModel.addRow(new Object[] { Bid, name, isbn, author, bdate, price, categoryName });
 					}
 				}
+				if (tblModel.getRowCount() == 0) {
+					JOptionPane.showMessageDialog(null, "No book found");
+
+					// Getting all the books and display them in a table
+					try {
+						ArrayList<Book> bList = bDB.getAll();
+						tblModel.setRowCount(0);
+						for (Book b : bList) {
+							int ID = b.getBookID();
+							String name = b.getName();
+							String isbn = b.getIsbn();
+							String author = b.getAuthor();
+							Date date = b.getDate();
+							String price = b.getPrice();
+							int category = b.getCategory();
+
+							Category c = cDB.getCategory(category);
+							String categoryName = c.getCategoryName();
+
+							tblModel.addRow(new Object[] { ID, name, isbn, author, date, price, categoryName });
+						}
+					} catch (Exception ex) {
+						System.err.println(ex.getMessage());
+
+					}
+				}
 				txtSearch.setText("");
 				btnViewAll.setEnabled(true);
 			}
@@ -163,29 +190,62 @@ public class ViewBooksUI extends JFrame {
 		btnPrice.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				String Price = txtSearch.getText();
-				ArrayList<Book> BookList = bDB.getAll();
-				tblModel.setRowCount(0);
-				for (Book b : BookList) {
-					// Getting the books with the entered price
-					if (b.getPrice().equals(Price)) {
-						int Bid = b.getBookID();
-						String name = b.getName();
-						String isbn = b.getIsbn();
-						String author = b.getAuthor();
-						Date bdate = b.getDate();
-						String price = b.getPrice();
-						int category = b.getCategory();
+				// Check if the entered price value is numeric
+				try {
+					int test = Integer.valueOf(txtSearch.getText());
+					String Price = String.valueOf(test);
+					ArrayList<Book> BookList = bDB.getAll();
+					tblModel.setRowCount(0);
+					for (Book b : BookList) {
+						// Getting the books with the entered price
+						if (b.getPrice().equals(Price)) {
+							int Bid = b.getBookID();
+							String name = b.getName();
+							String isbn = b.getIsbn();
+							String author = b.getAuthor();
+							Date bdate = b.getDate();
+							String price = b.getPrice();
+							int category = b.getCategory();
 
-						Category c = cDB.getCategory(category);
-						String categoryName = c.getCategoryName();
+							Category c = cDB.getCategory(category);
+							String categoryName = c.getCategoryName();
 
-						// Display the books with the same price in the table
-						tblModel.addRow(new Object[] { Bid, name, isbn, author, bdate, price, categoryName });
+							// Display the books with the same price in the table
+							tblModel.addRow(new Object[] { Bid, name, isbn, author, bdate, price, categoryName });
+						}
 					}
+
+					// Check the if the result is available
+					if (tblModel.getRowCount() == 0) {
+						JOptionPane.showMessageDialog(null, "No book found");
+
+						// Getting all the books and display them in a table
+						try {
+							ArrayList<Book> bList = bDB.getAll();
+							tblModel.setRowCount(0);
+							for (Book b : bList) {
+								int ID = b.getBookID();
+								String name = b.getName();
+								String isbn = b.getIsbn();
+								String author = b.getAuthor();
+								Date date = b.getDate();
+								String price = b.getPrice();
+								int category = b.getCategory();
+
+								Category c = cDB.getCategory(category);
+								String categoryName = c.getCategoryName();
+
+								tblModel.addRow(new Object[] { ID, name, isbn, author, date, price, categoryName });
+							}
+						} catch (Exception ex) {
+							System.err.println(ex.getMessage());
+						}
+					}
+					txtSearch.setText("");
+					btnViewAll.setEnabled(true);
+				} catch (Exception ex) {
+					JOptionPane.showMessageDialog(null, "Price must be numeric", "Alert", JOptionPane.WARNING_MESSAGE);
 				}
-				txtSearch.setText("");
-				btnViewAll.setEnabled(true);
 			}
 		});
 		btnPrice.setBounds(407, 138, 192, 34);
@@ -199,29 +259,34 @@ public class ViewBooksUI extends JFrame {
 				String category = txtSearch.getText();
 				ArrayList<Book> BookList = bDB.getAll();
 				Category cat = cDB.getByCategory(category);
-				int cId = cat.getCategoryId();
+				if (cat != null) {
+					int cId = cat.getCategoryId();
 
-				tblModel.setRowCount(0);
-				for (Book b : BookList) {
+					tblModel.setRowCount(0);
+					for (Book b : BookList) {
 
-					// Getting the books with the entered category
-					if (b.getCategory() == cId) {
-						int Bid = b.getBookID();
-						String name = b.getName();
-						String isbn = b.getIsbn();
-						String author = b.getAuthor();
-						Date bdate = b.getDate();
-						String price = b.getPrice();
+						// Getting the books with the entered category
+						if (b.getCategory() == cId) {
+							int Bid = b.getBookID();
+							String name = b.getName();
+							String isbn = b.getIsbn();
+							String author = b.getAuthor();
+							Date bdate = b.getDate();
+							String price = b.getPrice();
 
-						String categoryName = cat.getCategoryName();
-						System.out.println(cat.getCategoryName());
+							String categoryName = cat.getCategoryName();
+							System.out.println(cat.getCategoryName());
 
-						// Display the books with the same category in the table
-						tblModel.addRow(new Object[] { Bid, name, isbn, author, bdate, price, categoryName });
+							// Display the books with the same category in the table
+							tblModel.addRow(new Object[] { Bid, name, isbn, author, bdate, price, categoryName });
+						}
 					}
+					txtSearch.setText("");
+					btnViewAll.setEnabled(true);
+				} else {
+					JOptionPane.showMessageDialog(null, "Incorrect category name", "Alert", JOptionPane.ERROR_MESSAGE);
 				}
-				txtSearch.setText("");
-				btnViewAll.setEnabled(true);
+
 			}
 		});
 		btncategory.setFont(new Font("Tahoma", Font.BOLD, 12));
@@ -282,7 +347,6 @@ public class ViewBooksUI extends JFrame {
 			}
 		} catch (Exception ex) {
 			System.err.println(ex.getMessage());
-
 		}
 	}
 }
