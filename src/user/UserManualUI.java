@@ -82,7 +82,7 @@ public class UserManualUI extends JFrame {
 		textArea.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 		textArea.setEditable(false);
 		textArea.setFont(new Font("Tahoma", Font.BOLD, 13));
-		textArea.setText("This is the application's user guide." + "\r\n" + "" + "\r\n"
+		textArea.setText("This is the application's user guide." + "\n" + "" + "\n"
 				+ "To view the manual for each process, use the buttons on the left.");
 		textArea.setBounds(243, 89, 731, 438);
 		contentPane.add(textArea);
@@ -90,67 +90,124 @@ public class UserManualUI extends JFrame {
 		JButton btnMb = new JButton("Managing Books");
 		btnMb.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				textArea.setText("manage books");
+				textArea.setText("----- Add new book -----" + "\n" + "1. Enter the book details" + "\n"
+						+ "2. Press 'Add' button" + "\n" + "" + "\n" + "----- Find & update book -----" + "\n"
+						+ "1. Press the 'Find & Update' button " + "\n" + "2. Enter the book ID" + "\n"
+						+ "3. Press 'Ok'" + "\n" + "4. Edit book details " + "\n" + "5. Press 'Update' button" + "\n"
+						+ "" + "\n" + "----- Delete book -----" + "\n" + "1. Press the 'Delete' button " + "\n"
+						+ "2. Enter the book ID" + "\n" + "3. Press 'Ok'" + "\n" + "4. Press 'Yes' to confirm delete "
+						+ "\n");
 			}
 		});
 		btnMb.setFont(new Font("Tahoma", Font.BOLD, 12));
-		btnMb.setBounds(23, 138, 168, 23);
+		btnMb.setBounds(23, 99, 168, 23);
 		contentPane.add(btnMb);
 
 		JButton btnVb = new JButton("View Books");
 		btnVb.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				textArea.setText("view books");
+				textArea.setText("1. Type the keyword on the search bar (You can search by name, price, or category)"
+						+ "\n" + "2. Press a 'Search' Button" + "\n"
+						+ "  * Example – If you want to search by price, then type the price in the search bar and press the"
+						+ "\n" + "    'Search by price' button ");
 			}
 		});
 		btnVb.setFont(new Font("Tahoma", Font.BOLD, 12));
-		btnVb.setBounds(23, 170, 168, 23);
+		btnVb.setBounds(23, 131, 168, 23);
 		contentPane.add(btnVb);
 
 		JButton btnMa = new JButton("Manage Accounts");
 		btnMa.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				textArea.setText("manage accounts");
+				textArea.setText("----- Add new account -----" + "\n" + "1. Enter account details" + "\n"
+						+ "2. Press 'Add' button" + "\n" + "" + "\n" + "----- Find & update account -----" + "\n"
+						+ "1. Press the 'Find & Update' button " + "\n" + "2. Enter the user ID" + "\n"
+						+ "3. Press 'Ok'" + "\n" + "4. Edit user details " + "\n" + "5. Press 'Update' button" + "\n"
+						+ "" + "\n" + "----- Delete account -----" + "\n" + "1. Press the 'Delete' button " + "\n"
+						+ "2. Enter the user ID" + "\n" + "3. Press 'Ok'" + "\n" + "4. Press 'Yes' to confirm delete "
+						+ "\n");
 			}
 		});
 		btnMa.setFont(new Font("Tahoma", Font.BOLD, 12));
-		btnMa.setBounds(23, 382, 168, 23);
+		btnMa.setBounds(23, 470, 168, 23);
 		contentPane.add(btnMa);
 
 		JButton btnVa = new JButton("View Accounts");
 		btnVa.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				textArea.setText("view accounts");
+				textArea.setText(
+						"1. Type the user name on the search bar" + "\n" + "2. Press a 'Search' Button" + "\n");
 			}
 		});
 		btnVa.setFont(new Font("Tahoma", Font.BOLD, 12));
-		btnVa.setBounds(23, 416, 168, 23);
+		btnVa.setBounds(23, 504, 168, 23);
 		contentPane.add(btnVa);
 
 		JButton btnCp = new JButton("Change Password");
 		btnCp.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				textArea.setText("chnage pw");
+				textArea.setText("1. Enter the user ID, current password, new password and confirm the new password"
+						+ "\n" + "2. Press 'Ok' to change the password" + "\n");
 			}
 		});
 		btnCp.setFont(new Font("Tahoma", Font.BOLD, 12));
-		btnCp.setBounds(23, 309, 168, 23);
+		btnCp.setBounds(23, 356, 168, 23);
 		contentPane.add(btnCp);
 
 		JButton btnMc = new JButton("Manage Categories");
 		btnMc.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				textArea.setText("manage cat");
+				textArea.setText("----- Add new category -----" + "\n" + "1. Enter the category name" + "\n"
+						+ "2. Press 'Add' button" + "\n" + "" + "\n" + "----- Find & update category -----" + "\n"
+						+ "1. Press the 'Find & Update' button " + "\n" + "2. Enter the category ID" + "\n"
+						+ "3. Press 'Ok'" + "\n" + "4. Edit category name " + "\n" + "5. Press 'Update' button" + "\n"
+						+ "" + "\n" + "----- Delete category -----" + "\n" + "1. Press the 'Delete' button " + "\n"
+						+ "2. Enter the category ID" + "\n" + "3.Press 'Ok'" + "\n"
+						+ "4. Press 'Yes' to confirm delete " + "\n");
 			}
 		});
 		btnMc.setFont(new Font("Tahoma", Font.BOLD, 12));
-		btnMc.setBounds(23, 238, 168, 23);
+		btnMc.setBounds(23, 322, 168, 23);
 		contentPane.add(btnMc);
 
-		bgView = new JLabel("Managing Books");
+		JButton btnAs = new JButton("Add Stocks");
+		btnAs.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				textArea.setText(
+						"1. Enter the book ID and the quantity of the books" + "\n" + "2. Press 'Add' button" + "\n");
+			}
+		});
+		btnAs.setFont(new Font("Tahoma", Font.BOLD, 12));
+		btnAs.setBounds(23, 206, 168, 23);
+		contentPane.add(btnAs);
+
+		JButton btnVs = new JButton("View Stocks");
+		btnVs.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				textArea.setText("1. Enter the book ID " + "\n" + "2. Press 'Search' button" + "\n");
+			}
+		});
+		btnVs.setFont(new Font("Tahoma", Font.BOLD, 12));
+		btnVs.setBounds(23, 240, 168, 23);
+		contentPane.add(btnVs);
+
+		JButton btnB = new JButton("Billing");
+		btnB.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				textArea.setText("1. Select the book and the quantity from the drop-down " + "\n"
+						+ "2. Press the 'Add' button to add the details to the bill" + "\n"
+						+ "3. Press the 'Ok' to purchase");
+			}
+		});
+		btnB.setFont(new Font("Tahoma", Font.BOLD, 12));
+		btnB.setBounds(23, 390, 168, 23);
+		contentPane.add(btnB);
+
+		bgView = new JLabel("");
 		bgView.setBounds(0, 0, 1008, 599);
 		contentPane.add(bgView);
 		Image bgV = new ImageIcon(this.getClass().getResource("/bgViewBA.jpg")).getImage();
 		bgView.setIcon(new ImageIcon(bgV));
+
 	}
 }
