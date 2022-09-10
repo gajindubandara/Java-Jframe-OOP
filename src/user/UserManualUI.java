@@ -209,5 +209,11 @@ public class UserManualUI extends JFrame {
 		Image bgV = new ImageIcon(this.getClass().getResource("/bgViewBA.jpg")).getImage();
 		bgView.setIcon(new ImageIcon(bgV));
 
+		// Disable some features for for this user type
+		if (LoginStatus.type.equals("Cashier")) {
+			btnMa.setVisible(false);
+			btnVa.setVisible(false);
+		}
+
 	}
 }

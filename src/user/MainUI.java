@@ -398,6 +398,7 @@ public class MainUI extends JFrame {
 			conStatus.setIcon(new ImageIcon(redDot));
 		}
 
+		// Disable some features for for this user type
 		if (LoginStatus.type.equals("Cashier")) {
 			mnManageAccounts.setVisible(false);
 			btnVa.setVisible(false);
