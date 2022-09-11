@@ -38,8 +38,8 @@ public class BillUI extends JFrame {
 
 	private JTable tblBill;
 	private DefaultTableModel tblModel;
-	int amount = 0;
-	int product_quantity = 0;
+	int qtyInDb = 0;
+	int selectedQty = 0;
 	int id = 0;
 
 	/**
@@ -158,33 +158,78 @@ public class BillUI extends JFrame {
 			Integer[] price_list = {};
 			List<Integer> arrayPrice = new ArrayList<Integer>(Arrays.asList(price_list));
 
+			Integer[] checkQty = {};
+			List<Integer> arrayCheckQty = new ArrayList<Integer>(Arrays.asList(checkQty));
+
+			int tempQty = qtyInDb;
+
 			public void actionPerformed(ActionEvent e) {
 				String book = (String) books.getSelectedItem();
 				String qty = (String) bookQty.getSelectedItem();
 				int unit_price = Integer.valueOf(bookPrice.getText());
-				product_quantity = Integer.parseInt((String) bookQty.getSelectedItem());
+				selectedQty = Integer.parseInt((String) bookQty.getSelectedItem());
 
 				Book b = bDB.getBookByName(book);
 				id = b.getBookID();
 				Stock stock = sDB.getStock(id);
-				amount = Integer.valueOf(stock.getsAmount());
+				qtyInDb = Integer.valueOf(stock.getsAmount());
 
-				// Checking the availability of the books
-				if (amount >= product_quantity) {
-					int total_for_product = unit_price * product_quantity;
+				// Checking the availability of the books in database
+				if (qtyInDb >= selectedQty) {
+					int total_for_product = unit_price * selectedQty;
 					int total_cost = 0;
+					int balQty = 0;
+					boolean found = false;
 
-					tblModel.addRow(new Object[] { book, qty, total_for_product });
-					arrayPrice.add(total_for_product);
-					price_list = arrayPrice.toArray(price_list);
-
-					// Calculating the total
-					for (int counter = 0; counter < arrayPrice.size(); counter++) {
-						int price = arrayPrice.get(counter);
-						total_cost = total_cost + price;
+					// Check duplicate entries
+					boolean count = false;
+					for (int x = 0; x < checkQty.length; x++) {
+						if (checkQty[x].equals(id)) {
+							count = true;
+						}
 					}
-					total_amount.setText("Rs." + String.valueOf(total_cost) + ".00/-");
-					bookQty.setSelectedIndex(0);
+
+					// If duplicate found set the tempQty
+					if (count) {
+						found = true;
+						for (int x = 0; x < checkQty.length; x++) {
+							int qtyValue = 0;
+							if (checkQty[x].equals(id)) {
+								qtyValue = x + 1;
+								tempQty = checkQty[qtyValue];
+							}
+						}
+					}
+
+					if (found) {
+						balQty = tempQty - selectedQty;
+					} else {
+						balQty = qtyInDb - selectedQty;
+					}
+
+					if (balQty < 0) {
+						JOptionPane.showMessageDialog(null, "There aren't enough books in stock", "Alert",
+								JOptionPane.WARNING_MESSAGE);
+					} else {
+						tblModel.addRow(new Object[] { book, qty, total_for_product });
+						arrayPrice.add(total_for_product);
+						price_list = arrayPrice.toArray(price_list);
+
+						// Calculating the total
+						for (int counter = 0; counter < arrayPrice.size(); counter++) {
+							int price = arrayPrice.get(counter);
+							total_cost = total_cost + price;
+						}
+						total_amount.setText("Rs." + String.valueOf(total_cost) + ".00/-");
+						bookQty.setSelectedIndex(0);
+					}
+
+					arrayCheckQty.add(id);
+					arrayCheckQty.add(balQty);
+
+					checkQty = arrayCheckQty.toArray(checkQty);
+					System.out.println(Arrays.toString(checkQty));
+
 				} else {
 					JOptionPane.showMessageDialog(null, "There aren't enough books in stock", "Alert",
 							JOptionPane.WARNING_MESSAGE);
@@ -201,7 +246,7 @@ public class BillUI extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 
 				if (tblModel.getRowCount() > 0) {
-					String currentStock = String.valueOf(amount - product_quantity);
+					String currentStock = String.valueOf(qtyInDb - selectedQty);
 					Stock s = new Stock(id, currentStock);
 					sDB.updateStock(s);
 					JOptionPane.showMessageDialog(null, "Purchase Successful!", "Alert",
