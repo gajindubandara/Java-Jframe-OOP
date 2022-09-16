@@ -108,40 +108,44 @@ public class ManageCategoryUI extends JFrame {
 		JButton btnDelete = new JButton("Delete");
 		btnDelete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				try {
+					// Getting the user Id from a JOptionPane Input dialog
+					int id = Integer.valueOf(JOptionPane.showInputDialog("Enter the Category ID"));
 
-				// Getting the user Id from a JOptionPane Input dialog
-				int id = Integer.valueOf(JOptionPane.showInputDialog("Enter the Category ID"));
+					JFrame f = new JFrame();
+					int a = JOptionPane.showConfirmDialog(f,
+							"This category may include books. If you remove the category, the books will also be removed."
+									+ "Are you sure you want to delete it?");
+					if (a == JOptionPane.YES_OPTION) {
+						f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-				JFrame f = new JFrame();
-				int a = JOptionPane.showConfirmDialog(f,
-						"This category may include books. If you remove the category, the books will also be removed."
-								+ "Are you sure you want to delete it?");
-				if (a == JOptionPane.YES_OPTION) {
-					f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+						// Deleting the category
+						int result = cDB.deleteCategory(id);
+						if (result == 1) {
+							JOptionPane.showMessageDialog(null, "Category is deleted", "Alert",
+									JOptionPane.INFORMATION_MESSAGE);
 
-					// Deleting the category
-					int result = cDB.deleteCategory(id);
-					if (result == 1) {
-						JOptionPane.showMessageDialog(null, "Category is deleted", "Alert",
-								JOptionPane.INFORMATION_MESSAGE);
-
-						// Updating the table
-						try {
-							ArrayList<Category> cList = cDB.getAll();
-							tblModel.setRowCount(0);
-							for (Category category : cList) {
-								int cID = category.getCategoryId();
-								String cName = category.getCategoryName();
-								tblModel.addRow(new Object[] { cID, cName });
+							// Updating the table
+							try {
+								ArrayList<Category> cList = cDB.getAll();
+								tblModel.setRowCount(0);
+								for (Category category : cList) {
+									int cID = category.getCategoryId();
+									String cName = category.getCategoryName();
+									tblModel.addRow(new Object[] { cID, cName });
+								}
+							} catch (Exception ex) {
+								System.err.println(ex.getMessage());
 							}
-						} catch (Exception ex) {
-							System.err.println(ex.getMessage());
+						} else {
+							JOptionPane.showMessageDialog(null,
+									"No category found for the entered ID.Please check the ID Again!", "Alert",
+									JOptionPane.ERROR_MESSAGE);
 						}
-					} else {
-						JOptionPane.showMessageDialog(null,
-								"No category found for the entered ID.Please check the ID Again!", "Alert",
-								JOptionPane.ERROR_MESSAGE);
 					}
+				} catch (NumberFormatException ex) {
+					JOptionPane.showMessageDialog(null, "Category ID cannot be null", "Alert",
+							JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});
@@ -183,21 +187,26 @@ public class ManageCategoryUI extends JFrame {
 		btnUF.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnUF.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// Getting the user Id from a JOptionPane Input dialog
+				try {
+					// Getting the user Id from a JOptionPane Input dialog
 
-				int id = Integer.valueOf(JOptionPane.showInputDialog("Enter the Category ID"));
+					int id = Integer.valueOf(JOptionPane.showInputDialog("Enter the Category ID"));
 
-				// Getting the category from the database
-				Category c = cDB.getCategory(id);
-				if (c != null) {
-					txtCName.setText(c.getCategoryName());
-					txtID.setText(String.valueOf(c.getCategoryId()));
-					btnUF.setVisible(false);
-					btnU.setVisible(true);
-					btnAdd.setEnabled(false);
-					btnDelete.setEnabled(false);
-				} else {
-					JOptionPane.showMessageDialog(null, "No category for this ID number", "Alert",
+					// Getting the category from the database
+					Category c = cDB.getCategory(id);
+					if (c != null) {
+						txtCName.setText(c.getCategoryName());
+						txtID.setText(String.valueOf(c.getCategoryId()));
+						btnUF.setVisible(false);
+						btnU.setVisible(true);
+						btnAdd.setEnabled(false);
+						btnDelete.setEnabled(false);
+					} else {
+						JOptionPane.showMessageDialog(null, "No category for this ID number", "Alert",
+								JOptionPane.ERROR_MESSAGE);
+					}
+				} catch (NumberFormatException ex) {
+					JOptionPane.showMessageDialog(null, "Category ID cannot be null", "Alert",
 							JOptionPane.ERROR_MESSAGE);
 				}
 			}

@@ -188,28 +188,32 @@ public class ManageBooksUI extends JFrame {
 		JButton btnDelete = new JButton("Delete");
 		btnDelete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// Getting the user Id from a JOptionPane Input dialog
-				int id = Integer.valueOf(JOptionPane.showInputDialog("Enter the Book ID"));
+				try {
+					// Getting the user Id from a JOptionPane Input dialog
+					int id = Integer.valueOf(JOptionPane.showInputDialog("Enter the Book ID"));
 
-				JFrame f = new JFrame();
-				int a = JOptionPane.showConfirmDialog(f, "Are you sure you want to contine?");
+					JFrame f = new JFrame();
+					int a = JOptionPane.showConfirmDialog(f, "Are you sure you want to contine?");
 
-				if (a == JOptionPane.YES_OPTION) {
-					f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+					if (a == JOptionPane.YES_OPTION) {
+						f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-					// Deleting a book
-					int result = bDB.deleteBook(id);
-					if (result == 1) {
+						// Deleting a book
+						int result = bDB.deleteBook(id);
+						if (result == 1) {
 
-						// Remove the stock data on the above book
-						sDB.deleteStock(id);
-						JOptionPane.showMessageDialog(null, "The Book is deleted", "Alert",
-								JOptionPane.INFORMATION_MESSAGE);
-					} else {
-						JOptionPane.showMessageDialog(null,
-								"No book found for the entered ID.Please check the ID Again!", "Alert",
-								JOptionPane.ERROR_MESSAGE);
+							// Remove the stock data on the above book
+							sDB.deleteStock(id);
+							JOptionPane.showMessageDialog(null, "The Book is deleted", "Alert",
+									JOptionPane.INFORMATION_MESSAGE);
+						} else {
+							JOptionPane.showMessageDialog(null,
+									"No book found for the entered ID.Please check the ID Again!", "Alert",
+									JOptionPane.ERROR_MESSAGE);
+						}
 					}
+				} catch (NumberFormatException ex) {
+					JOptionPane.showMessageDialog(null, "Book ID cannot be null", "Alert", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});
@@ -256,33 +260,36 @@ public class ManageBooksUI extends JFrame {
 		btnUF.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnUF.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				try {
+					// Getting the user Id from a JOptionPane Input dialog
+					int id = Integer.valueOf(JOptionPane.showInputDialog("Enter the Book ID"));
 
-				// Getting the user Id from a JOptionPane Input dialog
-				int id = Integer.valueOf(JOptionPane.showInputDialog("Enter the Book ID"));
+					// Getting the book form the database
+					Book b = bDB.getBook(id);
+					if (b != null) {
+						txtName.setText(b.getName());
+						txtID.setText(String.valueOf(b.getBookID()));
+						txtID.setEnabled(false);
+						txtIsbn.setText(b.getIsbn());
+						txtAuthor.setText(b.getAuthor());
+						txtDate.setText(String.valueOf(b.getDate()));
+						txtPrice.setText(b.getPrice());
+						btnUF.setVisible(false);
+						btnU.setVisible(true);
+						btnAdd.setEnabled(false);
+						btnDelete.setEnabled(false);
 
-				// Getting the book form the database
-				Book b = bDB.getBook(id);
-				if (b != null) {
-					txtName.setText(b.getName());
-					txtID.setText(String.valueOf(b.getBookID()));
-					txtID.setEnabled(false);
-					txtIsbn.setText(b.getIsbn());
-					txtAuthor.setText(b.getAuthor());
-					txtDate.setText(String.valueOf(b.getDate()));
-					txtPrice.setText(b.getPrice());
-					btnUF.setVisible(false);
-					btnU.setVisible(true);
-					btnAdd.setEnabled(false);
-					btnDelete.setEnabled(false);
-
-					// Getting the category from the database
-					Category c = cDB.getCategory(b.getCategory());
-					if (c != null) {
-						cCategory.setSelectedItem(c.getCategoryName());
+						// Getting the category from the database
+						Category c = cDB.getCategory(b.getCategory());
+						if (c != null) {
+							cCategory.setSelectedItem(c.getCategoryName());
+						}
+					} else {
+						JOptionPane.showMessageDialog(null, "No book for this ID number", "Alert",
+								JOptionPane.ERROR_MESSAGE);
 					}
-				} else {
-					JOptionPane.showMessageDialog(null, "No book for this ID number", "Alert",
-							JOptionPane.ERROR_MESSAGE);
+				} catch (NumberFormatException ex) {
+					JOptionPane.showMessageDialog(null, "Book ID cannot be null", "Alert", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});

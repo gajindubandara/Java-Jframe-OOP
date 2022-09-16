@@ -212,24 +212,27 @@ public class ManageAccountUI extends JFrame {
 		JButton btnDelete = new JButton("Delete");
 		btnDelete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// Getting the user Id from a JOptionPane Input dialog
-				int id = Integer.valueOf(JOptionPane.showInputDialog("Enter the User ID"));
-				JFrame f = new JFrame();
-				int a = JOptionPane.showConfirmDialog(f, "Are you sure you want to contine?");
+				try {
+					// Getting the user Id from a JOptionPane Input dialog
+					int id = Integer.valueOf(JOptionPane.showInputDialog("Enter the User ID"));
+					JFrame f = new JFrame();
+					int a = JOptionPane.showConfirmDialog(f, "Are you sure you want to contine?");
 
-				if (a == JOptionPane.YES_OPTION) {
-					// Deleting the user
-					int result = uDB.deleteUser(id);
-					if (result == 1) {
-						JOptionPane.showMessageDialog(null, "The User is deleted", "Alert",
-								JOptionPane.INFORMATION_MESSAGE);
-					} else {
-						JOptionPane.showMessageDialog(null,
-								"No user found for the entered ID.Please check the ID Again!", "Alert",
-								JOptionPane.ERROR_MESSAGE);
+					if (a == JOptionPane.YES_OPTION) {
+						// Deleting the user
+						int result = uDB.deleteUser(id);
+						if (result == 1) {
+							JOptionPane.showMessageDialog(null, "The User is deleted", "Alert",
+									JOptionPane.INFORMATION_MESSAGE);
+						} else {
+							JOptionPane.showMessageDialog(null,
+									"No user found for the entered ID.Please check the ID Again!", "Alert",
+									JOptionPane.ERROR_MESSAGE);
+						}
 					}
+				} catch (NumberFormatException ex) {
+					JOptionPane.showMessageDialog(null, "User ID cannot be null", "Alert", JOptionPane.ERROR_MESSAGE);
 				}
-
 			}
 		});
 		btnDelete.setFont(new Font("Tahoma", Font.BOLD, 14));
@@ -242,36 +245,40 @@ public class ManageAccountUI extends JFrame {
 		JButton btnU = new JButton("Update");
 		btnUF.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// Getting the user Id from a JOptionPane Input dialog
-				int id = Integer.valueOf(JOptionPane.showInputDialog("Enter the User ID"));
+				try {
+					// Getting the user Id from a JOptionPane Input dialog
+					int id = Integer.valueOf(JOptionPane.showInputDialog("Enter the User ID"));
 
-				// Getting the user form the database
-				User user = uDB.getUser(id);
-				if (user != null) {
-					if (user.getType().equals("Cashier")) {
-						rCashier.setSelected(true);
+					// Getting the user form the database
+					User user = uDB.getUser(id);
+					if (user != null) {
+						if (user.getType().equals("Cashier")) {
+							rCashier.setSelected(true);
+						} else {
+							rManager.setSelected(true);
+						}
+						rCashier.setEnabled(false);
+						rManager.setEnabled(false);
+						txtName.setText(user.getName());
+						txtID.setText(String.valueOf(user.getUserID()));
+						txtID.setEnabled(false);
+						txtAddress.setText(user.getAddress());
+						txtNum.setText(user.getNumber());
+						txtEm.setText(user.getEmail());
+						txtPW.setText(user.getPassword());
+						txtPW.setEnabled(false);
+						txtCPW.setText(user.getPassword());
+						txtCPW.setEnabled(false);
+						btnUF.setVisible(false);
+						btnU.setVisible(true);
+						btnAdd.setEnabled(false);
+						btnDelete.setEnabled(false);
 					} else {
-						rManager.setSelected(true);
+						JOptionPane.showMessageDialog(null, "No User account for this ID number", "Alert",
+								JOptionPane.ERROR_MESSAGE);
 					}
-					rCashier.setEnabled(false);
-					rManager.setEnabled(false);
-					txtName.setText(user.getName());
-					txtID.setText(String.valueOf(user.getUserID()));
-					txtID.setEnabled(false);
-					txtAddress.setText(user.getAddress());
-					txtNum.setText(user.getNumber());
-					txtEm.setText(user.getEmail());
-					txtPW.setText(user.getPassword());
-					txtPW.setEnabled(false);
-					txtCPW.setText(user.getPassword());
-					txtCPW.setEnabled(false);
-					btnUF.setVisible(false);
-					btnU.setVisible(true);
-					btnAdd.setEnabled(false);
-					btnDelete.setEnabled(false);
-				} else {
-					JOptionPane.showMessageDialog(null, "No User account for this ID number", "Alert",
-							JOptionPane.ERROR_MESSAGE);
+				} catch (NumberFormatException ex) {
+					JOptionPane.showMessageDialog(null, "User ID cannot be null", "Alert", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});
