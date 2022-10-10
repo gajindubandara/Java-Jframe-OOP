@@ -189,7 +189,6 @@ public class ManageCategoryUI extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					// Getting the user Id from a JOptionPane Input dialog
-
 					int id = Integer.valueOf(JOptionPane.showInputDialog("Enter the Category ID"));
 
 					// Getting the category from the database
