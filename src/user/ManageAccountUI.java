@@ -32,7 +32,6 @@ public class ManageAccountUI extends JFrame {
 	protected JLabel GetAllText;
 	private JTextField txtName;
 
-	private UserDB uDB;
 	private JPasswordField txtPW;
 	private JPasswordField txtCPW;
 

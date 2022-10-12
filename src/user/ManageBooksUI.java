@@ -37,10 +37,6 @@ public class ManageBooksUI extends JFrame {
 	protected JLabel GetAllText;
 	private JTextField txtName;
 
-	private BookDB bDB;
-	private CategoryDB cDB;
-	private StockDB sDB;
-
 	/**
 	 * Launch the application.
 	 */

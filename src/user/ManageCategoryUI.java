@@ -61,7 +61,7 @@ public class ManageCategoryUI extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		CategoryDB cDB = new CategoryDB();
+		cDB = new CategoryDB();
 
 		JButton btnAdd = new JButton("Add");
 		btnAdd.addActionListener(new ActionListener() {

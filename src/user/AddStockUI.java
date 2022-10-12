@@ -25,8 +25,6 @@ public class AddStockUI extends JFrame {
 	protected JLabel GetAllText;
 	private JTextField txtID;
 
-	private StockDB sDB;
-
 	/**
 	 * Launch the application.
 	 */

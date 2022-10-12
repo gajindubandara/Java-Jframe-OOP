@@ -13,20 +13,12 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
-
-import data.UserDB;
 
 public class UserManualUI extends JFrame {
 
 	private JPanel contentPane;
-	private UserDB uDB;
-	private JTextField txtPrice;
-	private JButton btnPrice;
-	private JTextField txtCategory;
-	private JButton btncategory;
 	private JLabel lblNewLabel;
 	private JLabel bgView;
 

@@ -32,8 +32,6 @@ public class ViewBooksUI extends JFrame {
 	private JTable booktbl;
 	private DefaultTableModel tblModel;
 	private JTextField txtSearch;
-	private BookDB bDB;
-	private CategoryDB cDB;
 	private JButton btnPrice;
 	private JButton btncategory;
 	private JButton btnViewAll;

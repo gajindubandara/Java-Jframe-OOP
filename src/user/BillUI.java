@@ -30,8 +30,6 @@ import data.StockDB;
 public class BillUI extends JFrame {
 
 	private JPanel contentPane;
-	private BookDB bDB;
-	private StockDB sDB;
 	private JLabel bgView;
 
 	HashMap<String, String> product_and_price;
@@ -228,7 +226,6 @@ public class BillUI extends JFrame {
 					arrayCheckQty.add(balQty);
 
 					checkQty = arrayCheckQty.toArray(checkQty);
-					System.out.println(Arrays.toString(checkQty));
 
 				} else {
 					JOptionPane.showMessageDialog(null, "There aren't enough books in stock", "Alert",

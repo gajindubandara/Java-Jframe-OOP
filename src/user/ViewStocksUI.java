@@ -31,10 +31,6 @@ public class ViewStocksUI extends JFrame {
 	private JTable booktbl;
 	private DefaultTableModel tblModel;
 	private JTextField txtId;
-	private StockDB sDB;
-	private BookDB bDB;
-	private JTextField txtPrice;
-	private JTextField txtCategory;
 	private JButton btnViewAll;
 	private JLabel lblNewLabel;
 	private JLabel bgView;

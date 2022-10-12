@@ -29,8 +29,6 @@ public class ViewUserUI extends JFrame {
 	private JTable booktbl;
 	private DefaultTableModel tblModel;
 	private JTextField txtName;
-	private UserDB uDB;
-	private JTextField txtCategory;
 	private JButton btnViewAll;
 	private JLabel lblNewLabel;
 	private JLabel bgView;
